@@ -37,14 +37,22 @@
 | --- | --- | --- | --- |
 | 1 | SE, PL, BG, CM, EE, AL | 98 个 id：SE 19、PL 14、BG 28、CM 10、EE 15、AL 12 | PL `path11041` |
 | 2 | ZW, ZM, TJ, TG, SZ, SS, RW, NA, LS, LR, KM, KG, GY, GQ, GM, GH, GA, CR, CI, CG, CD, CF, TD, SN, TM | 239 个 id：ZW 10、ZM 10、TJ 4、TG 5、SZ 4、SS 10、RW 5、NA 13、LS 10、LR 15、KM 3、KG 7、GY 10、GQ 6、GM 5、GH 9、GA 9、CR 7、CI 19、CG 10、CD 11、CF 16、TD 22、SN 14、TM 5 | 无 |
+| 3 | BN, BZ, DJ, ER, IL, BY, QA, IS, NE, PK, ML, BO, LT, OM, AM, BJ, ET, KP, JO, NL, HT, MZ | 196 个 id：BN 5、BZ 6、DJ 6、ER 6、IL 6、BY 7、QA 7、IS 8、NE 8、PK 7、ML 9、BO 10、LT 10、OM 10、AM 11、BJ 11、ET 11、KP 11、JO 12、NL 11、HT 13、MZ 12 | PK `path10354`、MZ `path3384`；另 `path10369` 命名后回滚 |
 
 批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
+
+批次 3 说明：先用质心法出提议，再用「面积比 + 质心距离」二次校验，修正 4 处误判（`IL-TA`→`IL-M`、`IL-TA-1`→`IL-TA`、`ML-koulikoro-1`→`ML-BKO`、`ET-OR-1`→`ET-HA`），并回滚 1 处无法确认的命名（`PK-PB-1`→`path10369`）。本图会把小行政区放大绘制（Harari 2.8 倍、Bamako 10 倍），质心容易被相邻大区吸入，面积+距离双指标更可靠。
 
 ## 跳过 / 待确认
 
 | 文件 | 元素 | 情况 | 处理 |
 | --- | --- | --- | --- |
 | world-states-provinces.svg | `PL` `path11041` | 0.4×0.2px 的碎岛，质心不在任何 NE 面内，最近邻不唯一 | 待确认：按 `PL-PM-1` 兜底命名，或保持原样 |
+| world-states-provinces.svg | `PK` `path10354` | 30960 km²，克什米尔形状；NE `PK-JK`（Azad Kashmir，13044 km²）质心相距 47 km、面积比 2.35，其余 NE 要素已被占用 | **争议地区，待你确认**：建议 `PK-JK`（按图归入 PK 组） |
+| world-states-provinces.svg | `PK` `path10369` | 5096 km²，跨 KP/旁遮普边界（占旁遮普 60%、KP 48%），与 NE 伊斯兰堡 `PK-IS`（1079 km²）零重叠；NE 的 `PK-IS` 在本图无对应单元 | 无法确认归属，保持 `path10369` |
+| world-states-provinces.svg | `MZ` `path3384` | 0.04 px² 沿海碎块，与所有 NE 候选 IoU 均为 0 | 保持 `path3384` |
+| world-states-provinces.svg | `OM` `path4786` | 307538 km² ≈ 全国面积，是 `<g id="om">` 内嵌的轮廓副本，非行政单元 | 暂不命名（轮廓类） |
+| world-states-provinces.svg | `IS` `IS-reykjavik` | 1298 km²，实为 NE `IS-1`（Capital，832）+`IS-0`（Reykjavík，504）合并（合计 1336，比 0.97） | 暂用 `IS-reykjavik`；如需按 IS-1 命名请告知 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
@@ -53,6 +61,10 @@
    典型：`TW` 的 `TW-TAO` 实际是台湾整岛轮廓；`YE` 轮廓叫 `path2592`；`EH` 轮廓叫 `path12345`。
 2. **命名体系与本图不一致的国家**（共 62 个）：如 IT（图上用大区名 `IT-lombardy`，NE 是省）、
    ES、FR、CN、AU、MY、PH、GB、UG、JP（NE 名称带长音符）等。这些需要逐国决定口径，未在本批处理。
-3. **UN 数据同步**：`src/country-data.csv` 只有 6 列（code/name/longname/sovereignty/region/population），
+3. **NE 非标准 ISO 码（`X01~`/`X1~`/`X2~`）**：这些单元 NE 没有标准 ISO 码，本方案按规则退化为英文名 kebab。已遇到的建议改用真实 ISO 码，待确认：
+   - `TJ` NE `TJ-X01~` = Districts of Republican Subordination → `TJ-RA`（现名 `TJ-districts-of-republican-subordination`）
+   - `LR` NE `LR-X1~` = Gbarpolu → `LR-GP`（现名 `LR-gbarpolu`）；NE `LR-X2~` = River Gee → `LR-RG`（现名 `LR-river-gee`）
+   - `TD` NE `TD-X01~` = Ennedi → `TD-EN`（2012 年前旧区，已拆分；现名 `TD-ennedi`）
+4. **UN 数据同步**：`src/country-data.csv` 只有 6 列（code/name/longname/sovereignty/region/population），
    不含省份数据；省份只存在于 `src/country-data.json`，且目前只有 CA/CN/AU 三国。
    因此重命名魔数 id 暂时无需同步这两个文件；等到修改 CA/CN/AU 等国已有省份 id 时，必须同时改 `country-data.json` 的省份 key。
