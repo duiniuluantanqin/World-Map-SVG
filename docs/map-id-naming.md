@@ -27,7 +27,7 @@
 2. 参考数据：Natural Earth 10m admin-1（公有领域，4596 个单元，100% 带 `iso_3166_2`）。
    位置：`D:\work\other\svg-naming\data\ne_10m_admin_1_states_provinces.geojson`
 3. 匹配顺序：质心经纬度落点（点在面内）→ IoU（≥0.55 且与次优差 ≥0.12）→ 最近邻兜底；三者都不满足则跳过。
-4. 工具：`D:\work\other\svg-naming\tools\`（`svgname.py` 投影/解析/索引，`apply_batch.py` 出提议并改写，`report_countries.py` 逐国可行性报告）。
+4. 工具：`D:\work\other\svg-naming\tools\`（`svgname.py` 投影/解析/索引，`batch_naming.py` 批量提议/改写/安全门，`apply_batch.py` 第一批脚本，`report_countries.py` 逐国可行性报告）。
    产出物：`D:\work\other\svg-naming\out\`。
 5. 每批校验：`git diff` 逐行比对（除 id 外必须完全一致）、XML 可解析、id 全局唯一、新增 id 全 ASCII。
 
@@ -36,6 +36,9 @@
 | 批次 | 范围 | 结果 | 跳过 |
 | --- | --- | --- | --- |
 | 1 | SE, PL, BG, CM, EE, AL | 98 个 id：SE 19、PL 14、BG 28、CM 10、EE 15、AL 12 | PL `path11041` |
+| 2 | ZW, ZM, TJ, TG, SZ, SS, RW, NA, LS, LR, KM, KG, GY, GQ, GM, GH, GA, CR, CI, CG, CD, CF, TD, SN, TM | 239 个 id：ZW 10、ZM 10、TJ 4、TG 5、SZ 4、SS 10、RW 5、NA 13、LS 10、LR 15、KM 3、KG 7、GY 10、GQ 6、GM 5、GH 9、GA 9、CR 7、CI 19、CG 10、CD 11、CF 16、TD 22、SN 14、TM 5 | 无 |
+
+批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
 
 ## 跳过 / 待确认
 
