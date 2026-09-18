@@ -43,6 +43,21 @@
 
 批次 3 说明：先用质心法出提议，再用「面积比 + 质心距离」二次校验，修正 4 处误判（`IL-TA`→`IL-M`、`IL-TA-1`→`IL-TA`、`ML-koulikoro-1`→`ML-BKO`、`ET-OR-1`→`ET-HA`），并回滚 1 处无法确认的命名（`PK-PB-1`→`path10369`）。本图会把小行政区放大绘制（Harari 2.8 倍、Bamako 10 倍），质心容易被相邻大区吸入，面积+距离双指标更可靠。
 
+## 批次 1-3 复核修正
+
+对批次 1-3 的全部单元做了「面积比 + 质心距离」最优匹配复核（面积取球面面积，质心与 NE label point 距离），
+确认并修正 5 处（其余候选为贪婪匹配假阳性，已逐条核对后维持原名）：
+
+| 文件 | 原 id | 改为 | 依据 |
+| --- | --- | --- | --- |
+| world-states-provinces.svg | `BG-sofia` | `BG-sofia-22` | 该单元 1827 km²、位于索菲亚市，对应 ISO `BG-22`（索菲亚市）；`BG-sofia-23`（7981 km²）对应 `BG-23`（索菲亚州），两者补齐 ISO 后缀更清晰 |
+| world-states-provinces.svg | `TD-CB-1` | `TD-ND` | 677 km²，距 NE `TD-ND`（恩贾梅纳）质心 12 km，且 `TD-ND` 是唯一未被占用的 NE 要素（与 `ML-BKO` 同类：被包围的首都区） |
+| world-states-provinces.svg | `SN-KL` | `SN-FK` | 该单元 7338 km²，与 NE `SN-FK`（法蒂克，8098）面积比 0.91、质心 39 km；与 `SN-KL`（考拉克，5332）比 1.38 |
+| world-states-provinces.svg | `SN-KL-1` | `SN-KL` | 该单元 5197 km²，与 NE `SN-KL`（考拉克，5332）面积比 0.97、质心 12 km |
+| world-states-provinces.svg | `OM-SS` | `OM-SH` | 本图阿曼是 2011 年前版本（单一「Ash Sharqiyah」39478 km² ≈ 实际 36800），`OM-SH` 正是该旧区 ISO 码；NE 的 `OM-SS`（16384）只是北部 |
+
+说明：`HT-*-1`/`MZ-*-1`/`OM-MU-1`/`BN-TE-1` 等为岛屿或重复多边形，`LS-B/D`、`LR-gbarpolu/LR-BG`、`QA-DA/US`、`JO-BA/MD`、`HT-GA/NI`、`ET-DD/HA`、`GQ`、`NL` 等候选交换经核对后维持原名（质心距离 2-17 km 明显优于备选 27-85 km）。
+
 ## 跳过 / 待确认
 
 | 文件 | 元素 | 情况 | 处理 |
