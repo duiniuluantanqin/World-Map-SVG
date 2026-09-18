@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>SVG World Map Demo</title>
+        <link rel="stylesheet" type="text/css" href="css/demo.css">
+	</head>
+	<body>
+        <div id="labels" class="box">
+            <button onclick="myWorldMap.labels('all')">Country labels</button>
+            <button onclick="myWorldMap.labels('micro')">Microstate labels</button>
+            <button onclick="myWorldMap.download('svg')">Save as SVG</button>
+            <button onclick="myWorldMap.download('png')">Save as PNG</button>
+        </div>
+        <div id="overout" class="box">
+            Path over: <span id="over"></span><br><br>
+            Path out: <span id="out"></span><br><br>
+            Path click: <span id="click"></span>
+        </div>
+        <div id="countries" class="box"></div>
+        <div id="groups" class="box"></div>
+        <div id="info" class="box hidden"></div>
+        <script src="../src/svg-world-map.js"></script>
+        <script src="js/svg-pan-zoom.min.js"></script>
+        <script>
+            // Global variables
+            var myWorldMap;
+            
+            // Wait for JSON data first, then init SVG World Map
+            loadCountryData().then(function(countryData) {
+                loadSVGWorldMap(countryData)
+            });
+
+            // Load SVG World Map
+            async function loadSVGWorldMap(countryData) {
+                // Custom options
+                var params = { 
+                    showLabels: true, 
+                    showInfoBox: true, 
+                    groupBy: [ "region", "sovereignty" ]
+                };
+                // Startup
+                myWorldMap = await svgWorldMap(params, countryData);
+                // Controls
+                buildCountryControls();
+                buildGroupControls();
+                // Test svgPanZoom 
+                svgPanZoom = svgPanZoom(myWorldMap.worldMap, { minZoom: 1, dblClickZoomEnabled: false });  //controlIconsEnabled: true, beforePan: beforePan
+            }
+
+            // Default callback functions, custom names can be defined in 'options.mapOver', 'options.mapOut' and 'options.mapClick'
+            function mapOver(country) {
+                document.getElementById("over").innerHTML = country.id;
+            }
+
+            function mapOut(country) {
+                document.getElementById("out").innerHTML = country.id;
+            }
+
+            function mapClick(country) {
+                document.getElementById("click").innerHTML = country.id;
+                if (country != undefined && country.id != 'Ocean') {
+                    var nation = country.country; // Get parent nation
+                    if (nation != undefined) {
+                        var out = '<a class="hide" onclick="document.getElementById(\'info\').classList.add(\'hidden\')">×</a>';
+                        out += 'Country: ' + country.id;
+                        out += '<br><br><a onmouseover="highlightCountry(\'' + nation.id + '\')" onmouseout="myWorldMap.out(\'' + nation.id + '\')" onclick="myWorldMap.click(\'' + nation.id + '\')">Nation: ' + nation.name + '</a><br>';
+                        out += 'Official name: ' + nation.longname + '<br>Code: ' + nation.id + '<br>';
+                        out += '<a onmouseout="highlightGroup(\'' + nation.region + '\', \'region\', \'out\')" onmouseover="highlightGroup(\'' + nation.region + '\', \'region\', \'over\')" onclick="highlightGroup(\'' + nation.region + '\', \'region\', \'click\')">Region: ' + nation.region + '</a><br>';
+                        out += 'Population: ' + formatInteger(nation.population);
+                        out += '<br><br>All countries / provinces / states in ' + nation.name + ':<br>';
+                        nation.provinces.forEach(function(province) { 
+                            out += '<a onmouseover="myWorldMap.over(\'' + province.id + '\')" onmouseout="myWorldMap.out(\'' + province.id + '\')" onclick="myWorldMap.click(\'' + province.id + '\')">' + province.id + '</a>, '; 
+                        }); 
+                        document.getElementById("info").innerHTML = out;
+                        document.getElementById("info").classList.remove("hidden");
+                    }
+                } else {
+                    //console.log('Country not found');
+                    //document.getElementById("info").classList.add("hidden");
+                }
+            }
+
+            // Demo country list
+            function buildCountryControls() {
+                var out = '<ul>';
+                for (var countryid in myWorldMap.countries) {
+                    out += '<li id="' + countryid + '" onmouseover="highlightCountry(\'' + countryid + '\')" onmouseout="myWorldMap.out(\'' + countryid + '\')" onclick="myWorldMap.click(\'' + countryid + '\')">[' + countryid + '] ' + myWorldMap.countries[countryid].name + '</li>'; 
+                }
+                out += '</ul>';
+                document.getElementById("countries").innerHTML = out;
+            }
+
+            // Demo control buttons
+            function buildGroupControls() {
+                var regionNames = { AF: "Afrika", AN: "Antarctica", AS: "Asia", EU: "Europe", NA: "North America", OC: "Ocania", SA: "South America" };
+                var out = '';
+                for (var group in myWorldMap.countryGroups) {
+                    out += '<u>' + group.charAt(0).toUpperCase() + group.slice(1) + ':</u><br><br><ul>'; // Capitalize first letter
+                    for (var subgroup in myWorldMap.countryGroups[group]) {
+                        if (group == 'region') { var name = regionNames[subgroup]; } else { var name = subgroup; }
+                        out += '<li id="' + subgroup + '" onmouseout="highlightGroup(\'' + subgroup + '\', \'' + group + '\', \'out\')" onmouseover="highlightGroup(\'' + subgroup + '\', \'' + group + '\', \'over\')" onclick="highlightGroup(\'' + group + '\', \'' + group + '\', \'click\')">' + name + '</li>'; 
+                    }
+                    out += '</ul>';
+                }
+                document.getElementById("groups").innerHTML = out;
+            }
+
+            // Highlight country 
+            function highlightCountry(id) {
+                var color = getHighlightColor(id);
+                myWorldMap.update({ [id]: color });
+            }
+
+            // Highlight country group
+            function highlightGroup(id, group, trigger) {
+                var group = myWorldMap.countryGroups[group];
+                if (trigger == 'out') {
+                    for (var country in group[id]) {
+                        myWorldMap.out(country);
+                    }
+                } else if (trigger == 'over' || trigger == 'click') {
+                    var color = getHighlightColor(id);
+                    var data = {};
+                    for (var country in group[id]) {
+                        data[country] = color; // Set data for map update
+                    }
+                    myWorldMap.update(data);
+                }
+            }
+
+            // Get some random color from the element name
+            function getHighlightColor(id) {
+                // Get the numbers for the id letters, add them, square them and take the last 6 digits
+                var number = parseInt(id.substr(0, 1).charCodeAt(0) + '' + id.substr(1, 2).charCodeAt(0));
+                var hex = '#' + parseInt(number * number).toString().substr(-6, 6);
+                return hex;
+            }
+
+            // Asynchronous JSON load
+            async function loadCountryData() {
+                let response = await fetch('../src/country-data.json');
+                let data = await response.json();
+                return data;
+            }
+
+            // Number format helper function
+            function formatInteger(number) {
+                return new Intl.NumberFormat('en-GB').format(number);
+            }
+        </script>
+    </body>
+</html>

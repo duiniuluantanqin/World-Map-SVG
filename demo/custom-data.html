@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <title>SVG World Map Demo</title>
+        <link rel="stylesheet" type="text/css" href="css/demo.css">
+	</head>
+	<body>
+        <div id="labels" class="box">
+            <button onclick="myWorldMap.labels('all')">Country labels</button>
+            <button onclick="myWorldMap.labels('micro')">Microstate labels</button>
+            <button onclick="myWorldMap.download('svg')">Save as SVG</button>
+            <button onclick="myWorldMap.download('png')">Save as PNG</button>
+        </div>
+        <div id="countries" class="box"></div>
+        <div id="overout" class="box">
+            Path over: <span id="over"></span><br><br>
+            Path out: <span id="out"></span><br><br>
+            Path click: <span id="click"></span>
+        </div>
+        <script src="../src/svg-world-map.js"></script>
+        <script>
+            // Global variables
+            var myWorldMap;
+
+            // Wait for JSON data first, then init SVG World Map
+            loadCountryData().then(function(countryData) {
+                loadSVGWorldMap(countryData);
+            });
+
+            // Load SVG World Map
+            async function loadSVGWorldMap(countryData) {
+                myWorldMap = await svgWorldMap({}, countryData);
+                buildCountryControls();
+            }
+
+            // Asynchronous JSON load
+            async function loadCountryData() {
+                let response = await fetch('js/country-data-startrek.json');
+                let data = await response.json();
+                return data;
+            }
+
+            // Demo country list
+            function buildCountryControls() {
+                var out = '<u>Star Trek planets as countries:</u><br><br><ul>';
+                for (var countryid in myWorldMap.countries) {
+                    if (myWorldMap.countries[countryid].name != undefined) {
+                        out += '<li id="' + countryid + '" onmouseout="myWorldMap.out(\'' + countryid + '\')" onmouseover="highlightCountry()" onclick="myWorldMap.click(\'' + countryid + '\')">[' + countryid + '] ' + myWorldMap.countries[countryid].name + '</li>'; 
+                    }
+                }
+                out += '</ul>';
+                document.getElementById("countries").innerHTML = out;
+            }
+
+            // Highlight country 
+            function highlightCountry() {
+                var id = event.srcElement.id;
+                var color = getHighlightColor(id);
+                myWorldMap.update({ [id]: color });
+            }
+
+            // Get some random color from the element name
+            function getHighlightColor(id) {
+                // Get the numbers for the id letters, add them, square them and take the last 6 digits
+                var number = parseInt(id.substr(0, 1).charCodeAt(0) + '' + id.substr(1, 2).charCodeAt(0));
+                var hex = '#' + parseInt(number * number).toString().substr(-6, 6);
+                return hex;
+            }
+
+            // Default callback functions, custom names can be defined in 'options.mapOver', 'options.mapOut' and 'options.mapClick'
+            function mapOver(country) {
+                document.getElementById("over").innerHTML = country.id;
+            }
+
+            function mapOut(country) {
+                document.getElementById("out").innerHTML = country.id;
+            }
+
+            function mapClick(country) {
+                if (country != '') {
+                    document.getElementById("click").innerHTML = country.id;
+                }
+            }
+        </script>
+    </body>
+</html>

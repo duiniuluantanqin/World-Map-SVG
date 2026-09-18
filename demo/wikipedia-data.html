@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>SVG World Map Demo</title>
+        <link rel="stylesheet" type="text/css" href="css/demo.css">
+	</head>
+	<body>
+        <div id="wikidata" class="box">
+            Wikipedia page URL<br>
+            <input type="text" id="pageurl" value="https://en.wikipedia.org/wiki/Member_states_of_the_Commonwealth_of_Nations"><br>
+            <button id="loaddata" onclick="loadWikipediaData()">Load data</button>
+            <button id="reset" onclick="resetMapAndList()">Reset map</button><br>
+            Load example page<br>
+            <button onclick="setWikiURL(0)">Commonwealth</button>
+            <button onclick="setWikiURL(1)">South America</button>
+            <button onclick="setWikiURL(2)">Provinces of China</button>
+            <button onclick="setWikiURL(3)">Council of Eur.</button>
+            <button onclick="setWikiURL(4)">African Union</button>
+            <button onclick="setWikiURL(5)">OPEC</button>
+            <button onclick="setWikiURL(6)">NATO</button>
+            <button onclick="setWikiURL(7)">BRICS</button>
+        </div>
+        <div id="code" class="box hidden">
+        </div>
+        <div id="labels" class="box">
+            <button onclick="myWorldMap.labels('all')">Country labels</button>
+            <button onclick="myWorldMap.labels('micro')">Microstate labels</button>
+            <button onclick="myWorldMap.download('svg')">Save as SVG</button>
+            <button onclick="myWorldMap.download('png')">Save as PNG</button>
+        </div>
+        <div id="overout" class="box">
+            Path over: <span id="over"></span><br><br>
+            Path out: <span id="out"></span><br><br>
+            Path click: <span id="click"></span>
+        </div>
+        <div id="countries" class="box"></div>
+        <script src="../src/svg-world-map.js"></script>
+        <script src="js/pretty-json.js"></script>
+        <script>
+            // Global variables
+            var myWorldMap;
+
+            // Load SVG World Map
+            loadSVGWorldMap();
+            async function loadSVGWorldMap() {
+                // Startup SVG World Map
+                myWorldMap = await svgWorldMap({ bigMap: true, /* set to false for smaller, faster map */ showOcean: false, /*showAntarctica: false,*/ showLabels: false, showInfoBox: true });
+                // Build controls 
+                buildCountryControls();
+                // Fadein with opacity 
+                document.getElementById('svg-world-map-container').style.opacity = 1;
+                // Load first demo dataset
+                loadWikipediaData();
+            }
+
+            // Wait for asynchronous Wikipedia JSON load and pass data to library 
+            async function loadWikipediaData() {
+                // Reset 
+                myWorldMap.reset();
+                document.getElementById('code').classList.add('hidden');
+                var lis = document.getElementsByTagName("li");
+                for (var i=0; i<lis.length; i++) {
+                    lis[i].classList.add('hidden');
+                }
+                // Load Wiki data
+                var pageUrl = document.getElementById('pageurl').value.split('/');
+                var pageTitle = decodeURIComponent(pageUrl[pageUrl.length-1]);
+                document.getElementById('code').innerHTML = 'Loading Wikipedia data...';
+                document.getElementById('code').classList.remove('hidden');
+                const url = "https://en.wikipedia.org/w/api.php?" +
+                    new URLSearchParams({
+                        origin: "*",
+                        action: "parse",
+                        format: "json",
+                        prop: "text",
+                        page: pageTitle
+                    });
+                try {
+                    const req = await fetch(url);
+                    const json = await req.json();
+                    var htmlData = json.parse.text["*"];
+                    myWorldMap.table(htmlData);
+                } catch (e) {
+                    //console.error(e);
+                }
+            }
+
+            // Callback function for HTML table parsing, defined in 'options.mapTable'
+            function mapTable(tableData) {
+                if (tableData != '') {
+                    // JSON output syntax highlighting 
+                    var tableOutput = JSON.stringify(tableData, null, 2);
+                    var close = '<a class="hide" onclick="document.getElementById(\'code\').classList.add(\'hidden\')">×</a>';
+                    document.getElementById('code').innerHTML = "";
+                    jsonDisplay.outputPretty(tableOutput);
+                    document.getElementById('code').innerHTML = close + document.getElementById('code').innerHTML;
+                    // Update country colors 
+                    var updateData = {};
+                    var updateColor = getHighlightColor(tableOutput.substr(33, 10)); // Get random highlight color
+                    for (var countryid in tableData) {
+                        // Use (background) color from original data table, if there was some
+                        var keys = Object.keys(tableData[countryid]);
+                        var lastElem = tableData[countryid][keys[keys.length-2]];
+                        if (lastElem.color != undefined) {
+                            updateData[countryid] = lastElem.color;
+                        // Or use population data for color intensity
+                        } else if (tableData[countryid].Population != undefined) {
+                            var colorPlus = 0;
+                            var popMillions = parseInt(tableData[countryid].Population / 1000000);
+                            if (popMillions == 0) {
+                                colorPlus = 100;
+                            } else if (popMillions < 10) {
+                                colorPlus = 80;
+                            } else if (popMillions < 50) {
+                                colorPlus = 60;
+                            } else if (popMillions < 100) {
+                                colorPlus = 40;
+                            } else if (popMillions < 1000) {
+                                colorPlus = 20;
+                            }
+                            var red = updateColor[0] + colorPlus;
+                            var green = updateColor[1] + colorPlus;
+                            var blue = updateColor[2] + colorPlus;
+                            if (red > 255) { red = 255; }
+                            if (green > 255) { green = 255; }
+                            if (blue > 255) { blue = 255; }
+                            updateData[countryid] = 'rgb(' + red + ',' + green + ',' + blue + ')';
+                        // Or just the generated random color 
+                        } else {
+                            updateData[countryid] = 'rgb(' + updateColor[0] + ',' + updateColor[1] + ',' + updateColor[2] + ')';
+                        }
+                        // Hide country in country list
+                        if (document.getElementById(countryid) != null) {
+                            document.getElementById(countryid).classList.remove('hidden');
+                        }
+                    }
+                    myWorldMap.update(updateData);
+                }
+            }
+
+            // Default callback functions, custom names can be defined in 'options.mapOver', 'options.mapOut' and 'options.mapClick'
+            function mapOver(country) {
+                document.getElementById("over").innerHTML = country.id;
+            }
+
+            function mapOut(country) {
+                document.getElementById("out").innerHTML = country.id;
+            }
+
+            function mapClick(country) {
+                if (country != '') {
+                    document.getElementById("click").innerHTML = country.id;
+                }
+            }
+
+            // Load Wikipedia demo page
+            function setWikiURL(urlNumber) {
+                var wikiPages = [
+                    'https://en.wikipedia.org/wiki/Member_states_of_the_Commonwealth_of_Nations',
+                    'https://en.wikipedia.org/wiki/List_of_South_American_countries_by_population',
+                    'https://en.wikipedia.org/wiki/Provinces_of_China',
+                    'https://en.wikipedia.org/wiki/Member_states_of_the_Council_of_Europe',
+                    'https://en.wikipedia.org/wiki/Member_states_of_the_African_Union',
+                    'https://en.wikipedia.org/wiki/OPEC',
+                    'https://en.wikipedia.org/wiki/Member_states_of_NATO',
+                    'https://en.wikipedia.org/wiki/BRICS',
+                ];
+                document.getElementById("pageurl").value = wikiPages[urlNumber];
+                document.getElementById("loaddata").click();
+            }
+
+            // Reset map and country list
+            function resetMapAndList() {
+                myWorldMap.reset();
+                document.getElementById('code').classList.add('hidden');
+                var lis = document.getElementsByTagName("li");
+                for (var i=0; i<lis.length; i++) {
+                    lis[i].classList.remove('hidden');
+                }
+            }
+
+            // Demo country list
+            function buildCountryControls() {
+                var out = '<ul>';
+                for (var countryid in myWorldMap.countries) {
+                    if (myWorldMap.countries[countryid].name != undefined) {
+                        out += '<li id="' + countryid + '" class="hidden" onmouseout="myWorldMap.out(\'' + countryid + '\')" onmouseover="myWorldMap.over(\'' + countryid + '\')" onclick="myWorldMap.click(\'' + countryid + '\')">[' + countryid + '] ' + myWorldMap.countries[countryid].name + '</li>'; 
+                    }
+                }
+                out += '</ul>';
+                document.getElementById("countries").innerHTML = out;
+            }
+
+            // Get some random color from the element name
+            function getHighlightColor(id) {
+                // Get the numbers for the id letters, add them, square them and take the last 6 digits
+                var number = parseInt(id.substr(0, 1).charCodeAt(0) + '' + id.substr(1, 2).charCodeAt(0));
+                var hex = '#' + parseInt(number * number).toString().substr(-6, 6);
+                var rgb = ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
+                return rgb;
+            }
+        </script>
+    </body>
+</html>
