@@ -77,12 +77,15 @@ python tests/run_all_online.py --refresh-ipapi --countries br,mx --inter 30
 
 `tests/ip_naming_test.py` 参数：
 - `--countries`：逗号分隔的国家码（默认空 = 全部国家）
-- `--offline`：只做离线覆盖检查，不发 ip-api 请求、不联网
-- `--vote N`：每省用 N 个候选 IP 投票，得票最多的作为该省判据（N>=2 启用）
-- `--refresh-maxmind`：重新用 maxmind 采样并写回 `maxmind_samples.csv`
-- `--refresh-ipapi`：对未缓存的 IP 联网反查并写回 `ipapi_lookup.csv`
+- `--offline`：只做离线覆盖检查（是否每个省有候选 IP），不发 ip-api 请求、不联网
+- `--refresh-maxmind`：重新用 maxmind 采样并写回 `maxmind_samples/<CC>.csv`
+- `--refresh-ipapi`：对未缓存的候选 IP 联网反查并写回 `ipapi_lookup/<CC>.csv`
 - `--key`：ip-api 付费 API key（可选，提升限流）
 - `--limit`：最多处理 N 条（调试用）
+
+> 注：正向口径下，校验会把每个地区的**全部候选 IP**（`maxmind_samples/<CC>.csv` 中的每一行）
+> 都交给 ip-api 反查，只要任一候选 IP 解析出的 `CC-REGION` 命中 SVG 即算该省命中——
+> 不再只用单个「代表 IP」，也因此没有投票（`--vote`）概念，该参数已废弃、保留仅为兼容。
 
 ## 判定口径（正向：以 ip-api 为准）
 

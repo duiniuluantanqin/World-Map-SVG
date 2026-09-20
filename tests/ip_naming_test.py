@@ -371,67 +371,58 @@ def main():
         sample, names, mult, country_ips = load_maxmind_cache(cc_list=cc_list)
         print("读取 maxmind 采样缓存：%d 条（要用最新数据请加 --refresh-maxmind）" % len(sample))
 
-    # 对每个干净 id，能否从缓存找到该 (cc, region) 的代表 IP
-    if args.vote >= 2:
-        prov = [(c, r, i) for (c, r, i) in clean if (c, r) in mult and len(mult[(c, r)]) >= 2]
-    else:
-        prov = [(c, r, i) for (c, r, i) in clean if (c, r) in sample]
-    missing = [(c, r, i) for (c, r, i) in clean if (c, r) not in sample]
-    print("能在缓存中找到该省 IP 的: %d 条；缺失: %d 条" % (len(prov), len(missing)))
-
     if args.limit:
-        prov = prov[:args.limit]
+        clean = clean[:args.limit]
 
-    # ---------- 纯离线模式：只用 maxmind 缓存判定覆盖 ----------
+    # 每个干净 id 是否有候选 IP（maxmind 采样缓存）；有候选 IP 的才可能被 ip-api 命中
+    has_candidate = {}
+    for (c, r, i) in clean:
+        has_candidate[i] = (c, r) in mult and bool(mult[(c, r)])
+    with_cand = [i for i in has_candidate if has_candidate[i]]
+    no_cand = [(c, r, i) for (c, r, i) in clean if not has_candidate[i]]
+    print("有候选 IP 的干净 id: %d / %d（无候选 IP: %d）" % (len(with_cand), len(clean), len(no_cand)))
+
+    # ---------- 纯离线模式：只看 maxmind 采样覆盖 ----------
     if args.offline:
-        print("\n== 离线覆盖校验（缓存中有该省代表 IP 的比例）==")
-        print("有样本: %d / %d" % (len(prov), len(clean)))
+        print("\n== 离线覆盖校验（有候选 IP 的干净 id 比例）==")
         print("覆盖的国家数: %d" % len({c for (c, r, i) in clean}))
         missing_by_country = {}
-        for (c, r, i) in missing:
+        for (c, r, i) in no_cand:
             missing_by_country.setdefault(c, []).append(r)
-        print("缺失省份涉及的国家数: %d" % len(missing_by_country))
-        print("缺失明细（前 60 条）：")
-        for (c, r, i) in missing[:60]:
-            print("   %s  (SVG 命名后缀 %s 在缓存/数据源中无该 ISO region)" % (i, r))
+        print("无候选 IP 的省份涉及国家数: %d" % len(missing_by_country))
+        print("无候选 IP 明细（前 60 条）：")
+        for (c, r, i) in no_cand[:60]:
+            print("   %s  (后缀 %s 在采样缓存中无候选 IP)" % (i, r))
         return
 
-    if not prov:
-        print("没有可验证的样本，结束。")
+    # ---------- 候选 IP 池：每个地区的全部 maxmind 采样 IP ----------
+    # 正向口径下不预先假设省份归属，把所有候选 IP 都交给 ip-api 反查，
+    # 看能被解析成哪些 SVG id。
+    candidate_ips = []
+    _seen = set()
+    for (c, r), ips in mult.items():
+        for ip in ips:
+            if ip not in _seen:
+                _seen.add(ip)
+                candidate_ips.append(ip)
+    for c, ips in country_ips.items():
+        for ip in ips:
+            if ip not in _seen:
+                _seen.add(ip)
+                candidate_ips.append(ip)
+
+    if not candidate_ips:
+        print("缓存中没有任何候选 IP，结束。")
         return
 
-    # ---------- 读取/构建 ip-api 反查缓存 ----------
+    # ---------- 读取 ip-api 反查缓存 ----------
     ipcache = load_ipapi_cache(cc_list=cc_list)
-    print("读取 ip-api 反查缓存：%d 条" % len(ipcache))
+    print("读取 ip-api 反查缓存：%d 条（候选 IP %d 个）" % (len(ipcache), len(candidate_ips)))
 
-    # 需要联网反查的 IP：投票模式下用全部候选；单 IP 模式下用代表 IP
-    if args.vote >= 2:
-        ip_to_key = {}
-        for (c, r, i) in prov:
-            for ip in mult[(c, r)]:
-                ip_to_key.setdefault(ip, []).append((c, r, i))
-        all_ips = list(ip_to_key)
-    else:
-        ip_to_key = {}
-        for (c, r, i) in prov:
-            ip = sample[(c, r)]
-            ip_to_key.setdefault(ip, []).append((c, r, i))
-        all_ips = [sample[(c, r)] for (c, r, i) in prov]
-
-    # 无省样本国家兜底 IP 也纳入反查
-    fallback_ips = []
-    fallback_names = {}
-    for c in {cc for (cc, r, i) in missing}:
-        for ip in country_ips.get(c, [])[:6]:
-            if ip not in ip_to_key and ip not in ipcache:
-                ip_to_key[ip] = None
-                fallback_ips.append(ip)
-                fallback_names[ip] = c
-
-    # 只在 --refresh-ipapi 时联网查询；否则完全用缓存
-    resmap = {ip: ipcache.get(ip) for ip in all_ips}
+    # 只在 --refresh-ipapi 时联网补查未缓存的候选 IP
+    resmap = {ip: ipcache.get(ip) for ip in candidate_ips}
     if args.refresh_ipapi:
-        need = [ip for ip in all_ips if ip not in ipcache]
+        need = [ip for ip in candidate_ips if ip not in ipcache]
         if need:
             print("联网反查 %d 个未缓存 IP ..." % len(need))
             online = ipapi_batch(need, pause=1.5, key=args.key)
@@ -442,13 +433,10 @@ def main():
                     resmap[ip] = online[ip]
             save_ipapi_cache(fresh, cc_list=cc_list)
 
-    # ============ 正向口径校验（以 ip-api 为准） ============
-    # 每个候选 IP -> ip-api 返回的 (cc, region)；拼成 id；检查是否存在于 SVG hadron 集合。
-    # 可达性：SVG 干净 id 只要有一个候选 IP 被 ip-api 解析成它，即视为"可达/命中"。
-    id_to_ips = {}          # SVG id -> [解析到它的 IP]
-    id_extra = {}           # ip-api 拼出但 SVG 中不存在的 id -> [IP]（真正的命名缺口）
-
-    for ip in all_ips:
+    # ---------- 正向口径：候选 IP -> ip-api -> CC-REGION -> 是否在 SVG ----------
+    id_to_ips = {}
+    id_extra = {}
+    for ip in candidate_ips:
         res = resmap.get(ip)
         if res is None or res[0] is None:
             continue
@@ -458,27 +446,27 @@ def main():
         else:
             id_extra.setdefault(got, []).append(ip)
 
-    # 统计：SVG 干净 id 中有多少被 ip-api 成功命中
+    # 统计：SVG 干净 id 中有多少被 ip-api 解析命中
     hit = 0
     miss_list = []
-    for (c, r, i) in prov:
+    for (c, r, i) in clean:
         if i in id_to_ips:
             hit += 1
             ips = id_to_ips[i]
-            src = "缓存" if all(x in ipcache for x in ips) else "缓存/混合"
+            src = "缓存" if all(x in ipcache for x in ips) else "混合"
             print("   OK  %-20s [%s] ip-api 解析命中(%s)" % (i, src, ", ".join(ips)))
         else:
             miss_list.append(i)
-            print("   ..  %-20s 未能用候选 IP 在 ip-api 中解析出该 id（可能该省需真实IP，或数据源无该省）" % (i,))
+            reason = "候选IP均解析到其他地区(数据源精度)" if has_candidate[i] else "无候选IP(数据源无该省)"
+            print("   ..  %-20s 未命中 —— %s" % (i, reason))
 
     print("\n== ip-api 正向校验统计（以 ip-api 为准）==")
     print("SVG 干净 id 中可用 ip-api 解析命中: %d / %d  命中率: %.1f%%" % (
-        hit, len(prov), 100.0 * hit / max(1, len(prov))))
+        hit, len(clean), 100.0 * hit / max(1, len(clean))))
     if miss_list:
-        print("未能命中的 SVG id（需真实 IP 或数据源无该省）：")
+        print("未命中的 SVG id：")
         for i2 in miss_list:
             print("   %s" % i2)
-    # ip-api 返回但 SVG 中不存在 -> 命名缺口
     if id_extra:
         print("\nip-api 能拼出但 SVG 中不存在的 id（可能的命名缺口）：")
         for got, ips in sorted(id_extra.items()):
