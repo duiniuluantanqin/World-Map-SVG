@@ -45,6 +45,9 @@
 | 8 | TN, EG, PE, SA, LB, MN | 114 个 id：TN 23、EG 26、PE 24、SA 13、LB 6、MN 22 | TN `path9180`/`path8175`/`path9012`、EG `path10625`、PE `path23983`、SA `path3234`/`path5488`/`path5482`/`path5480`、MN `path6312`/`path6373` |
 | 9 | RO, VE, MD, IR, DO | 156 个 id：RO 41、VE 24、MD 33、IR 27、DO 31 | VE 13 条三角洲碎块、MD 3 条（含德左）、IR 7 条、DO 3 条 |
 | 10 | IE, TZ, CU, NZ, RS | 99 个 id：IE 20、TZ 24、CU 15、NZ 15、RS 25 | IE 8、TZ 2、CU 8、NZ 7、RS 5（共 30 条追记于跳过表） |
+| 11 | US, RU | 124 个 id：US 43、RU 81 | US 18（重名拆分 8 + 岛屿 10）、RU 5（新地岛、印古什/阿迪格、莫斯科/圣彼得堡已命名） |
+
+批次 11 说明：美国（US）与俄罗斯（RU）字母码；US 里 8 条「重名」是已命名州（如 US-TX/US-MA）的 island/mainland 拆分块，需按拆分规则补后缀（后续单独处理），另有 10 条离岛；RU 的哈巴罗夫斯克/堪察加（IoU 0.86/0.84，质心 d300 因边疆区狭长）已采纳，新地岛（path6451）、印古什/阿迪格（IoU≤0.26）、莫斯科/圣彼得堡（已是规范名）跳过。US/RU 经 ip-api 正向校验命中 120/132（**90.9%**，这两个大国 IP 归属精度高，明显优于小国）。
 
 批次 10 说明：爱尔兰（IE）的图单元与 NE 郡边界几何差异较大，仅 20 个质心落点干净的命名可用，其余 8 条（含都柏林/科克/戈尔韦等市郡混排、IoU 0.03–0.41）跳过；新西兰（NZ）、古巴（CU）的离岛、塞尔维亚（RS）的科索沃地区（42.xN/20.xE）多为无 NE 对应或争议，保持魔数。字母码国家（IE/CU/NZ/RS）经 ip-api 正向校验命中 13/34（38%，这些国家 IP 归属精度差、离岛多）；TZ 数字码转英文名不适用。
 
@@ -144,6 +147,11 @@
 | world-states-provinces.svg | `CU` `path8272`+7 条：`path8274` `path9730` `path3590` `path3594` `path3592` `path3586` `path3588` | 古巴离岛/近岸碎块 | 保持魔数 |
 | world-states-provinces.svg | `NZ` 7 条：`path63557` `path58931` `path58943` `path58941` `path58935` `path58939` `path58945` | 新西兰离岛（225/96/72 km² 等），与 NE 无对应 | 保持魔数 |
 | world-states-provinces.svg | `RS` `path27452`/`path27408`/`path27233`/`path27406`/`path27410` | 42.xN/20.xE 科索沃地区，NE 无对应（争议地区） | 保持魔数 |
+| world-states-provinces.svg | `US` 州拆分块（`US-TX`/`US-OR`/`US-WA`/`US-NY`/`US-VA`/`US-NJ`/`US-MA-mainland`/`US-MA-chappaquiddick`） | 已命名州的 mainland/island 拆分块，base_id 与已有 id 重名 | 待按拆分规则补 `-1`/语义后缀 |
+| world-states-provinces.svg | `US` `path10154` `path10152` `path10162` `path10160` `path10166` `path10164` `path10781` `path10158` `path10156`、`US-DC`（792 km²） | 洛杉矶外岛（Santa Catalina）、密西西比/Washington 湾飞地、得州海岛、华盛顿特区放大块 | 保持魔数 |
+| world-states-provinces.svg | `RU` `path6451`（129515 km²） | 新地岛（75.27N/57.56E），NE `RU-X01~` 无对应 | 保持魔数 |
+| world-states-provinces.svg | `RU` `path6633`（印古什）/`path6655`（阿迪格） | 北高加索小共和国，IoU≤0.26 | 保持魔数 |
+| world-states-provinces.svg | `RU` `RU-SPE`/`RU-MOS` | 圣彼得堡、莫斯科，已是规范 id（城市放大），非魔数 | 不动 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
