@@ -41,6 +41,7 @@
 | 4 | JM, MR, PA, SV, SY, TL, UZ, CL, BI, LA, PY | 162 个 id：JM 14、MR 13、PA 12、SV 14、SY 14、TL 14、UZ 14、CL 16、BI 17、LA 17、PY 17 | MR `path3878`、PA `path7512`/`path4792`、UZ `path9423` |
 | 5 | FI, IQ, UY, HN, NI, AO, SD, GE, SO | 158 个 id：FI 17、IQ 18、UY 19、HN 19、NI 17、AO 19、SD 18、GE 13、SO 18 | FI `FI-uusimaa`（已是规范名，非魔数）、NI `path6697`（湖泊）、GE 6 条嵌套多边形 |
 | 6 | GT, LY, CH, PT, NO, YE | 134 个 id：GT 22、LY 22、CH 23、PT 26、NO 19、YE 22 | 无 |
+| 7 | DZ, AF, BR, CO, UA, EC, NG | 212 个 id：DZ 48、AF 34、BR 26、CO 32、UA 26、EC 33、NG 13 | CO `path30715`；NG 24 条超大异常多边形（见下） |
 
 批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
 
@@ -70,6 +71,15 @@
 - `PT`：18 个本土区全部匹配；NE 的 `PT-20`「Azores」是整体一个要素，图上按岛拆成 6 条 → 按拆分规则处理：最大岛圣米格尔＝`PT-azores`，其余按面积递减 `PT-azores-1…5`（皮库、特塞拉、圣若热、法亚尔、圣玛丽亚）；马德拉岛（path3628）＝`PT-madeira`；`path8376`（17 km²，38.69N / 9.21W，特茹河口小岛）＝里斯本区碎块 → `PT-lisbon-1`。
 - `NO`：20 个郡（`NO-hordaland`、`NO-oslo` 已是规范名）+ 斯瓦尔巴（`NO-svalbard`）+ 扬马延 `path10963`（456 km²，70.85–71.21N / 8.07–9.10W，NE 未收录）→ `NO-jan-mayen`。NE 的 `NO-X01~`（布韦岛）图上没有对应单元。
 - `YE`：19 个省 + 亚丁 `path13650`（面积比 1.83，图上把亚丁省画大了）+ 2 个岛屿碎块：`path2190`（154 km²，14.0N/42.75E＝祖卡尔岛，哈尼什群岛，属荷台达省）→ `YE-HU-1`；`path2192`（116 km²，12.2N/52.26E＝阿卜杜勒库里岛，属哈德拉毛）→ `YE-HD-1`。NE 的 `YE-SA`（萨那市）在图上并入 `YE-SN`，未用。`path2592` 是国界轮廓（见文末第 1 条）。
+
+批次 7 说明：本批先修掉一个校验工具缺陷，再处理 3 处 NE 数据错误与 3 类几何异常。
+- 工具缺陷：`batchfast.py` 的 IoU 只在两要素 bbox 的**交集**范围内统计，当一方 bbox 完整套住另一方时会严重虚高（NG 里 45 万 km² 的异常块对 1 万 km² 的州也能算出 0.7）。本批改为**并集**范围统计（`%TEMP%\ious.py`，用 PIL 逻辑运算，等价于真值），所有结论均以精确 IoU 复核。
+- `AF`（34 省全解）：NE 只有 32 个唯一码，`AF-PAR` 与 `AF-URU` 各重码一次，恰好对应 2004 年新设的 Panjshir、Daykundi。精确 IoU 定案：`path10523`（3305 km²，35.42N/69.70E）对 NE 第一条 `AF-PAR` I0.56 → `AF-PAN`（Panjshir）；`path10548`（18391 km²，33.75N/66.14E）对 NE 第二条 `AF-URU` I0.68 → `AF-DAY`（Daykundi）；`path10472`（11645 km²，32.87N/66.02E）对 NE 第一条 `AF-URU` I0.65 → `AF-URU`（Urozgan，此前被跳过，本批解决）。另 NE 把 Paktia/Paktika 的码写反（NE 的 `AF-PIA` 名叫 Paktika、`AF-PKA` 名叫 Paktia），按官方码改正：`path10573`→`AF-PIA`（Paktia）、`path10533`→`AF-PKA`（Paktika）。`AF-DAY`/`AF-PAN` 已核对 Wikipedia ISO 3166-2:AF 为现行码。
+- `CO`：图 33 单元 / NE 34 条（33 唯一码），NE 用 `CO-CUN` 同时表示波哥大与昆迪纳马卡。按官方码 `CO-DC` 命名波哥大 `path30723`（2699 km²，4.22N/74.30W；对 NE 那条「Bogotá」I0.36，对昆迪纳马卡 I0.07，已核对 Wikipedia）。`path30715`（88 km²，1.27N/66.92W）与全部 NE 要素精确 IoU=0，跳过。NE 的 `CO-SAP`/`CO-X01~`（圣安德烈斯）图上无对应单元。
+- `UA`：26 单元。24 条与 NE 一一对应（I0.85–0.92）。敖德萨州在图上被拆成两块：`path37177`（19117 km²，北部含敖德萨市）→`UA-odessa-1`、`path37156`（13332 km²，南部布贾克）→`UA-odessa-2`（对 `UA-51` 的 I 为 0.54/0.35，合计 32449 km² ≈ 州面积 35207 的 92%）。基辅州与基辅市同名 → 按重名规则加 ISO 后缀：`path37236`→`UA-kyiv-32`（州）、`path37245`→`UA-kyiv-30`（市，图上放大 15.6 倍）。Luhansk（卢甘斯克）、Donetsk（顿涅茨克）**按中国口径**命名为乌克兰的州（`UA-09`/`UA-14`）。
+- `EC`：33 单元。23 个本土省与 NE 一一对应（I0.58–0.87、面积比 0.86–1.13）。加拉帕戈斯被画了两层：`path31054` 一条 path 内含 7 个子路径＝整个群岛，另有 7 条单岛 path 叠在其上 → `EC-W` + `EC-W-1…7`（按面积递减：伊莎贝拉 4525、圣克鲁斯 808、圣克里斯托瓦尔 468、费尔南迪纳 435、圣地亚哥 417、弗洛雷娜 114、马切纳 68 km²）。瓜亚斯湾另有 2 岛：`path6602`（普纳岛 760 km²）→`EC-G-1`、`path4798`（河口小岛 70 km²）→`EC-G-2`。
+- `NG`：图 38 单元 / NE 37 州+FCT。北部 13 州干净匹配（I0.70–0.90、面积比 0.84–1.15）已命名；其余 24 条是 4.7 万–45.1 万 km² 的超大异常多边形（`path5382-1` 45.1 万 km² ≈ 全国一半），彼此重叠并覆盖南部各州，与任何 NE 州的精确 IoU 仅 0.05–0.47，也不是任何州的缩放/平移副本（bbox 归一化相似度 0.35–0.59）→ 全部跳过待确认，见「跳过/待确认」表。
+- `DZ`、`BR`：与 NE 一一对应（I0.67–0.96、面积比 0.87–1.23）。`DZ-algiers`（1310 km²）是阿尔及尔省被放大 4.4 倍绘制（图上小省普遍放大），48 个 NE 码用尽后唯一剩余且落点在省界内。BR 跳过 2 条圣卡塔琳娜海岸碎块。
 
 ## 批次 1-3 复核修正
 
@@ -105,6 +115,10 @@
 | world-states-provinces.svg | `GE` `path15679` `path15675` `path15673` `path15671` `path15669` `path15667` | 8799/8397/6784/4789/3316/1940 km²，6 条自西北角向东南递增的嵌套多边形，被 `GE-AB` 完全遮挡 | 跳过（疑为原作者图层缺陷，建议后续删除） |
 | world-states-provinces.svg | `TL` `path27340` | 覆盖全境（124.97–127.28E / 8.32–9.38S）＝东帝汶国界轮廓，但在 `<g id="tl">` 内、id 不是 `tl` | 暂不改（属文末第 1 条轮廓 id 问题） |
 | world-states-provinces.svg | `AO` `path3888` | 安哥拉国界轮廓（在 `<g id="ao">` 内、与 `path3890` 同组），id 不是 `ao` | 暂不改（同上） |
+| world-states-provinces.svg | `CO` `path30715` | 88 km²（1.27N, 66.92W），瓜伊尼亚/内格罗河边界小岛，与 NE 全部 34 条要素精确 IoU = 0 | 保持 `path30715` |
+| world-states-provinces.svg | `NG` 24 条：`path28144` `path28146` `path28148` `path8877` `path8880` `path8883` `path8885` `path8888` `path8894` `path8909` `path8912` `path8914` `path8916` `path8918` `path9073` `path9086` `path9088` `path9096` `path9103` `path9111` `path9145` `path9149` `path9155` `path9157` | 4.7 万–45.1 万 km² 的超大异常多边形，互相重叠、覆盖南部各州；与任何 NE 州精确 IoU ≤ 0.47，亦非任何州的缩放副本 | **待你确认**：南部各州无法定名，24 条保持魔数（另非魔数的 `path5382-1` 同属此异常） |
+| world-states-provinces.svg | `UA` `Luhansk` `Donetsk` | `fill="none"` 仅描边、被两州填充路径完全遮挡；形状是其对应州的畸变复制（bbox 归一化相似度 0.75/0.67） | 已命名、非魔数，本次不动（疑为高亮/争议区叠加层，待确认） |
+| world-states-provinces.svg | `EC` `path31054`＋7 条单岛 path | 加拉帕戈斯画了两层：一条 path 含全群岛 7 个子路径，另有 7 条单岛 path 叠在其上 | 按拆分规则命名（`EC-W` + `EC-W-1…7`），冗余几何记入文末第 6 条 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
@@ -122,3 +136,13 @@
    因此重命名魔数 id 暂时无需同步这两个文件；等到修改 CA/CN/AU 等国已有省份 id 时，必须同时改 `country-data.json` 的省份 key。
 5. **NE 的 `iso_3166_2` 偶有错误**：`SD` 的 `SD-DS` 出现两次（分别记为南达尔富尔与东达尔富尔），中达尔富尔被标成 `SD-DE`（正确是 `SD-DC`）。
    批次 5 已按官方码修正；后续若遇到「候选取不到 / 候选冲突」，先用 ISO 3166-2 官方列表核实 NE 的码再定名。
+6. **NE 的阿富汗码有 3 处错误**：`AF-PIA`/`AF-PKA`（Paktia/Paktika）互换；`AF-PAR`、`AF-URU` 各重码一次，实为 Panjshir（`AF-PAN`）与 Daykundi（`AF-DAY`）。
+   批次 7 已按 Wikipedia ISO 3166-2:AF 校正，故图上 4 条 id（`AF-PIA`/`AF-PKA`/`AF-PAN`/`AF-DAY`）与 NE 的码不同名，
+   对数据时需注意。同类问题还有 `CO-CUN`（波哥大与昆迪纳马卡重码，已用 `CO-DC`）。
+7. **重复/多余几何**（本图自带，未删改，仅命名）：
+   - `EC` 加拉帕戈斯：`path31054`（含 7 个子路径）与 7 条单岛 path 描述同一批岛 → `EC-W` / `EC-W-1…7`。
+   - `UA` `Luhansk`/`Donetsk`：仅描边、被填充路径遮挡的畸变副本。
+   - `NG` 24 条超大重叠多边形（见「跳过/待确认」表），是整个南部无法定名的根因。
+   - `GE` 6 条嵌套多边形、`AF` 的 NE 重码要素同属此类。
+8. **校验工具注意**：`%TEMP%\batchfast.py` 的 IoU 按 bbox **交集**统计，套嵌时虚高（会把 45 万 km² 的块判成 1 万 km² 州的 0.7 IoU）。
+   后续批量一律用 `%TEMP%\ious.py`（并集范围 + PIL 逻辑运算，等价真值）复核，再用 `%TEMP%\vb2.py` 做「除 id 外字节全同」校验。
