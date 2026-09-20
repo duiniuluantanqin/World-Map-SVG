@@ -40,6 +40,7 @@
 | 3 | BN, BZ, DJ, ER, IL, BY, QA, IS, NE, PK, ML, BO, LT, OM, AM, BJ, ET, KP, JO, NL, HT, MZ | 196 个 id：BN 5、BZ 6、DJ 6、ER 6、IL 6、BY 7、QA 7、IS 8、NE 8、PK 7、ML 9、BO 10、LT 10、OM 10、AM 11、BJ 11、ET 11、KP 11、JO 12、NL 11、HT 13、MZ 12 | PK `path10354`、MZ `path3384`；另 `path10369` 命名后回滚 |
 | 4 | JM, MR, PA, SV, SY, TL, UZ, CL, BI, LA, PY | 162 个 id：JM 14、MR 13、PA 12、SV 14、SY 14、TL 14、UZ 14、CL 16、BI 17、LA 17、PY 17 | MR `path3878`、PA `path7512`/`path4792`、UZ `path9423` |
 | 5 | FI, IQ, UY, HN, NI, AO, SD, GE, SO | 158 个 id：FI 17、IQ 18、UY 19、HN 19、NI 17、AO 19、SD 18、GE 13、SO 18 | FI `FI-uusimaa`（已是规范名，非魔数）、NI `path6697`（湖泊）、GE 6 条嵌套多边形 |
+| 6 | GT, LY, CH, PT, NO, YE | 134 个 id：GT 22、LY 22、CH 23、PT 26、NO 19、YE 22 | 无 |
 
 批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
 
@@ -63,6 +64,12 @@
 - `SD`：图＝2013 年后 18 州制，NE 有 3 处出入：`SD-DS` 被用了两次（南达尔富尔被后一条东达尔富尔覆盖）、中达尔富尔被标成 `SD-DE`、缺西科尔多凡。按 Wikipedia ISO 3166-2:SD 改用真实码：`path9009`→`SD-DC`、`path9007`→`SD-DE`、`path8995`→`SD-DS`、`path8984`→`SD-GK`。面积佐证：西科尔多凡 111575（实际 111373）、北科尔多凡 185254（185302）、南科尔多凡 79499（79470）。
 - `GE`：图 19 单元 / NE 12。阿布哈兹一带叠了 8 条 path：`path36614` 与 `path15677` 几何完全相同（9621 km²，NE `GE-AB` 9279）→ `GE-AB` / `GE-AB-1`；其余 6 条（8799、8397、6784、4789、3316、1940 km²）是自西北角 39.99E/43.60N 向东南递增的嵌套多边形，互相遮挡、不构成独立行政单元 → 全部跳过。`GE-SK` 在图上与 NE 都含南奥塞梯，符合中国口径 ✔
 - `SO`：图 18 单元＝索马里 18 州。NE 把索马里兰并成单个要素（`-99-X11~`，adm0=-1），5 个州没有候选，按位置配 ISO 3166-2:SO（已核对 Wikipedia）：`path7912`→`SO-AW`、`path8985`→`SO-WO`、`path8968`→`SO-TO`、`path8987`→`SO-SO`、`path8953`→`SO-SA`。中国口径下索马里兰属索马里，这 5 条本来就在 `<g id="SO">` 组内 ✔
+
+批次 6 说明：
+- `GT`、`LY`、`CH`：与 NE 一一对应，面积比 0.78–1.27，直接采用（`CH` 的 BE/VD/GE 三条本来就是规范名，未动）。
+- `PT`：18 个本土区全部匹配；NE 的 `PT-20`「Azores」是整体一个要素，图上按岛拆成 6 条 → 按拆分规则处理：最大岛圣米格尔＝`PT-azores`，其余按面积递减 `PT-azores-1…5`（皮库、特塞拉、圣若热、法亚尔、圣玛丽亚）；马德拉岛（path3628）＝`PT-madeira`；`path8376`（17 km²，38.69N / 9.21W，特茹河口小岛）＝里斯本区碎块 → `PT-lisbon-1`。
+- `NO`：20 个郡（`NO-hordaland`、`NO-oslo` 已是规范名）+ 斯瓦尔巴（`NO-svalbard`）+ 扬马延 `path10963`（456 km²，70.85–71.21N / 8.07–9.10W，NE 未收录）→ `NO-jan-mayen`。NE 的 `NO-X01~`（布韦岛）图上没有对应单元。
+- `YE`：19 个省 + 亚丁 `path13650`（面积比 1.83，图上把亚丁省画大了）+ 2 个岛屿碎块：`path2190`（154 km²，14.0N/42.75E＝祖卡尔岛，哈尼什群岛，属荷台达省）→ `YE-HU-1`；`path2192`（116 km²，12.2N/52.26E＝阿卜杜勒库里岛，属哈德拉毛）→ `YE-HD-1`。NE 的 `YE-SA`（萨那市）在图上并入 `YE-SN`，未用。`path2592` 是国界轮廓（见文末第 1 条）。
 
 ## 批次 1-3 复核修正
 
