@@ -84,13 +84,17 @@ python tests/run_all_online.py --refresh-ipapi --countries br,mx --inter 30
 - `--key`：ip-api 付费 API key（可选，提升限流）
 - `--limit`：最多处理 N 条（调试用）
 
-## 判定口径
+## 判定口径（正向：以 ip-api 为准）
 
 - **干净 id**：`CC-XX`，`CC`、`XX` 均为 2 位大写字母（与 ISO 3166-2 / ip-api `region` 同构）。
-  其余形式（含岛屿碎块、英文名、数字后缀、label/轮廓）**不参与**严格反查判定，
+  其余形式（含岛屿碎块、英文名、数字后缀、label/轮廓）**不参与**判定，
   因为它们本就不与 `CountryCode-Region` 直接一一对应。
-- **命中**：ip-api 返回的 `countryCode-region` 与当前待测 id 完全相等。
-- **未命中**：返回不一致，或该 IP 查询失败。
+- **正向命中**：对每个候选 IP，用 ip-api 反查得到 `countryCode-region` 拼成 id，
+  若**该 id 存在于 SVG 已命名集合**，则该 id 记一次命中。
+  这以 ip-api 为准；候选 IP 的省份归属不预先用 maxmind 假设，因此
+  同一 IP 在 maxmind/IP 库的省份归属差异不会造成误判。
+- **未命中**：某 SVG 干净 id 没有任何候选 IP 能被 ip-api 解析成它（需真实 IP，或数据源无该省）。
+- **命名缺口**：ip-api 能拼出、但 SVG 中不存在的 id，才是真正的命名缺口。
 
 ## 当前离线覆盖（基线）
 
@@ -106,18 +110,15 @@ python tests/run_all_online.py --refresh-ipapi --countries br,mx --inter 30
 
 ## 在线覆盖策略（刷新缓存时）
 
-- **有省样本的国家**：对 SVG 每个干净 id，用该省 maxmind 代表 IP 反查 ip-api，
-  期望返回的 `countryCode-region` 精确等于该 id（支持多 IP 投票）。结果落入 `ipapi_lookup.csv`。
-- **无省样本的国家**（如 SS/AQ 或 maxmind 精度不足的 44 国）：脚本会自动追加该国的
-  兜底 IP（country_ips）参与 ip-api 反查，统计 ip-api 实际返回的 `CC-REGION` 是否存在于 SVG 命名中，
-  从而实现对「所有国家」的覆盖尝试。
-- 刷新后的结果固化为缓存，**此后默认离线复用**，无需重复联网。
+- 对 SVG 每个干净 id，采样若干真实候选 IP（maxmind 仅用于生成候选 IP 池，不假设省份归属），
+  用 ip-api 反查，拼 `countryCode-region` 检查是否存在于 SVG 已命名集合。
+- 无省样本的国家（如 SS/AQ 或 maxmind 精度不足的 44 国）：脚本会自动追加该国的兜底 IP 参与反查。
+- 刷新后的结果固化为缓存（`ipapi_lookup/<CC>.csv`），**此后默认离线复用**，无需重复联网。
 
-实测命中率（在线刷新时测得，已反映在缓存）：
-- CN（投票）：约 84%~89%
-- CN+DE+US（投票）：约 79%
-- 未命中主要来自候选 IP 被 ip-api 定位到相邻/总部省份（移动运营商、数据中心 IP），
-  属数据源精度问题，而非命名错误。
+实测结果（正向口径，可用缓存复现）：
+- CN：约 23/31（可被 ip-api 解析出在 SVG 中命中的省份占比）
+- 未命中的省多为候选 IP 被 ip-api 归到相邻省（移动运营商/数据中心 IP 归属跨省），
+  或数据源本身无该省独立 IP；这些是数据源精度问题，而非命名错误。
 
 ## 已知限制
 

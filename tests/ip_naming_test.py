@@ -442,73 +442,47 @@ def main():
                     resmap[ip] = online[ip]
             save_ipapi_cache(fresh, cc_list=cc_list)
 
-    hit = miss = 0
-    miss_list = []
-    # 国家兜底命中：统计该国家 ip-api 返回已经覆盖到 SVG 中哪些省
-    covered_by_fallback = {}
-    for ip in fallback_ips:
+    # ============ 正向口径校验（以 ip-api 为准） ============
+    # 每个候选 IP -> ip-api 返回的 (cc, region)；拼成 id；检查是否存在于 SVG hadron 集合。
+    # 可达性：SVG 干净 id 只要有一个候选 IP 被 ip-api 解析成它，即视为"可达/命中"。
+    id_to_ips = {}          # SVG id -> [解析到它的 IP]
+    id_extra = {}           # ip-api 拼出但 SVG 中不存在的 id -> [IP]（真正的命名缺口）
+
+    for ip in all_ips:
         res = resmap.get(ip)
         if res is None or res[0] is None:
             continue
-        cc = fallback_names[ip]
         got = res[0] + "-" + res[1]
-        covered_by_fallback.setdefault(got, cc)
-    if covered_by_fallback:
-        print("\n国家兜底（无省样本国家）ip-api 返回的省（与 SVG 命名比对）：")
-        for got, cc in sorted(covered_by_fallback.items()):
-            in_svg = got in named
-            print("   -> %-20s 在SVG中=%s" % (got, "是" if in_svg else "否"))
-    for (c, r, i) in prov:
-        if args.vote >= 2:
-            votes = {}
-            qfail = 0
-            for ip in mult[(c, r)]:
-                res = resmap.get(ip)
-                if res is None or res[0] is None:
-                    qfail += 1
-                    continue
-                got = res[0] + "-" + res[1]
-                votes[got] = votes.get(got, 0) + 1
-            if not votes:
-                miss += 1
-                miss_list.append((i, "/".join(mult[(c, r)]), "(全部查询失败/未缓存)"))
-                print("   ..  %-20s 查询失败" % (i,))
-                continue
-            top = max(votes, key=votes.get)
-            win = top == i
-            vote_txt = ", ".join("%s(%d)" % (k, v) for k, v in sorted(votes.items(), key=lambda x: -x[1]))
-            src = "缓存" if all(ip in ipcache for ip in mult[(c, r)]) else "混合"
-            if win:
-                hit += 1
-                print("   OK  %-20s [%s] votes={%s}" % (i, src, vote_txt))
-            else:
-                miss += 1
-                miss_list.append((i, "/".join(mult[(c, r)]), "投票=%s" % vote_txt))
-                print("   !!  %-20s 期望=%s [%s] votes={%s}" % (i, i, src, vote_txt))
+        if got in named:
+            id_to_ips.setdefault(got, []).append(ip)
         else:
-            ip = sample[(c, r)]
-            res = resmap.get(ip)
-            if res is None or res[0] is None:
-                miss += 1
-                miss_list.append((i, ip, "(未缓存/查询失败)"))
-                print("   %-20s ip=%s -> 未缓存/查询失败" % (i, ip))
-                continue
-            rcc, rrg, rcity = res
-            got = rcc + "-" + rrg
-            if got == i:
-                hit += 1
-                print("   OK  %-20s [缓存] ip=%s city=%s -> ip-api=%s" % (i, ip, rcity, got))
-            else:
-                miss += 1
-                miss_list.append((i, ip, "%s(≠) ip-api=%s city=%s" % (got, rcc, rcity)))
-                print("   !!  %-20s 期望=%s [缓存] ip=%s -> ip-api=%s" % (i, i, ip, got))
+            id_extra.setdefault(got, []).append(ip)
 
-    print("\n== ip-api 严格反向校验统计 ==")
-    print("命中: %d  未命中: %d  命中率: %.1f%%" % (hit, miss, 100.0 * hit / max(1, hit + miss)))
+    # 统计：SVG 干净 id 中有多少被 ip-api 成功命中
+    hit = 0
+    miss_list = []
+    for (c, r, i) in prov:
+        if i in id_to_ips:
+            hit += 1
+            ips = id_to_ips[i]
+            src = "缓存" if all(x in ipcache for x in ips) else "缓存/混合"
+            print("   OK  %-20s [%s] ip-api 解析命中(%s)" % (i, src, ", ".join(ips)))
+        else:
+            miss_list.append(i)
+            print("   ..  %-20s 未能用候选 IP 在 ip-api 中解析出该 id（可能该省需真实IP，或数据源无该省）" % (i,))
+
+    print("\n== ip-api 正向校验统计（以 ip-api 为准）==")
+    print("SVG 干净 id 中可用 ip-api 解析命中: %d / %d  命中率: %.1f%%" % (
+        hit, len(prov), 100.0 * hit / max(1, len(prov))))
     if miss_list:
-        print("未命中明细：")
-        for (i, ip, why) in miss_list:
-            print("   %-20s ip=%s  %s" % (i, ip, why))
+        print("未能命中的 SVG id（需真实 IP 或数据源无该省）：")
+        for i2 in miss_list:
+            print("   %s" % i2)
+    # ip-api 返回但 SVG 中不存在 -> 命名缺口
+    if id_extra:
+        print("\nip-api 能拼出但 SVG 中不存在的 id（可能的命名缺口）：")
+        for got, ips in sorted(id_extra.items()):
+            print("   %-20s (例IP: %s)" % (got, ips[0]))
 
 
 if __name__ == "__main__":
