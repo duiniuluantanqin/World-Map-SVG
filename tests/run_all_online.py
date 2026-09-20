@@ -31,7 +31,7 @@ def get_clean_countries():
     ids = re.findall(r'\bid="([^"]+)"', raw)
     ccs = set()
     for i in ids:
-        m = re.fullmatch(r"([A-Z]{2})-([A-Z]{2})", i)
+        m = re.fullmatch(r"([A-Z]{2})-([A-Z]{1,3})", i)
         if m:
             ccs.add(m.group(1))
     return sorted(ccs)

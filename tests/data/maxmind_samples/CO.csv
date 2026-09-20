@@ -7,8 +7,106 @@ CO,,186.87.210.103,
 CO,,190.124.124.137,
 CO,,190.157.153.222,
 CO,,201.150.98.171,
+CO,ANT,181.59.165.154,Antioquia
+CO,ANT,186.147.232.188,Antioquia
+CO,ANT,186.87.210.103,Antioquia
+CO,ANT,190.124.124.137,Antioquia
+CO,ANT,190.157.153.222,Antioquia
+CO,ARA,190.90.38.56,Departamento de Arauca
+CO,ATL,181.59.66.245,Atlántico
+CO,ATL,190.1.135.8,Atlántico
+CO,ATL,190.182.122.207,Atlántico
+CO,ATL,190.182.52.42,Atlántico
+CO,ATL,201.150.98.171,Atlántico
+CO,BOL,186.118.22.158,Departamento de Bolivar
+CO,BOL,200.9.72.53,Departamento de Bolivar
+CO,BOY,147.75.124.205,Departamento de Boyaca
+CO,BOY,181.53.32.179,Departamento de Boyaca
+CO,BOY,186.80.218.109,Departamento de Boyaca
+CO,BOY,186.85.220.161,Departamento de Boyaca
+CO,BOY,201.228.246.75,Departamento de Boyaca
+CO,CAL,143.137.97.107,Departamento de Caldas
+CO,CAL,186.144.230.14,Departamento de Caldas
+CO,CAL,186.87.121.163,Departamento de Caldas
+CO,CAL,201.228.3.197,Departamento de Caldas
+CO,CAL,45.229.193.182,Departamento de Caldas
+CO,CAQ,190.158.174.69,Departamento del Caqueta
+CO,CAS,131.221.42.215,Departamento de Casanare
+CO,CAS,181.53.24.81,Departamento de Casanare
+CO,CAS,181.53.25.210,Departamento de Casanare
+CO,CAS,181.53.29.50,Departamento de Casanare
+CO,CAS,181.59.193.123,Departamento de Casanare
+CO,CAU,181.53.186.95,Departamento del Cauca
+CO,CAU,186.146.158.131,Departamento del Cauca
+CO,CAU,186.146.217.40,Departamento del Cauca
+CO,CAU,186.87.65.29,Departamento del Cauca
+CO,CAU,190.143.46.89,Departamento del Cauca
+CO,CES,179.42.94.175,Departamento del Cesar
+CO,CES,181.52.112.136,Departamento del Cesar
+CO,CES,181.58.153.140,Departamento del Cesar
+CO,CES,186.82.240.195,Departamento del Cesar
+CO,CES,200.118.49.138,Departamento del Cesar
+CO,COR,181.57.48.35,Departamento de Cordoba
+CO,COR,186.144.168.172,Departamento de Cordoba
+CO,COR,190.66.0.129,Departamento de Cordoba
+CO,CUN,181.61.120.173,Cundinamarca
+CO,CUN,186.87.34.187,Cundinamarca
+CO,CUN,190.156.131.74,Cundinamarca
+CO,CUN,190.158.236.83,Cundinamarca
+CO,CUN,190.26.124.134,Cundinamarca
 CO,DC,181.50.63.19,Bogota D.C.
 CO,DC,190.102.163.87,Bogota D.C.
 CO,DC,190.156.182.172,Bogota D.C.
 CO,DC,190.66.9.2,Bogota D.C.
 CO,DC,200.25.84.86,Bogota D.C.
+CO,GUV,190.90.63.114,Departamento del Guaviare
+CO,HUI,138.117.84.2,Departamento del Huila
+CO,HUI,181.52.50.196,Departamento del Huila
+CO,HUI,181.57.18.66,Departamento del Huila
+CO,HUI,181.59.240.190,Departamento del Huila
+CO,HUI,186.82.62.61,Departamento del Huila
+CO,LAG,181.53.56.21,Departamento de La Guajira
+CO,LAG,191.102.91.209,Departamento de La Guajira
+CO,MAG,186.146.189.229,Departamento del Magdalena
+CO,MAG,190.90.122.145,Departamento del Magdalena
+CO,MAG,190.90.134.243,Departamento del Magdalena
+CO,MAG,190.90.240.195,Departamento del Magdalena
+CO,MAG,190.90.246.37,Departamento del Magdalena
+CO,MET,191.154.243.123,Departamento del Meta
+CO,MET,191.156.80.221,Departamento del Meta
+CO,NAR,181.60.101.99,Departamento de Narino
+CO,NAR,186.147.134.114,Departamento de Narino
+CO,NAR,190.143.20.247,Departamento de Narino
+CO,NAR,190.156.83.232,Departamento de Narino
+CO,NAR,190.157.30.148,Departamento de Narino
+CO,NSA,138.97.80.191,Departamento de Norte de Santander
+CO,NSA,186.144.70.105,Departamento de Norte de Santander
+CO,NSA,186.86.191.211,Departamento de Norte de Santander
+CO,NSA,186.87.186.230,Departamento de Norte de Santander
+CO,NSA,190.97.129.80,Departamento de Norte de Santander
+CO,QUI,181.58.195.78,Quindio Department
+CO,QUI,181.59.213.92,Quindio Department
+CO,QUI,181.59.214.221,Quindio Department
+CO,QUI,190.90.218.30,Quindio Department
+CO,QUI,191.89.185.202,Quindio Department
+CO,RIS,186.85.121.94,Departamento de Risaralda
+CO,RIS,190.107.31.63,Departamento de Risaralda
+CO,RIS,190.121.158.197,Departamento de Risaralda
+CO,RIS,190.159.82.59,Departamento de Risaralda
+CO,RIS,200.118.239.90,Departamento de Risaralda
+CO,SAN,138.186.190.40,Departamento de Santander
+CO,SAN,181.174.17.24,Departamento de Santander
+CO,SAN,181.51.221.160,Departamento de Santander
+CO,SAN,186.183.164.214,Departamento de Santander
+CO,SAN,186.183.233.123,Departamento de Santander
+CO,SUC,181.52.52.69,Departamento de Sucre
+CO,TOL,138.36.64.222,Departamento de Tolima
+CO,TOL,179.0.10.118,Departamento de Tolima
+CO,TOL,181.55.119.145,Departamento de Tolima
+CO,TOL,186.147.200.90,Departamento de Tolima
+CO,TOL,186.87.111.194,Departamento de Tolima
+CO,VAC,186.146.232.138,Departamento del Valle del Cauca
+CO,VAC,186.81.57.18,Departamento del Valle del Cauca
+CO,VAC,186.85.248.3,Departamento del Valle del Cauca
+CO,VAC,186.86.227.53,Departamento del Valle del Cauca
+CO,VAC,200.3.193.242,Departamento del Valle del Cauca

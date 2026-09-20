@@ -1,0 +1,49 @@
+cc,region,ip,name
+BO,,168.197.241.86,
+BO,,170.239.120.205,
+BO,,186.121.207.120,
+BO,,190.107.57.154,
+BO,,190.186.3.188,
+BO,,200.75.171.103,
+BO,,200.85.149.222,
+BO,,201.222.78.137,
+BO,B,186.121.207.120,El Beni
+BO,B,190.180.116.69,El Beni
+BO,B,190.186.3.188,El Beni
+BO,B,190.99.94.35,El Beni
+BO,B,201.222.78.137,El Beni
+BO,C,190.106.252.211,Departamento de Cochabamba
+BO,C,190.107.57.154,Departamento de Cochabamba
+BO,C,190.181.36.245,Departamento de Cochabamba
+BO,C,201.150.161.18,Departamento de Cochabamba
+BO,C,201.150.166.106,Departamento de Cochabamba
+BO,H,170.247.161.239,Departamento de Chuquisaca
+BO,H,170.247.162.37,Departamento de Chuquisaca
+BO,H,181.115.248.84,Departamento de Chuquisaca
+BO,H,200.107.240.13,Departamento de Chuquisaca
+BO,H,200.107.243.215,Departamento de Chuquisaca
+BO,L,161.138.13.223,Departamento de La Paz
+BO,L,168.197.241.86,Departamento de La Paz
+BO,L,190.129.247.206,Departamento de La Paz
+BO,L,200.75.171.103,Departamento de La Paz
+BO,L,200.85.149.222,Departamento de La Paz
+BO,O,181.115.165.107,Oruro
+BO,O,181.115.165.53,Oruro
+BO,O,190.129.0.219,Oruro
+BO,O,200.110.60.212,Oruro
+BO,O,200.90.144.150,Oruro
+BO,P,181.114.160.22,Departamento de Potosi
+BO,P,181.114.164.76,Departamento de Potosi
+BO,P,190.3.184.17,Departamento de Potosi
+BO,P,190.3.187.219,Departamento de Potosi
+BO,P,190.3.188.71,Departamento de Potosi
+BO,S,190.104.0.12,Departamento de Santa Cruz
+BO,S,190.180.55.126,Departamento de Santa Cruz
+BO,S,190.181.10.157,Departamento de Santa Cruz
+BO,S,200.73.100.217,Departamento de Santa Cruz
+BO,S,200.87.201.62,Departamento de Santa Cruz
+BO,T,190.0.250.74,Departamento de Tarija
+BO,T,190.0.252.128,Departamento de Tarija
+BO,T,200.13.158.243,Departamento de Tarija
+BO,T,200.13.158.41,Departamento de Tarija
+BO,T,200.87.14.0,Departamento de Tarija

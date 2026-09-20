@@ -344,10 +344,10 @@ def main():
     # 从 SVG 已命名 id 中筛出"干净 id"：CC-XX，XX=二位字母（ISO 3166-2 同构），作为采样目标
     clean = []
     for i in named:
-        m = re.fullmatch(r"([A-Z]{2})-([A-Z]{2})", i)
+        m = re.fullmatch(r"([A-Z]{2})-([A-Z]{1,3})", i)
         if m:
             clean.append((m.group(1), m.group(2), i))
-    print("其中后缀为 2 位字母的干净 id: %d 条" % len(clean))
+    print("其中后缀为纯大写字母的干净 id（ISO 3166-2 字母码）: %d 条" % len(clean))
 
     # 过滤国家
     ccs_all = None

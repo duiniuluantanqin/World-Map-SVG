@@ -1,4 +1,4 @@
-﻿# SVG 地图 ID 规范化记录
+# SVG 地图 ID 规范化记录
 
 ## 目标
 
@@ -42,6 +42,9 @@
 | 5 | FI, IQ, UY, HN, NI, AO, SD, GE, SO | 158 个 id：FI 17、IQ 18、UY 19、HN 19、NI 17、AO 19、SD 18、GE 13、SO 18 | FI `FI-uusimaa`（已是规范名，非魔数）、NI `path6697`（湖泊）、GE 6 条嵌套多边形 |
 | 6 | GT, LY, CH, PT, NO, YE | 134 个 id：GT 22、LY 22、CH 23、PT 26、NO 19、YE 22 | 无 |
 | 7 | DZ, AF, BR, CO, UA, EC, NG | 212 个 id：DZ 48、AF 34、BR 26、CO 32、UA 26、EC 33、NG 13 | CO `path30715`；NG 24 条超大异常多边形（见下） |
+| 8 | TN, EG, PE, SA, LB, MN | 114 个 id：TN 23、EG 26、PE 24、SA 13、LB 6、MN 22 | TN `path9180`/`path8175`/`path9012`、EG `path10625`、PE `path23983`、SA `path3234`/`path5488`/`path5482`/`path5480`、MN `path6312`/`path6373` |
+
+批次 8 说明：本批起在几何命名之外，新增「ip-api 真实 IP 反查」正向校验（脚本 `tests/ip_naming_test.py`）：把每个地区的候选 IP 交给 ip-api 反查，拼 `CountryCode-Region` 与 SVG 已命名 id 比对，以 ip-api 为准、不预设省份归属。字母后缀国家（EG/PE/LB）可实测（命中 29/56，未命中多为「候选 IP 被 ip-api 归到相邻/总部省份」或「沙漠区无独立 IP 如 EG-WAD」）；数字后缀转英文名的国家（TN/SA/MN）因 ip-api `region` 不返回英文名而不适用该测试，其命名仍以 NE 几何 IoU + 面积比为准。测试报告 3 个「ip-api 能拼出但 SVG 缺」的缺口，其中 EG-LX（卢克索）、PE-CAL（卡亚俄）经质心核验属「图上未单独绘制该行政区」，PE-LMA 是 ip-api 用 FIPS 码 vs ISO 的 `PE-LIM`，均非命名错误。本批跳过项补充：
 
 批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
 
@@ -119,6 +122,11 @@
 | world-states-provinces.svg | `NG` 24 条：`path28144` `path28146` `path28148` `path8877` `path8880` `path8883` `path8885` `path8888` `path8894` `path8909` `path8912` `path8914` `path8916` `path8918` `path9073` `path9086` `path9088` `path9096` `path9103` `path9111` `path9145` `path9149` `path9155` `path9157` | 4.7 万–45.1 万 km² 的超大异常多边形，互相重叠、覆盖南部各州；与任何 NE 州精确 IoU ≤ 0.47，亦非任何州的缩放副本 | **待你确认**：南部各州无法定名，24 条保持魔数（另非魔数的 `path5382-1` 同属此异常） |
 | world-states-provinces.svg | `UA` `Luhansk` `Donetsk` | `fill="none"` 仅描边、被两州填充路径完全遮挡；形状是其对应州的畸变复制（bbox 归一化相似度 0.75/0.67） | 已命名、非魔数，本次不动（疑为高亮/争议区叠加层，待确认） |
 | world-states-provinces.svg | `EC` `path31054`＋7 条单岛 path | 加拉帕戈斯画了两层：一条 path 含全群岛 7 个子路径，另有 7 条单岛 path 叠在其上 | 按拆分规则命名（`EC-W` + `EC-W-1…7`），冗余几何记入文末第 6 条 |
+| world-states-provinces.svg | `TN` `path9180`（742 km²）/`path8175`（647 km²）/`path9012`（223 km²） | 突尼斯沿海碎块/岛屿（克肯纳群岛一带），与所有 NE 候选 IoU 低 | 保持魔数 |
+| world-states-provinces.svg | `EG` `path10625` | 61 km²，质心 31.39N/32.08E（尼罗河三角洲）＝塞得港/达米埃塔一带碎块；propose 误配 `EG-LX`（卢克索，25.7N 处，距离 634 km）| 保持魔数（非卢克索） |
+| world-states-provinces.svg | `PE` `path23983` | 35549 km²，质心 -11.72S/-76.58W（利马大区东北、近 Junín 界）；既非 NE `PE-CAL`（卡亚俄，沿海小直辖市）也非 `PE-LIM` 主体，35549 km² 的归属在 NE 中无唯一候选 | 保持魔数（利马大区/卡亚俄歧义，待确认） |
+| world-states-provinces.svg | `SA` `path3234`/`path5488`/`path5482`/`path5480` | 353/126/124/67 km²，红海 Farasan 群岛（16.7N/42.0E、27.3N/49.6E、16.9N/41.9E、17.0N/41.9E），与内陆 NE 省无重叠 | 保持魔数（岛屿） |
+| world-states-provinces.svg | `MN` `path6312`（6801 km²）/`path6373`（627 km²） | 与 NE 省份精确 IoU 均极低，无唯一归属 | 保持魔数 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
