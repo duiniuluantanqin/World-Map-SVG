@@ -39,6 +39,7 @@
 | 2 | ZW, ZM, TJ, TG, SZ, SS, RW, NA, LS, LR, KM, KG, GY, GQ, GM, GH, GA, CR, CI, CG, CD, CF, TD, SN, TM | 239 个 id：ZW 10、ZM 10、TJ 4、TG 5、SZ 4、SS 10、RW 5、NA 13、LS 10、LR 15、KM 3、KG 7、GY 10、GQ 6、GM 5、GH 9、GA 9、CR 7、CI 19、CG 10、CD 11、CF 16、TD 22、SN 14、TM 5 | 无 |
 | 3 | BN, BZ, DJ, ER, IL, BY, QA, IS, NE, PK, ML, BO, LT, OM, AM, BJ, ET, KP, JO, NL, HT, MZ | 196 个 id：BN 5、BZ 6、DJ 6、ER 6、IL 6、BY 7、QA 7、IS 8、NE 8、PK 7、ML 9、BO 10、LT 10、OM 10、AM 11、BJ 11、ET 11、KP 11、JO 12、NL 11、HT 13、MZ 12 | PK `path10354`、MZ `path3384`；另 `path10369` 命名后回滚 |
 | 4 | JM, MR, PA, SV, SY, TL, UZ, CL, BI, LA, PY | 162 个 id：JM 14、MR 13、PA 12、SV 14、SY 14、TL 14、UZ 14、CL 16、BI 17、LA 17、PY 17 | MR `path3878`、PA `path7512`/`path4792`、UZ `path9423` |
+| 5 | FI, IQ, UY, HN, NI, AO, SD, GE, SO | 158 个 id：FI 17、IQ 18、UY 19、HN 19、NI 17、AO 19、SD 18、GE 13、SO 18 | FI `FI-uusimaa`（已是规范名，非魔数）、NI `path6697`（湖泊）、GE 6 条嵌套多边形 |
 
 批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
 
@@ -52,6 +53,16 @@
 - `UZ`：图无塔什干市单元（NE `UZ-TK` 未使用）；`path9394`＝`UZ-SI`（锡尔河州，面积比 1.00）、`path9396`（41 km² 碎块）＝`UZ-SI-1`；`path9423` 无归属，跳过
 - `TL`：`path27342` 与 `path2788` 几何完全相同（欧库西重复），命名 `TL-OE-1`
 - `PA`：图 14 单元 / NE 12。`path7512`（3130 km²，紧邻巴拿马城）疑为 2014 年新设的 Panamá Oeste（NE 未收录）；`path4792`（68 km²）为奇里基湾科伊瓦岛。两者均保持魔数待确认
+
+批次 5 说明：本批新增两种校验手段——「lat/lon bbox 与 NE 要素 bbox 对照 + 顶点落入率」、按国渲染 PNG 逐块核对（工具 `%TEMP%\inspect_country.py`、`%TEMP%\render_country.py`）。9 国中有 5 国与 NE 数据不一致：
+- `FI`：图 18 单元 / NE 18。NE 这一版把奥兰群岛归到别的 adm0，`path14878`（729 km²，60.05–60.42N / 19.65–20.24E＝奥兰主岛）无候选 → 按 ISO 3166-2:FI 命名 `FI-aland`（已核对 Wikipedia：现行码 FI-01…FI-19）。`path14553`（19180 km²，61.99–64.11N）＝南博滕+中博滕合并（NE FI-03 14574 + FI-07 5702），按主体命名 `FI-southern-ostrobothnia`，NE `FI-07` 因此未用。`FI-uusimaa` 已是规范 id，未动。
+- `IQ`、`UY`：18/18、19/19 全部干净匹配（面积比 0.87–1.22），无需人工干预。
+- `HN`：图 19 单元 / NE 18。`path7593` 与 `path6082` 几何完全相同（181 km²，16.39N/86.52W＝罗阿坦岛），属重复绘制 → `HN-IB` / `HN-IB-1`（NE `HN-IB` 含全部海湾群岛 439 km²，图上只画了主岛）。
+- `NI`：17 个省级单元全部匹配；第 18 条 `path6697`（1306 km²，12.16–12.52N / 86.63–86.14W）＝马那瓜湖，是水体不是行政区 → 跳过。旁证：图上 Granada、Rivas 面积只有 NE 的 0.41 倍，正因 NE 的省域包含湖面。
+- `AO`：19 条 path 中 18 条是省。`<g id="ao">` 轮廓组里有两条：`path3888`＝真正国界、`path3890`＝卡宾达游离副本（与 `path9185` 几何完全相同）→ 后者命名 `AO-CAB-1`。
+- `SD`：图＝2013 年后 18 州制，NE 有 3 处出入：`SD-DS` 被用了两次（南达尔富尔被后一条东达尔富尔覆盖）、中达尔富尔被标成 `SD-DE`、缺西科尔多凡。按 Wikipedia ISO 3166-2:SD 改用真实码：`path9009`→`SD-DC`、`path9007`→`SD-DE`、`path8995`→`SD-DS`、`path8984`→`SD-GK`。面积佐证：西科尔多凡 111575（实际 111373）、北科尔多凡 185254（185302）、南科尔多凡 79499（79470）。
+- `GE`：图 19 单元 / NE 12。阿布哈兹一带叠了 8 条 path：`path36614` 与 `path15677` 几何完全相同（9621 km²，NE `GE-AB` 9279）→ `GE-AB` / `GE-AB-1`；其余 6 条（8799、8397、6784、4789、3316、1940 km²）是自西北角 39.99E/43.60N 向东南递增的嵌套多边形，互相遮挡、不构成独立行政单元 → 全部跳过。`GE-SK` 在图上与 NE 都含南奥塞梯，符合中国口径 ✔
+- `SO`：图 18 单元＝索马里 18 州。NE 把索马里兰并成单个要素（`-99-X11~`，adm0=-1），5 个州没有候选，按位置配 ISO 3166-2:SO（已核对 Wikipedia）：`path7912`→`SO-AW`、`path8985`→`SO-WO`、`path8968`→`SO-TO`、`path8987`→`SO-SO`、`path8953`→`SO-SA`。中国口径下索马里兰属索马里，这 5 条本来就在 `<g id="SO">` 组内 ✔
 
 ## 批次 1-3 复核修正
 
@@ -83,12 +94,16 @@
 | world-states-provinces.svg | `PA` `path4792` | 68 km² 海岛（8.26N,82.41W，奇里基湾科伊瓦岛） | **待你确认**：归入 `PA-chiriqui` 的碎块 `PA-chiriqui-1`，或保持原样 |
 | world-states-provinces.svg | `UZ` `path9423` | 8502 km²（40.93N,62.42E，布哈拉以北），NE 无对应要素，且 14 个要素已全部占用 | 保持 `path9423`（疑为图上多余/重叠多边形） |
 | world-states-provinces.svg | `SY` `SY-QU` | 已命名，含戈兰高地（争议地区） | 按中国口径（戈兰为叙利亚被占领土）沿用图上归属；如需加注请告知 |
+| world-states-provinces.svg | `NI` `path6697` | 1306 km²，12.16–12.52N / 86.63–86.14W，形状与马那瓜湖一致；与所有省级候选 IoU ≤ 0.16 | 非行政区（湖泊），暂不命名；若要命名可加 `NI-lake-managua` |
+| world-states-provinces.svg | `GE` `path15679` `path15675` `path15673` `path15671` `path15669` `path15667` | 8799/8397/6784/4789/3316/1940 km²，6 条自西北角向东南递增的嵌套多边形，被 `GE-AB` 完全遮挡 | 跳过（疑为原作者图层缺陷，建议后续删除） |
+| world-states-provinces.svg | `TL` `path27340` | 覆盖全境（124.97–127.28E / 8.32–9.38S）＝东帝汶国界轮廓，但在 `<g id="tl">` 内、id 不是 `tl` | 暂不改（属文末第 1 条轮廓 id 问题） |
+| world-states-provinces.svg | `AO` `path3888` | 安哥拉国界轮廓（在 `<g id="ao">` 内、与 `path3890` 同组），id 不是 `ao` | 暂不改（同上） |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
 1. **国家轮廓路径 id 不规范**：191 个国家组的轮廓路径 id 是 `<cc>` 小写，但另有 21 个不是。
    库依赖 `src/svg-world-map.js:256` 的 `child.id == country.id.toLowerCase()` 识别主路径，这 21 国目前是错位的。
-   典型：`TW` 的 `TW-TAO` 实际是台湾整岛轮廓；`YE` 轮廓叫 `path2592`；`EH` 轮廓叫 `path12345`。
+   典型：`TW` 的 `TW-TAO` 实际是台湾整岛轮廓；`YE` 轮廓叫 `path2592`；`EH` 轮廓叫 `path12345`；`AO` 轮廓在 `<g id="ao">` 里但叫 `path3888`；`TL` 轮廓叫 `path27340`。
 2. **命名体系与本图不一致的国家**（共 62 个）：如 IT（图上用大区名 `IT-lombardy`，NE 是省）、
    ES、FR、CN、AU、MY、PH、GB、UG、JP（NE 名称带长音符）等。这些需要逐国决定口径，未在本批处理。
 3. **NE 非标准 ISO 码（`X01~`/`X1~`/`X2~`）**：这些单元 NE 没有标准 ISO 码，本方案按规则退化为英文名 kebab。已遇到的建议改用真实 ISO 码，待确认：
@@ -98,3 +113,5 @@
 4. **UN 数据同步**：`src/country-data.csv` 只有 6 列（code/name/longname/sovereignty/region/population），
    不含省份数据；省份只存在于 `src/country-data.json`，且目前只有 CA/CN/AU 三国。
    因此重命名魔数 id 暂时无需同步这两个文件；等到修改 CA/CN/AU 等国已有省份 id 时，必须同时改 `country-data.json` 的省份 key。
+5. **NE 的 `iso_3166_2` 偶有错误**：`SD` 的 `SD-DS` 出现两次（分别记为南达尔富尔与东达尔富尔），中达尔富尔被标成 `SD-DE`（正确是 `SD-DC`）。
+   批次 5 已按官方码修正；后续若遇到「候选取不到 / 候选冲突」，先用 ISO 3166-2 官方列表核实 NE 的码再定名。
