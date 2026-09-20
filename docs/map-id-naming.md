@@ -44,6 +44,9 @@
 | 7 | DZ, AF, BR, CO, UA, EC, NG | 212 个 id：DZ 48、AF 34、BR 26、CO 32、UA 26、EC 33、NG 13 | CO `path30715`；NG 24 条超大异常多边形（见下） |
 | 8 | TN, EG, PE, SA, LB, MN | 114 个 id：TN 23、EG 26、PE 24、SA 13、LB 6、MN 22 | TN `path9180`/`path8175`/`path9012`、EG `path10625`、PE `path23983`、SA `path3234`/`path5488`/`path5482`/`path5480`、MN `path6312`/`path6373` |
 | 9 | RO, VE, MD, IR, DO | 156 个 id：RO 41、VE 24、MD 33、IR 27、DO 31 | VE 13 条三角洲碎块、MD 3 条（含德左）、IR 7 条、DO 3 条 |
+| 10 | IE, TZ, CU, NZ, RS | 99 个 id：IE 20、TZ 24、CU 15、NZ 15、RS 25 | IE 8、TZ 2、CU 8、NZ 7、RS 5（共 30 条追记于跳过表） |
+
+批次 10 说明：爱尔兰（IE）的图单元与 NE 郡边界几何差异较大，仅 20 个质心落点干净的命名可用，其余 8 条（含都柏林/科克/戈尔韦等市郡混排、IoU 0.03–0.41）跳过；新西兰（NZ）、古巴（CU）的离岛、塞尔维亚（RS）的科索沃地区（42.xN/20.xE）多为无 NE 对应或争议，保持魔数。字母码国家（IE/CU/NZ/RS）经 ip-api 正向校验命中 13/34（38%，这些国家 IP 归属精度差、离岛多）；TZ 数字码转英文名不适用。
 
 批次 9 说明：字母码国家（RO/VE/MD）经 ip-api 正向校验命中 55/98（56%），未命中集中在「小国/小州 IP 归属不精确」——尤其摩尔多瓦（MD）各 rayon 极小、maxmind 无独立 IP 段或 ip-api 把 IP 归到相邻 rayon；委内瑞拉（VE）与罗马尼亚（RO）未命中多为「候选 IP 被 ip-api 归到相邻省」。ip-api「缺口」里 `MD-SN`（德左，争议地区）、`RO-B`（布加勒斯特，图上并入 Ilfov）、`VE-X`（加拉加斯，ip-api/FIPS 用 `VE-X`，本图用 ISO `VE-A`）均为图上未单独绘制单元或编码差异，非命名错误。数字后缀转英文名的 IR/DO 不适用 ip-api 反向验证（同批次 8）。
 
@@ -135,6 +138,12 @@
 | world-states-provinces.svg | `IR` `path9906`/`path9833`/`path9826`/`path9828` | Yazd（x0.36 面积不符）、Zanjan/Qazvin 歧义（IoU 0.31/0.30）、Alborz（IoU 0.17）、德黑兰附近无归属（12238 km²） | 保持魔数（面积/IoU/歧义） |
 | world-states-provinces.svg | `IR` `path4564`/`path4560`/`path4562` | 1577/109/73 km²，霍尔木兹海峡岛屿（格什姆/霍尔木兹一带） | 保持魔数（岛屿） |
 | world-states-provinces.svg | `DO` `path8850`（795 km²）/`path8641`（142 km²）/`path8650`（38 km²） | La Romana（IoU 0.34 偏低）及 2 条沿海碎块 | 保持魔数 |
+| world-states-provinces.svg | `IE` `path8622`/`path8532`/`path8590`/`path8634`/`path8585`/`path8669` | Cork/Galway/Limerick/Waterford/Tipperary/都柏林等市郡混排，IoU 0.03–0.41，图与 NE 郡边界差异大 | 保持魔数 |
+| world-states-provinces.svg | `IE` `path5348`（122 km²）/`path5352`（36 km²） | 爱尔兰西海岸离岛 | 保持魔数 |
+| world-states-provinces.svg | `TZ` `path8668`（49506 km²）/`path8837`（323 km²） | Shinyanga/Geita 歧义（IoU 0.38/0.37）、桑给巴尔 Mjini Magharibi 城镇 | 保持魔数 |
+| world-states-provinces.svg | `CU` `path8272`+7 条：`path8274` `path9730` `path3590` `path3594` `path3592` `path3586` `path3588` | 古巴离岛/近岸碎块 | 保持魔数 |
+| world-states-provinces.svg | `NZ` 7 条：`path63557` `path58931` `path58943` `path58941` `path58935` `path58939` `path58945` | 新西兰离岛（225/96/72 km² 等），与 NE 无对应 | 保持魔数 |
+| world-states-provinces.svg | `RS` `path27452`/`path27408`/`path27233`/`path27406`/`path27410` | 42.xN/20.xE 科索沃地区，NE 无对应（争议地区） | 保持魔数 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
