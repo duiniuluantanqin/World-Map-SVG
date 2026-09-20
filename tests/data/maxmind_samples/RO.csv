@@ -1,0 +1,119 @@
+cc,region,ip,name
+RO,,193.231.38.86,
+RO,,194.102.56.120,
+RO,,195.12.53.154,
+RO,,89.38.230.69,
+RO,,89.45.11.103,
+RO,,91.194.234.137,
+RO,,91.228.29.171,
+RO,,93.174.160.239,
+RO,AB,194.153.231.229,Judetul Alba
+RO,AB,46.214.42.235,Judetul Alba
+RO,AB,86.107.180.108,Judetul Alba
+RO,AG,194.102.70.198,Judetul Arges
+RO,AG,194.6.202.244,Judetul Arges
+RO,AG,217.156.54.101,Judetul Arges
+RO,AG,89.47.220.6,Judetul Arges
+RO,AG,92.114.3.105,Judetul Arges
+RO,AR,217.156.86.1,Arad
+RO,AR,82.76.112.6,Arad
+RO,AR,85.120.220.42,Arad
+RO,AR,89.34.27.194,Arad
+RO,AR,94.176.105.190,Arad
+RO,BC,188.241.72.142,Judetul Bacau
+RO,BC,77.81.31.36,Judetul Bacau
+RO,BC,80.96.124.44,Judetul Bacau
+RO,BH,195.254.133.189,Bihor
+RO,BH,79.115.247.168,Bihor
+RO,BH,85.122.61.149,Bihor
+RO,BN,92.83.223.44,Judetul Bistrita-Nasaud
+RO,BR,86.127.211.54,Judetul Braila
+RO,BT,31.5.32.58,Judetul Botosani
+RO,BV,128.0.48.5,Judetul Brasov
+RO,BV,46.102.0.80,Judetul Brasov
+RO,BZ,188.215.118.243,Judetul Buzau
+RO,BZ,85.122.95.201,Judetul Buzau
+RO,BZ,89.35.232.119,Judetul Buzau
+RO,BZ,89.37.56.222,Judetul Buzau
+RO,BZ,92.83.65.232,Judetul Buzau
+RO,CJ,185.221.220.206,Judetul Cluj
+RO,CJ,194.102.60.146,Judetul Cluj
+RO,CJ,194.105.25.22,Judetul Cluj
+RO,CJ,194.55.155.195,Judetul Cluj
+RO,CJ,81.180.172.75,Judetul Cluj
+RO,CL,93.113.132.108,Judetul Calarasi
+RO,CS,81.181.72.54,Judetul Caras-Severin
+RO,CT,80.97.48.99,Constanta
+RO,CT,80.97.51.125,Constanta
+RO,CT,84.232.178.37,Constanta
+RO,CT,89.35.128.245,Constanta
+RO,CT,89.40.184.202,Constanta
+RO,CV,83.166.219.139,Covasna
+RO,DB,212.93.137.223,Judetul Dambovita
+RO,DB,85.120.83.69,Judetul Dambovita
+RO,DB,85.120.86.95,Judetul Dambovita
+RO,DB,86.127.55.238,Judetul Dambovita
+RO,DB,92.82.184.206,Judetul Dambovita
+RO,DJ,81.18.70.124,Dolj
+RO,GJ,93.115.42.33,Gorj
+RO,GL,176.223.25.164,Judetul Galati
+RO,GL,81.181.16.131,Judetul Galati
+RO,GL,85.121.244.71,Judetul Galati
+RO,GR,89.44.9.0,Giurgiu
+RO,GR,94.53.229.65,Giurgiu
+RO,HD,193.230.241.191,Hunedoara
+RO,HR,80.96.128.96,Harghita
+RO,HR,81.181.203.207,Harghita
+RO,HR,81.181.206.233,Harghita
+RO,HR,85.121.218.45,Harghita
+RO,HR,89.32.204.217,Harghita
+RO,IF,86.104.231.76,Ilfov
+RO,IF,89.149.15.57,Ilfov
+RO,IF,89.36.89.45,Ilfov
+RO,IF,91.223.156.46,Ilfov
+RO,IF,93.115.1.211,Ilfov
+RO,IL,188.173.93.112,Judetul Ialomita
+RO,IL,85.121.70.72,Judetul Ialomita
+RO,IL,85.122.128.49,Judetul Ialomita
+RO,IS,81.180.196.101,Judetul Iasi
+RO,IS,81.180.201.127,Judetul Iasi
+RO,IS,81.180.204.153,Judetul Iasi
+RO,IS,85.120.251.146,Judetul Iasi
+RO,IS,85.122.19.97,Judetul Iasi
+RO,MH,185.128.242.192,Judetul Mehedinti
+RO,MM,193.231.2.243,Maramureş
+RO,MM,193.231.9.13,Maramureş
+RO,MS,79.119.220.194,Judetul Mures
+RO,NT,95.76.186.61,Judetul Neamt
+RO,OT,81.196.98.217,Olt
+RO,PH,194.176.168.207,Prahova
+RO,PH,62.121.68.108,Prahova
+RO,PH,86.105.73.206,Prahova
+RO,PH,92.84.75.2,Prahova
+RO,PH,93.114.216.159,Prahova
+RO,SB,81.181.128.208,Judetul Sibiu
+RO,SB,81.181.130.234,Judetul Sibiu
+RO,SB,86.122.78.212,Judetul Sibiu
+RO,SJ,188.241.112.246,Judetul Salaj
+RO,SJ,194.117.243.0,Judetul Salaj
+RO,SJ,85.120.229.68,Judetul Salaj
+RO,SJ,85.120.65.43,Judetul Salaj
+RO,SJ,85.121.127.98,Judetul Salaj
+RO,SM,195.47.214.158,Satu Mare
+RO,SM,82.79.52.58,Satu Mare
+RO,SV,217.156.25.206,Suceava
+RO,TL,81.181.109.156,Tulcea
+RO,TL,89.165.171.187,Tulcea
+RO,TM,185.232.65.80,Judetul Timis
+RO,TM,194.102.63.172,Judetul Timis
+RO,TM,85.121.201.223,Judetul Timis
+RO,TM,88.158.56.59,Judetul Timis
+RO,TM,89.40.77.46,Judetul Timis
+RO,TR,89.34.182.94,Teleorman
+RO,VL,31.14.19.162,Judetul Valcea
+RO,VL,84.239.11.115,Judetul Valcea
+RO,VL,84.239.23.141,Judetul Valcea
+RO,VL,84.239.4.89,Judetul Valcea
+RO,VL,85.121.32.250,Judetul Valcea
+RO,VN,92.82.91.148,Vrancea
+RO,VS,85.120.36.91,Vaslui

@@ -43,6 +43,9 @@
 | 6 | GT, LY, CH, PT, NO, YE | 134 个 id：GT 22、LY 22、CH 23、PT 26、NO 19、YE 22 | 无 |
 | 7 | DZ, AF, BR, CO, UA, EC, NG | 212 个 id：DZ 48、AF 34、BR 26、CO 32、UA 26、EC 33、NG 13 | CO `path30715`；NG 24 条超大异常多边形（见下） |
 | 8 | TN, EG, PE, SA, LB, MN | 114 个 id：TN 23、EG 26、PE 24、SA 13、LB 6、MN 22 | TN `path9180`/`path8175`/`path9012`、EG `path10625`、PE `path23983`、SA `path3234`/`path5488`/`path5482`/`path5480`、MN `path6312`/`path6373` |
+| 9 | RO, VE, MD, IR, DO | 156 个 id：RO 41、VE 24、MD 33、IR 27、DO 31 | VE 13 条三角洲碎块、MD 3 条（含德左）、IR 7 条、DO 3 条 |
+
+批次 9 说明：字母码国家（RO/VE/MD）经 ip-api 正向校验命中 55/98（56%），未命中集中在「小国/小州 IP 归属不精确」——尤其摩尔多瓦（MD）各 rayon 极小、maxmind 无独立 IP 段或 ip-api 把 IP 归到相邻 rayon；委内瑞拉（VE）与罗马尼亚（RO）未命中多为「候选 IP 被 ip-api 归到相邻省」。ip-api「缺口」里 `MD-SN`（德左，争议地区）、`RO-B`（布加勒斯特，图上并入 Ilfov）、`VE-X`（加拉加斯，ip-api/FIPS 用 `VE-X`，本图用 ISO `VE-A`）均为图上未单独绘制单元或编码差异，非命名错误。数字后缀转英文名的 IR/DO 不适用 ip-api 反向验证（同批次 8）。
 
 批次 8 说明：本批起在几何命名之外，新增「ip-api 真实 IP 反查」正向校验（脚本 `tests/ip_naming_test.py`）：把每个地区的候选 IP 交给 ip-api 反查，拼 `CountryCode-Region` 与 SVG 已命名 id 比对，以 ip-api 为准、不预设省份归属。字母后缀国家（EG/PE/LB）可实测（命中 29/56，未命中多为「候选 IP 被 ip-api 归到相邻/总部省份」或「沙漠区无独立 IP 如 EG-WAD」）；数字后缀转英文名的国家（TN/SA/MN）因 ip-api `region` 不返回英文名而不适用该测试，其命名仍以 NE 几何 IoU + 面积比为准。测试报告 3 个「ip-api 能拼出但 SVG 缺」的缺口，其中 EG-LX（卢克索）、PE-CAL（卡亚俄）经质心核验属「图上未单独绘制该行政区」，PE-LMA 是 ip-api 用 FIPS 码 vs ISO 的 `PE-LIM`，均非命名错误。本批跳过项补充：
 
@@ -127,6 +130,11 @@
 | world-states-provinces.svg | `PE` `path23983` | 35549 km²，质心 -11.72S/-76.58W（利马大区东北、近 Junín 界）；既非 NE `PE-CAL`（卡亚俄，沿海小直辖市）也非 `PE-LIM` 主体，35549 km² 的归属在 NE 中无唯一候选 | 保持魔数（利马大区/卡亚俄歧义，待确认） |
 | world-states-provinces.svg | `SA` `path3234`/`path5488`/`path5482`/`path5480` | 353/126/124/67 km²，红海 Farasan 群岛（16.7N/42.0E、27.3N/49.6E、16.9N/41.9E、17.0N/41.9E），与内陆 NE 省无重叠 | 保持魔数（岛屿） |
 | world-states-provinces.svg | `MN` `path6312`（6801 km²）/`path6373`（627 km²） | 与 NE 省份精确 IoU 均极低，无唯一归属 | 保持魔数 |
+| world-states-provinces.svg | `VE` 13 条：`path3414` `path3412` `path3416` `path3426` `path3422` `path3418` `path32682` `path3424` `path3602` `path32684` `path3420` `path32686` `path3428` | 58–263 km²，奥里诺科三角洲（8.5–10.4N / -60.8–-62.7W）沼泽/河岛，NE 仅 `VE-X`（Amacuro Delta 三角洲）无细分 | 保持魔数（三角洲地形体） |
+| world-states-provinces.svg | `MD` `path10502`（3633 km²）/`path10616`（294 km²）/`path10618`（286 km²） | 德涅斯特河左岸（德左/外涅斯特）及其 Grigoriopol/Ialoveni 一带；NE 用 `MD-SN` 表德左，图上拆分多块、边界争议 | 保持魔数（争议地区） |
+| world-states-provinces.svg | `IR` `path9906`/`path9833`/`path9826`/`path9828` | Yazd（x0.36 面积不符）、Zanjan/Qazvin 歧义（IoU 0.31/0.30）、Alborz（IoU 0.17）、德黑兰附近无归属（12238 km²） | 保持魔数（面积/IoU/歧义） |
+| world-states-provinces.svg | `IR` `path4564`/`path4560`/`path4562` | 1577/109/73 km²，霍尔木兹海峡岛屿（格什姆/霍尔木兹一带） | 保持魔数（岛屿） |
+| world-states-provinces.svg | `DO` `path8850`（795 km²）/`path8641`（142 km²）/`path8650`（38 km²） | La Romana（IoU 0.34 偏低）及 2 条沿海碎块 | 保持魔数 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
