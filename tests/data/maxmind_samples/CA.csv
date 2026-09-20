@@ -1,0 +1,68 @@
+cc,region,ip,name
+CA,,162.211.213.86,
+CA,,173.206.179.103,
+CA,,192.139.33.120,
+CA,,198.161.84.137,
+CA,,199.175.224.154,
+CA,,205.206.195.188,
+CA,,208.66.253.222,
+CA,,209.217.122.239,
+CA,AB,162.139.1.19,Alberta
+CA,AB,192.139.33.120,Alberta
+CA,AB,198.161.84.137,Alberta
+CA,AB,204.50.42.104,Alberta
+CA,AB,216.234.167.122,Alberta
+CA,BC,128.189.9.157,British Columbia
+CA,BC,142.52.142.174,British Columbia
+CA,BC,199.175.224.154,British Columbia
+CA,BC,208.66.253.222,British Columbia
+CA,BC,70.69.80.1,British Columbia
+CA,MB,162.211.213.86,Manitoba
+CA,MB,198.62.164.247,Manitoba
+CA,MB,199.101.59.209,Manitoba
+CA,MB,204.9.13.92,Manitoba
+CA,MB,206.45.46.236,Manitoba
+CA,NB,142.167.181.167,New Brunswick
+CA,NB,156.34.58.184,New Brunswick
+CA,NB,156.57.114.251,New Brunswick
+CA,NB,207.179.191.198,New Brunswick
+CA,NB,47.55.133.22,New Brunswick
+CA,NL,100.42.249.176,Newfoundland and Labrador
+CA,NL,142.166.138.57,Newfoundland and Labrador
+CA,NL,142.166.191.100,Newfoundland and Labrador
+CA,NL,192.75.24.65,Newfoundland and Labrador
+CA,NL,209.128.6.227,Newfoundland and Labrador
+CA,NS,142.134.10.21,Nova Scotia
+CA,NS,142.176.234.234,Nova Scotia
+CA,NS,142.68.163.9,Nova Scotia
+CA,NS,142.68.30.241,Nova Scotia
+CA,NS,24.53.83.60,Nova Scotia
+CA,NT,198.235.201.142,Northwest Territories
+CA,NT,216.108.0.177,Northwest Territories
+CA,NT,216.108.1.115,Northwest Territories
+CA,NT,216.126.110.165,Northwest Territories
+CA,NT,76.9.38.78,Northwest Territories
+CA,NU,76.9.61.202,Nunavut
+CA,ON,131.104.18.35,Ontario
+CA,ON,173.206.179.103,Ontario
+CA,ON,205.194.127.121,Ontario
+CA,ON,206.210.104.138,Ontario
+CA,ON,209.217.122.239,Ontario
+CA,PE,142.176.46.191,Prince Edward Island
+CA,PE,142.177.120.2,Prince Edward Island
+CA,PE,142.177.186.45,Prince Edward Island
+CA,PE,142.68.255.52,Prince Edward Island
+CA,PE,198.167.48.130,Prince Edward Island
+CA,QC,142.246.253.2,Quebec
+CA,QC,192.131.97.53,Quebec
+CA,QC,207.253.99.88,Quebec
+CA,QC,63.141.57.223,Quebec
+CA,QC,66.185.48.240,Quebec
+CA,SK,198.169.254.51,Saskatchewan
+CA,SK,198.169.29.240,Saskatchewan
+CA,SK,207.47.141.107,Saskatchewan
+CA,SK,69.11.45.233,Saskatchewan
+CA,SK,96.125.252.207,Saskatchewan
+CA,YT,199.247.159.214,Yukon
+CA,YT,199.247.196.152,Yukon
+CA,YT,207.189.247.179,Yukon

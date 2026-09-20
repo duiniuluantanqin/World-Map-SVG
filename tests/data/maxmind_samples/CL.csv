@@ -1,0 +1,81 @@
+cc,region,ip,name
+CL,,152.230.137.154,
+CL,,152.230.220.239,
+CL,,186.103.253.222,
+CL,,186.20.160.137,
+CL,,190.209.91.120,
+CL,,190.215.111.205,
+CL,,200.50.48.103,
+CL,,200.54.192.188,
+CL,AI,179.57.251.147,Aysén
+CL,AI,190.121.124.250,Aysén
+CL,AI,190.121.89.241,Aysén
+CL,AI,190.95.73.55,Aysén
+CL,AN,165.182.160.25,Antofagasta
+CL,AN,165.182.190.114,Antofagasta
+CL,AN,200.120.242.49,Antofagasta
+CL,AN,200.74.49.60,Antofagasta
+CL,AN,201.246.18.91,Antofagasta
+CL,AP,181.74.216.101,Region de Arica y Parinacota
+CL,AP,200.111.107.128,Region de Arica y Parinacota
+CL,AP,200.86.187.5,Region de Arica y Parinacota
+CL,AR,164.77.126.29,Region de la Araucania
+CL,AR,168.196.184.41,Region de la Araucania
+CL,AR,200.126.101.232,Region de la Araucania
+CL,AR,200.126.127.74,Region de la Araucania
+CL,AR,201.221.220.146,Region de la Araucania
+CL,AT,164.77.216.225,Atacama
+CL,AT,164.77.219.234,Atacama
+CL,AT,164.77.223.243,Atacama
+CL,AT,200.111.58.21,Atacama
+CL,AT,201.236.147.104,Atacama
+CL,BI,138.99.226.32,Region del Biobio
+CL,BI,168.121.83.199,Region del Biobio
+CL,BI,179.4.253.100,Region del Biobio
+CL,BI,186.78.55.124,Region del Biobio
+CL,BI,201.239.148.73,Region del Biobio
+CL,CO,181.225.140.210,Coquimbo Region
+CL,CO,186.9.127.1,Coquimbo Region
+CL,CO,190.112.50.36,Coquimbo Region
+CL,CO,190.209.91.120,Coquimbo Region
+CL,CO,200.114.74.160,Coquimbo Region
+CL,LI,165.182.104.16,O'Higgins Region
+CL,LI,165.182.15.174,O'Higgins Region
+CL,LI,165.182.203.212,O'Higgins Region
+CL,LI,165.182.216.54,O'Higgins Region
+CL,LI,200.30.252.223,O'Higgins Region
+CL,LL,138.186.121.228,Los Lagos Region
+CL,LL,170.79.101.28,Los Lagos Region
+CL,LL,179.56.197.40,Los Lagos Region
+CL,LL,179.57.184.138,Los Lagos Region
+CL,LL,201.186.252.219,Los Lagos Region
+CL,LR,181.226.125.52,Los Ríos Region
+CL,LR,190.95.61.37,Los Ríos Region
+CL,LR,200.85.203.234,Los Ríos Region
+CL,LR,216.155.65.218,Los Ríos Region
+CL,LR,216.155.78.60,Los Ríos Region
+CL,MA,168.196.200.59,Region of Magallanes
+CL,MA,190.82.8.244,Region of Magallanes
+CL,MA,191.127.16.117,Region of Magallanes
+CL,MA,200.89.36.76,Region of Magallanes
+CL,MA,200.89.58.14,Region of Magallanes
+CL,ML,168.205.204.139,Maule Region
+CL,ML,168.232.166.88,Maule Region
+CL,ML,179.61.109.245,Maule Region
+CL,ML,186.20.160.137,Maule Region
+CL,ML,200.72.147.64,Maule Region
+CL,RM,152.230.137.154,Santiago Metropolitan
+CL,RM,152.230.220.239,Santiago Metropolitan
+CL,RM,186.103.253.222,Santiago Metropolitan
+CL,RM,190.215.111.205,Santiago Metropolitan
+CL,RM,201.236.53.86,Santiago Metropolitan
+CL,TA,186.67.241.35,Tarapacá
+CL,TA,200.111.0.170,Tarapacá
+CL,TA,200.111.2.179,Tarapacá
+CL,TA,200.111.5.3,Tarapacá
+CL,TA,200.72.207.4,Tarapacá
+CL,VS,200.104.105.161,Region de Valparaiso
+CL,VS,200.14.69.92,Region de Valparaiso
+CL,VS,200.50.48.103,Region de Valparaiso
+CL,VS,200.72.169.162,Region de Valparaiso
+CL,VS,45.7.229.230,Region de Valparaiso

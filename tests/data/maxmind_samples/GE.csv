@@ -1,0 +1,30 @@
+cc,region,ip,name
+GE,,185.134.175.172,
+GE,,185.36.244.206,
+GE,,188.169.185.121,
+GE,,193.104.20.104,
+GE,,5.159.22.239,
+GE,,80.83.136.137,
+GE,,85.117.53.120,
+GE,,91.239.206.69,
+GE,AB,91.151.139.215,Abkhazia
+GE,AJ,5.152.27.125,Ajaria
+GE,IM,95.137.233.249,Imereti
+GE,KA,92.51.116.195,Kakheti
+GE,KK,85.117.60.40,Kvemo Kartli
+GE,KK,94.43.238.141,Kvemo Kartli
+GE,KK,94.43.239.208,Kvemo Kartli
+GE,MM,94.100.224.91,Mtskheta-Mtianeti
+GE,RL,212.58.121.1,Racha-Lechkhumi and Kvemo Svaneti
+GE,SJ,109.238.224.63,Samtskhe-Javakheti
+GE,SJ,109.238.226.130,Samtskhe-Javakheti
+GE,SK,31.192.11.197,Shida Kartli
+GE,SK,77.242.52.76,Shida Kartli
+GE,SK,92.54.193.158,Shida Kartli
+GE,SK,92.54.197.225,Shida Kartli
+GE,SK,92.54.207.133,Shida Kartli
+GE,TB,185.36.244.206,K'alak'i T'bilisi
+GE,TB,188.169.185.121,K'alak'i T'bilisi
+GE,TB,193.104.20.104,K'alak'i T'bilisi
+GE,TB,80.83.136.137,K'alak'i T'bilisi
+GE,TB,91.151.136.139,K'alak'i T'bilisi

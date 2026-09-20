@@ -1,0 +1,50 @@
+cc,region,ip,name
+IN,,1.6.0.0,
+IN,,122.166.107.69,
+IN,,122.177.47.120,
+IN,,122.181.182.171,
+IN,,122.186.242.222,
+IN,,221.134.134.103,
+IN,,223.177.41.154,
+IN,,223.224.44.205,
+IN,GJ,103.60.210.242,Gujarat
+IN,GJ,103.92.120.182,Gujarat
+IN,GJ,203.88.148.46,Gujarat
+IN,GJ,43.239.77.42,Gujarat
+IN,GJ,61.17.36.142,Gujarat
+IN,HP,103.76.253.145,Himachal Pradesh
+IN,HP,117.200.67.127,Himachal Pradesh
+IN,HP,144.48.75.88,Himachal Pradesh
+IN,HP,171.61.234.224,Himachal Pradesh
+IN,HP,223.225.164.116,Himachal Pradesh
+IN,HR,103.50.215.30,Haryana
+IN,HR,106.222.242.56,Haryana
+IN,HR,110.172.184.217,Haryana
+IN,HR,203.145.132.2,Haryana
+IN,HR,61.246.35.178,Haryana
+IN,JK,106.78.62.136,Jammu and Kashmir
+IN,JK,146.196.121.103,Jammu and Kashmir
+IN,JK,183.83.32.60,Jammu and Kashmir
+IN,JK,223.225.250.12,Jammu and Kashmir
+IN,JK,42.104.151.149,Jammu and Kashmir
+IN,MP,1.187.75.197,Madhya Pradesh
+IN,MP,122.168.248.215,Madhya Pradesh
+IN,MP,122.182.195.61,Madhya Pradesh
+IN,MP,182.77.68.92,Madhya Pradesh
+IN,MP,49.15.178.238,Madhya Pradesh
+IN,PB,103.253.148.159,Punjab
+IN,PB,157.119.124.197,Punjab
+IN,PB,220.227.128.88,Punjab
+IN,PB,223.224.44.205,Punjab
+IN,PB,45.117.45.195,Punjab
+IN,RJ,103.210.113.210,Rajasthan
+IN,RJ,103.6.90.183,Rajasthan
+IN,RJ,103.70.127.73,Rajasthan
+IN,RJ,103.87.169.27,Rajasthan
+IN,RJ,45.64.176.25,Rajasthan
+IN,UP,103.1.128.141,Uttar Pradesh
+IN,UP,103.212.88.73,Uttar Pradesh
+IN,UP,103.55.67.191,Uttar Pradesh
+IN,UP,103.73.33.88,Uttar Pradesh
+IN,UP,122.177.47.120,Uttar Pradesh
+IN,UT,45.113.66.186,Uttarakhand

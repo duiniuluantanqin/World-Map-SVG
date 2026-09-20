@@ -1,0 +1,23 @@
+cc,region,ip,name
+SR,,168.195.219.120,
+SR,,186.179.216.137,
+SR,,190.98.57.154,
+SR,,200.1.158.171,
+SR,,200.1.211.188,
+SR,,200.2.161.205,
+SR,,200.2.178.222,
+SR,,200.7.150.239,
+SR,BR,186.179.146.83,Distrikt Brokopondo
+SR,CM,200.2.161.205,Distrikt Commewijne
+SR,CR,190.98.58.253,Distrikt Coronie
+SR,MA,186.179.233.201,Distrikt Marowijne
+SR,NI,200.7.149.23,Distrikt Nickerie
+SR,PM,190.98.57.154,Distrikt Paramaribo
+SR,PM,200.1.158.171,Distrikt Paramaribo
+SR,PM,200.1.211.188,Distrikt Paramaribo
+SR,PM,200.2.178.222,Distrikt Paramaribo
+SR,PM,200.7.150.239,Distrikt Paramaribo
+SR,PR,190.98.77.48,Distrikt Para
+SR,SA,190.98.115.124,Distrikt Saramacca
+SR,SI,190.98.81.84,Distrikt Sipaliwini
+SR,WA,190.98.54.105,Distrikt Wanica

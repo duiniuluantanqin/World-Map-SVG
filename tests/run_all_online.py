@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""分批远程 ip-api 全量在线校验驱动。
+"""分批刷新 ip-api 反查缓存，并输出该国校验结果。
 
-由于 ip-api 免费版有速率限制（~15 次/分钟，批量接口共享配额），全量 804 个干净 id
-拆成若干批、按国家分组，逐步跑完；批次间等待以避开限流，可中途打断续跑。
+新数据模型下，`tests/data/ipapi_lookup.csv` 是全局反查缓存（ip,cc,region,city），
+`tests/data/maxmind_samples.csv` 是 maxmind 采样缓存。默认测试完全离线读缓存；
+`run_all_online.py` 只在需要时按国家分批联网刷新 ip-api 缓存（受免费限流，分批排队），
+可中途打断续跑。
 
 用法：
-  python tests/run_all_online.py                    # 全部国家分批
-  python tests/run_all_online.py --countries br,mx  # 仅这些国家
-  python tests/run_all_online.py --vote 2
-  python tests/run_all_online.py --inter 60         # 每批间隔秒数
-  python tests/run_all_online.py --outdir tmp       # 结果输出目录（默认脚本同目录结果）
+  python tests/run_all_online.py --refresh-ipapi --vote 2     # 全国家分批联网刷新缓存
+  python tests/run_all_online.py --refresh-ipapi --countries br,mx
+  python tests/run_all_online.py --refresh-maxmind           # 只重新采样 maxmind（一次性）
+  python tests/run_all_online.py --outdir tmp                # 指定结果/log 目录
 """
 
 import argparse
@@ -25,7 +26,6 @@ DEFAULT_OUT = os.path.join(os.path.dirname(__file__), "results")
 
 
 def get_clean_countries():
-    """读取 SVG，返回有干净 id 的国家列表（与 ip_naming_test 同口径）。"""
     src = os.path.join(os.path.dirname(__file__), "..", "src", "world-states-provinces.svg")
     raw = open(src, encoding="utf-8").read()
     ids = re.findall(r'\bid="([^"]+)"', raw)
@@ -41,9 +41,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--countries", default="")
     ap.add_argument("--vote", type=int, default=2)
-    ap.add_argument("--inter", type=int, default=45, help="每批之间等待秒数")
+    ap.add_argument("--inter", type=int, default=40, help="每批之间等待秒数")
     ap.add_argument("--outdir", default=DEFAULT_OUT)
     ap.add_argument("--key", default=None)
+    ap.add_argument("--refresh-ipapi", action="store_true", help="联网刷新 ip-api 缓存")
+    ap.add_argument("--refresh-maxmind", action="store_true", help="重新采样 maxmind")
     args = ap.parse_args()
 
     os.makedirs(args.outdir, exist_ok=True)
@@ -51,7 +53,6 @@ def main():
     if not countries:
         countries = get_clean_countries()
 
-    # 已完成的记录文件（续跑依据）
     done_file = os.path.join(args.outdir, "done_ctry.csv")
     done = set()
     if os.path.exists(done_file):
@@ -63,22 +64,24 @@ def main():
     total = len(countries)
     for idx, cc in enumerate(countries, 1):
         if cc in done:
-            print("[skip] %s 已完成" % cc)
+            print("[skip] %s 本批已完成（缓存已刷新）" % cc)
             continue
         print("\n===== [%d/%d] 国家 %s =====" % (idx, total, cc))
-        cmd = [sys.executable, TESTS,
-               "--countries", cc,
-               "--vote", str(args.vote)]
+        cmd = [sys.executable, TESTS, "--countries", cc, "--vote", str(args.vote)]
+        if args.refresh_ipapi:
+            cmd.append("--refresh-ipapi")
+        if args.refresh_maxmind:
+            cmd.append("--refresh-maxmind")
+        if args.key:
+            cmd += ["--key", args.key]
         logfile = os.path.join(args.outdir, "%s.log" % cc)
         with open(logfile, "w", encoding="utf-8") as fh:
             p = subprocess.run(cmd, stdout=fh, stderr=subprocess.STDOUT)
-        # 读取日志末尾看是否有命中统计
         tail = ""
         if os.path.exists(logfile):
             with open(logfile, encoding="utf-8") as fh:
-                tail = fh.read()[-800:]
-        if "== ip-api 严格反向校验统计 ==" in tail:
-            # 无论命中与否都视为已跑完（严格校验完成）
+                tail = fh.read()[-600:]
+        if "== ip-api 严格反向校验统计 ==" in tail or "== 离线覆盖校验" in tail:
             with open(done_file, "a", newline="", encoding="utf-8") as fh:
                 csv.writer(fh).writerow([cc])
             print("[done] %s" % cc)
@@ -88,6 +91,10 @@ def main():
             print("等待 %d 秒避开限流..." % args.inter)
             time.sleep(args.inter)
 
+    # maxmind 一次性刷新：只需跑一个国家即可写全量采样缓存（采样是全库的）
+    if args.refresh_maxmind:
+        print("\n[提示] maxmind 采样是全库的，仅需一次。可手动运行:\n"
+              "  python tests/ip_naming_test.py --refresh-maxmind")
     print("\n全部批次结束。日志目录: %s" % args.outdir)
 
 

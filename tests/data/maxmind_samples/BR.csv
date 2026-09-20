@@ -1,0 +1,131 @@
+cc,region,ip,name
+BR,,132.255.184.137,
+BR,,168.195.247.222,
+BR,,170.244.223.120,
+BR,,177.125.132.205,
+BR,,179.96.3.103,
+BR,,189.89.139.240,
+BR,,200.53.16.171,
+BR,,45.232.182.239,
+BR,AC,170.83.175.193,Acre
+BR,AC,177.184.7.112,Acre
+BR,AL,168.195.247.222,Alagoas
+BR,AL,190.15.103.234,Alagoas
+BR,AL,190.15.124.145,Alagoas
+BR,AL,190.15.96.203,Alagoas
+BR,AL,192.140.114.174,Alagoas
+BR,AM,131.255.9.143,Amazonas
+BR,AM,138.122.121.238,Amazonas
+BR,AM,192.141.222.22,Amazonas
+BR,AM,200.129.154.240,Amazonas
+BR,BA,132.255.184.137,Bahia
+BR,BA,138.122.1.231,Bahia
+BR,BA,177.128.214.109,Bahia
+BR,BA,186.240.131.191,Bahia
+BR,BA,189.89.139.240,Bahia
+BR,CE,167.250.99.129,Ceara
+BR,CE,168.194.129.159,Ceara
+BR,CE,177.37.155.119,Ceara
+BR,CE,177.67.218.178,Ceara
+BR,CE,187.85.52.93,Ceara
+BR,DF,168.194.211.0,Federal District
+BR,DF,170.246.253.24,Federal District
+BR,DF,189.27.46.249,Federal District
+BR,DF,200.101.12.75,Federal District
+BR,DF,201.87.245.100,Federal District
+BR,ES,131.196.229.108,Espirito Santo
+BR,ES,177.222.128.10,Espirito Santo
+BR,ES,187.56.198.126,Espirito Santo
+BR,ES,200.6.35.141,Espirito Santo
+BR,ES,45.7.73.157,Espirito Santo
+BR,GO,131.108.126.107,Goias
+BR,GO,177.1.90.184,Goias
+BR,GO,179.108.88.7,Goias
+BR,GO,179.96.3.103,Goias
+BR,GO,45.235.47.81,Goias
+BR,MA,128.201.173.209,Maranhao
+BR,MA,168.0.22.67,Maranhao
+BR,MA,187.60.127.223,Maranhao
+BR,MA,189.90.32.24,Maranhao
+BR,MA,201.149.111.4,Maranhao
+BR,MG,168.227.179.189,Minas Gerais
+BR,MG,170.81.151.123,Minas Gerais
+BR,MG,177.130.146.172,Minas Gerais
+BR,MG,187.44.75.125,Minas Gerais
+BR,MG,201.159.181.226,Minas Gerais
+BR,MS,170.254.97.59,Mato Grosso do Sul
+BR,MS,177.52.75.245,Mato Grosso do Sul
+BR,MS,177.74.129.214,Mato Grosso do Sul
+BR,MS,179.109.77.104,Mato Grosso do Sul
+BR,MS,186.226.203.230,Mato Grosso do Sul
+BR,MT,131.161.37.45,Mato Grosso
+BR,MT,138.118.163.9,Mato Grosso
+BR,MT,168.196.79.63,Mato Grosso
+BR,MT,179.189.51.71,Mato Grosso
+BR,MT,187.7.212.96,Mato Grosso
+BR,PA,131.255.64.74,Para
+BR,PA,170.83.137.27,Para
+BR,PA,177.12.132.151,Para
+BR,PA,177.53.196.52,Para
+BR,PA,189.89.234.183,Para
+BR,PB,131.255.223.12,Paraíba
+BR,PB,177.137.92.76,Paraíba
+BR,PB,177.86.182.112,Paraíba
+BR,PB,187.115.189.220,Paraíba
+BR,PB,45.6.38.191,Paraíba
+BR,PE,138.185.162.38,Pernambuco
+BR,PE,170.239.109.154,Pernambuco
+BR,PE,170.78.82.253,Pernambuco
+BR,PE,191.6.54.114,Pernambuco
+BR,PE,45.232.182.239,Pernambuco
+BR,PI,131.108.161.17,Piaui
+BR,PI,138.255.244.12,Piaui
+BR,PI,170.84.94.131,Piaui
+BR,PI,187.63.50.189,Piaui
+BR,PI,200.137.165.211,Piaui
+BR,PR,177.91.39.175,Parana
+BR,PR,179.125.104.70,Parana
+BR,PR,200.142.186.42,Parana
+BR,PR,201.54.66.36,Parana
+BR,PR,45.5.221.94,Parana
+BR,RJ,138.204.215.198,Rio de Janeiro
+BR,RJ,177.11.223.54,Rio de Janeiro
+BR,RJ,177.117.104.142,Rio de Janeiro
+BR,RJ,177.197.182.106,Rio de Janeiro
+BR,RJ,201.17.84.69,Rio de Janeiro
+BR,RN,138.36.6.13,Rio Grande do Norte
+BR,RN,170.80.177.254,Rio Grande do Norte
+BR,RN,186.250.161.67,Rio Grande do Norte
+BR,RN,190.15.122.193,Rio Grande do Norte
+BR,RN,200.229.211.199,Rio Grande do Norte
+BR,RO,131.0.119.78,Rondonia
+BR,RO,168.181.58.193,Rondonia
+BR,RO,177.93.66.210,Rondonia
+BR,RO,191.222.233.248,Rondonia
+BR,RO,191.37.216.53,Rondonia
+BR,RR,186.242.200.228,Roraima
+BR,RS,138.255.124.5,Rio Grande do Sul
+BR,RS,143.255.0.35,Rio Grande do Sul
+BR,RS,170.244.223.120,Rio Grande do Sul
+BR,RS,186.219.202.1,Rio Grande do Sul
+BR,RS,189.127.19.53,Rio Grande do Sul
+BR,SC,170.150.69.90,Santa Catarina
+BR,SC,170.254.221.87,Santa Catarina
+BR,SC,177.53.124.211,Santa Catarina
+BR,SC,200.53.16.171,Santa Catarina
+BR,SC,45.236.4.206,Santa Catarina
+BR,SE,128.201.212.140,Sergipe
+BR,SE,138.122.84.72,Sergipe
+BR,SE,179.96.216.200,Sergipe
+BR,SE,187.86.187.31,Sergipe
+BR,SE,190.15.114.230,Sergipe
+BR,SP,138.94.46.104,Sao Paulo
+BR,SP,152.243.160.2,Sao Paulo
+BR,SP,177.125.132.205,Sao Paulo
+BR,SP,177.72.146.241,Sao Paulo
+BR,SP,187.73.197.155,Sao Paulo
+BR,TO,138.118.252.106,Tocantins
+BR,TO,170.246.96.252,Tocantins
+BR,TO,177.126.92.53,Tocantins
+BR,TO,181.222.177.101,Tocantins
+BR,TO,200.103.26.241,Tocantins

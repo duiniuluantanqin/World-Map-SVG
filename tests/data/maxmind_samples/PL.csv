@@ -1,0 +1,89 @@
+cc,region,ip,name
+PL,,194.165.41.86,
+PL,,195.136.96.137,
+PL,,195.167.149.154,
+PL,,195.216.122.171,
+PL,,195.82.177.120,
+PL,,212.106.163.205,
+PL,,213.108.117.222,
+PL,,213.227.74.239,
+PL,DS,195.136.96.137,Lower Silesia
+PL,DS,213.5.41.162,Lower Silesia
+PL,DS,82.177.113.127,Lower Silesia
+PL,DS,86.111.202.178,Lower Silesia
+PL,DS,95.143.255.190,Lower Silesia
+PL,KP,109.196.236.207,Kujawsko-Pomorskie
+PL,KP,155.133.111.241,Kujawsko-Pomorskie
+PL,KP,193.111.27.197,Kujawsko-Pomorskie
+PL,KP,46.239.131.55,Kujawsko-Pomorskie
+PL,KP,91.149.201.229,Kujawsko-Pomorskie
+PL,LB,188.47.40.142,Lubusz
+PL,LB,195.136.153.34,Lubusz
+PL,LB,195.136.32.230,Lubusz
+PL,LB,195.136.37.107,Lubusz
+PL,LB,91.217.132.237,Lubusz
+PL,LD,185.170.227.121,Łódź Voivodeship
+PL,LD,185.93.241.87,Łódź Voivodeship
+PL,LD,194.150.197.56,Łódź Voivodeship
+PL,LD,195.3.152.73,Łódź Voivodeship
+PL,LD,91.189.0.3,Łódź Voivodeship
+PL,LU,185.122.98.44,Lublin
+PL,LU,217.113.159.196,Lublin
+PL,LU,5.201.92.213,Lublin
+PL,LU,89.186.23.242,Lublin
+PL,LU,94.240.26.130,Lublin
+PL,MA,193.34.221.163,Lesser Poland Voivodeship
+PL,MA,37.47.64.4,Lesser Poland Voivodeship
+PL,MA,46.22.163.38,Lesser Poland Voivodeship
+PL,MA,91.222.24.71,Lesser Poland Voivodeship
+PL,MA,94.254.153.160,Lesser Poland Voivodeship
+PL,MZ,185.56.172.70,Mazovia
+PL,MZ,194.31.49.22,Mazovia
+PL,MZ,46.227.37.25,Mazovia
+PL,MZ,91.207.126.37,Mazovia
+PL,MZ,91.231.38.105,Mazovia
+PL,OP,155.133.12.211,Opole Voivodeship
+PL,OP,178.216.105.232,Opole Voivodeship
+PL,OP,212.106.161.72,Opole Voivodeship
+PL,OP,212.106.163.205,Opole Voivodeship
+PL,OP,91.235.19.122,Opole Voivodeship
+PL,PD,130.180.199.61,Podlasie
+PL,PD,185.35.199.206,Podlasie
+PL,PD,193.238.16.98,Podlasie
+PL,PD,83.175.135.11,Podlasie
+PL,PD,83.175.140.144,Podlasie
+PL,PK,178.219.30.6,Subcarpathian Voivodeship
+PL,PK,185.41.129.236,Subcarpathian Voivodeship
+PL,PK,193.188.0.214,Subcarpathian Voivodeship
+PL,PK,91.192.164.156,Subcarpathian Voivodeship
+PL,PK,91.240.223.36,Subcarpathian Voivodeship
+PL,PM,185.112.116.14,Pomerania
+PL,PM,213.108.117.222,Pomerania
+PL,PM,81.168.255.80,Pomerania
+PL,PM,91.224.116.28,Pomerania
+PL,PM,91.225.67.58,Pomerania
+PL,SK,185.151.117.61,Świętokrzyskie
+PL,SK,5.149.194.183,Świętokrzyskie
+PL,SK,81.6.184.63,Świętokrzyskie
+PL,SK,82.177.189.157,Świętokrzyskie
+PL,SK,91.239.248.139,Świętokrzyskie
+PL,SL,195.140.153.94,Silesia
+PL,SL,195.82.177.120,Silesia
+PL,SL,88.220.93.195,Silesia
+PL,SL,91.214.39.54,Silesia
+PL,SL,93.179.248.143,Silesia
+PL,WN,176.109.130.185,Warmia-Masuria
+PL,WN,176.97.51.2,Warmia-Masuria
+PL,WN,213.73.31.192,Warmia-Masuria
+PL,WN,46.151.76.221,Warmia-Masuria
+PL,WN,81.15.166.93,Warmia-Masuria
+PL,WP,150.254.138.181,Greater Poland
+PL,WP,185.22.10.249,Greater Poland
+PL,WP,195.216.122.171,Greater Poland
+PL,WP,81.15.209.123,Greater Poland
+PL,WP,92.55.207.96,Greater Poland
+PL,ZP,31.25.255.140,West Pomerania
+PL,ZP,77.92.59.212,West Pomerania
+PL,ZP,83.168.77.114,West Pomerania
+PL,ZP,89.174.75.79,West Pomerania
+PL,ZP,91.238.242.109,West Pomerania

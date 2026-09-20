@@ -1,0 +1,31 @@
+cc,region,ip,name
+ER,,196.200.100.205,
+ER,,196.200.105.154,
+ER,,196.200.107.137,
+ER,,196.200.107.239,
+ER,,196.200.108.188,
+ER,,196.200.110.171,
+ER,,196.200.110.222,
+ER,,196.200.96.0,
+ER,AN,196.200.109.121,Anseba Region
+ER,AN,196.200.109.172,Anseba Region
+ER,AN,196.200.109.19,Anseba Region
+ER,AN,196.200.109.223,Anseba Region
+ER,AN,196.200.109.70,Anseba Region
+ER,DK,196.200.102.158,Southern Red Sea Region
+ER,DK,196.200.102.206,Southern Red Sea Region
+ER,DK,196.200.102.3,Southern Red Sea Region
+ER,DU,196.200.105.106,Debub Region
+ER,DU,196.200.105.154,Debub Region
+ER,DU,196.200.97.209,Debub Region
+ER,GB,196.200.97.54,Gash-Barka Region
+ER,GB,196.200.97.6,Gash-Barka Region
+ER,MA,196.200.107.137,Maekel Region
+ER,MA,196.200.107.239,Maekel Region
+ER,MA,196.200.110.120,Maekel Region
+ER,MA,196.200.110.171,Maekel Region
+ER,MA,196.200.110.222,Maekel Region
+ER,SK,196.200.104.159,Northern Red Sea
+ER,SK,196.200.104.207,Northern Red Sea
+ER,SK,196.200.104.4,Northern Red Sea
+ER,SK,196.200.104.52,Northern Red Sea

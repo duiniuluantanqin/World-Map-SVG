@@ -1,0 +1,6 @@
+# tests/results/ 为运行时的每个国家 log 与进度标记，不入库
+# tests/data/ 下是采样与反查缓存，是测试数据，应入库（用户要求保存到仓库）
+
+tests/results/
+tests/__pycache__/
+*.pyc

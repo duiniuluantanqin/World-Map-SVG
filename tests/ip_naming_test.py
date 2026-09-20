@@ -16,6 +16,7 @@
 """
 
 import argparse
+import csv
 import gzip
 import ipaddress
 import json
@@ -29,6 +30,9 @@ import urllib.parse
 SRC = os.path.join(os.path.dirname(__file__), "..", "src", "world-states-provinces.svg")
 MAGIC = re.compile(r"(path|g|circle)\d+$")
 IP2COUNTRY = os.path.join(os.environ.get("TEMP", ""), "ip2country-v4.tsv.gz")
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+MAXMIND_DIR = os.path.join(DATA_DIR, "maxmind_samples")  # <CC>.csv: cc,region,ip,name
+IPAPI_DIR = os.path.join(DATA_DIR, "ipapi_lookup")       # <CC>.csv: ip,cc,region,city
 
 # 可选的 IP 复写表：某些国家级 region maxmind 与 ip-api 不同，或缺少省样本。
 # 手动补充真实 IP 以覆盖无法自动定位的 id。
@@ -174,6 +178,119 @@ def scan_maxmind(reader, desired=None):
     return sample, names, mult, country_ips
 
 
+def maxmind_path(cc):
+    return os.path.join(MAXMIND_DIR, cc + ".csv")
+
+
+def ipapi_path(cc):
+    return os.path.join(IPAPI_DIR, cc + ".csv")
+
+
+def load_maxmind_cache(cc_list=None):
+    """从 tests/data/maxmind_samples/<CC>.csv 读取采样缓存。
+
+    cc_list: 国家码列表；None 表示读取目录下所有国家文件。
+    返回 (sample, names, mult, country_ips)，与 scan_maxmind 相同结构。
+    """
+    sample, names, mult, country_ips = {}, {}, {}, {}
+    if cc_list is None:
+        if not os.path.isdir(MAXMIND_DIR):
+            return sample, names, mult, country_ips
+        cc_list = sorted(os.path.splitext(f)[0] for f in os.listdir(MAXMIND_DIR)
+                         if f.endswith(".csv"))
+    for cc in cc_list:
+        p = maxmind_path(cc)
+        if not os.path.exists(p):
+            continue
+        with open(p, newline="", encoding="utf-8") as f:
+            rows = list(csv.reader(f))
+        for r in rows[1:]:  # 跳过表头
+            if len(r) < 3:
+                continue
+            rcc, region, ip = r[0].strip(), r[1].strip(), r[2].strip()
+            if rcc != cc:
+                continue
+            name = r[3] if len(r) > 3 else ""
+            key = (rcc, region)
+            sample[key] = ip
+            mult.setdefault(key, []).append(ip)
+            names[key] = name
+            country_ips.setdefault(rcc, [])
+            if ip not in country_ips[rcc]:
+                country_ips[rcc].append(ip)
+    return sample, names, mult, country_ips
+
+
+def save_maxmind_cache(sample, names, mult, country_ips, cc_list=None):
+    """把采样结果按国家写入 tests/data/maxmind_samples/<CC>.csv。"""
+    # 聚合：cc -> [(region, ip, name)]
+    by_cc = {}
+    for (cc, region), ips in mult.items():
+        for ip in ips:
+            by_cc.setdefault(cc, set()).add((region, ip, names.get((cc, region), "")))
+    for cc, ips in country_ips.items():
+        if (cc, "") not in mult:
+            for ip in ips:
+                by_cc.setdefault(cc, set()).add(("", ip, ""))
+    os.makedirs(MAXMIND_DIR, exist_ok=True)
+    if cc_list is None:
+        cc_list = sorted(by_cc)
+    written = 0
+    for cc in cc_list:
+        rows = by_cc.get(cc)
+        if not rows:
+            continue
+        with open(maxmind_path(cc), "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["cc", "region", "ip", "name"])
+            for region, ip, name in sorted(rows, key=lambda x: (x[0], x[1])):
+                w.writerow([cc, region, ip, name])
+        written += 1
+    print("已写 %d 个国家的采样缓存 -> %s" % (written, MAXMIND_DIR))
+
+
+def load_ipapi_cache(cc_list=None):
+    """从 tests/data/ipapi_lookup/<CC>.csv 读取已反查结果。返回 {ip: (cc, region, city)}。"""
+    cache = {}
+    if cc_list is None:
+        if not os.path.isdir(IPAPI_DIR):
+            return cache
+        cc_list = sorted(os.path.splitext(f)[0] for f in os.listdir(IPAPI_DIR)
+                         if f.endswith(".csv"))
+    for cc in cc_list:
+        p = ipapi_path(cc)
+        if not os.path.exists(p):
+            continue
+        with open(p, newline="", encoding="utf-8") as f:
+            rows = list(csv.reader(f))
+        for r in rows[1:]:
+            if len(r) >= 4:
+                cache[r[0]] = (r[1], r[2], r[3])
+    return cache
+
+
+def save_ipapi_cache(cache, cc_list=None):
+    """把 ip-api 反查结果按国家写入 tests/data/ipapi_lookup/<CC>.csv。"""
+    by_cc = {}
+    for ip, (cc, rg, city) in cache.items():
+        by_cc.setdefault(cc, []).append((ip, rg, city))
+    os.makedirs(IPAPI_DIR, exist_ok=True)
+    if cc_list is None:
+        cc_list = sorted(by_cc)
+    written = 0
+    for cc in cc_list:
+        rows = by_cc.get(cc)
+        if not rows:
+            continue
+        with open(ipapi_path(cc), "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["ip", "cc", "region", "city"])
+            for ip, rg, city in sorted(rows, key=lambda x: x[0]):
+                w.writerow([ip, cc, rg or "", city or ""])
+        written += 1
+    print("已写 %d 个国家的 ip-api 缓存 -> %s" % (written, IPAPI_DIR))
+
+
 def ipapi_batch(ips, pause=1.5, key=None):
     """ip-api 批量 POST 反查（免费单次上限 100 个 IP）。返回 {ip: (cc, region, city) or None}。"""
     out = {}
@@ -212,7 +329,9 @@ def ipapi_batch(ips, pause=1.5, key=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--offline", action="store_true")
+    ap.add_argument("--offline", action="store_true", help="只做离线覆盖检查，不发 ip-api 请求")
+    ap.add_argument("--refresh-maxmind", action="store_true", help="重新用 maxmind 采样并写回缓存（默认读缓存）")
+    ap.add_argument("--refresh-ipapi", action="store_true", help="对缺失命中的 IP 联网反查并写回缓存")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--countries", default="")
     ap.add_argument("--vote", type=int, default=1, help="每省采样多个 IP 投票（>=2 时启用投票模式）")
@@ -231,29 +350,41 @@ def main():
     print("其中后缀为 2 位字母的干净 id: %d 条" % len(clean))
 
     # 过滤国家
+    ccs_all = None
     if args.countries:
-        ccs = set(c.upper() for c in args.countries.split(",") if c.strip())
-        clean = [(c, r, i) for (c, r, i) in clean if c in ccs]
-        print("过滤后国家: %s  -> 干净 id: %d 条" % (",".join(sorted(ccs)), len(clean)))
+        ccs_all = set(c.upper() for c in args.countries.split(",") if c.strip())
+        clean = [(c, r, i) for (c, r, i) in clean if c in ccs_all]
+        print("过滤后国家: %s  -> 干净 id: %d 条" % (",".join(sorted(ccs_all)), len(clean)))
+    # 本轮涉及的国家码列表（用于读写分文件缓存）
+    if ccs_all:
+        cc_list = sorted(ccs_all)
+    else:
+        cc_list = sorted({c for (c, r, i) in clean})
 
-    desired = {(c, r) for (c, r, i) in clean}
-    sample, names, mult, country_ips = scan_maxmind(object(), desired=desired)
-    print("maxmind 抽得 (cc, region) 样本: %d 条" % len(sample))
+    # ---------- 采样缓存（maxmind） ----------
+    if args.refresh_maxmind:
+        desired = {(c, r) for (c, r, i) in clean}
+        sample, names, mult, country_ips = scan_maxmind(object(), desired=desired)
+        print("重新采样 maxmind：共 %d 个省样本" % len(sample))
+        save_maxmind_cache(sample, names, mult, country_ips, cc_list=cc_list)
+    else:
+        sample, names, mult, country_ips = load_maxmind_cache(cc_list=cc_list)
+        print("读取 maxmind 采样缓存：%d 条（要用最新数据请加 --refresh-maxmind）" % len(sample))
 
-    # 对每个干净 id，能否从 maxmind 找到该 (cc, region) 的个人真实 IP
+    # 对每个干净 id，能否从缓存找到该 (cc, region) 的代表 IP
     if args.vote >= 2:
-        # 投票模式：使用 mult 候选
         prov = [(c, r, i) for (c, r, i) in clean if (c, r) in mult and len(mult[(c, r)]) >= 2]
     else:
         prov = [(c, r, i) for (c, r, i) in clean if (c, r) in sample]
     missing = [(c, r, i) for (c, r, i) in clean if (c, r) not in sample]
-    print("能在 maxmind 找到该省 IP 的: %d 条；缺失: %d 条" % (len(prov), len(missing)))
+    print("能在缓存中找到该省 IP 的: %d 条；缺失: %d 条" % (len(prov), len(missing)))
 
     if args.limit:
         prov = prov[:args.limit]
 
+    # ---------- 纯离线模式：只用 maxmind 缓存判定覆盖 ----------
     if args.offline:
-        print("\n== 离线校验（干净 id 是否有对应 maxmind IP 样本）==")
+        print("\n== 离线覆盖校验（缓存中有该省代表 IP 的比例）==")
         print("有样本: %d / %d" % (len(prov), len(clean)))
         print("覆盖的国家数: %d" % len({c for (c, r, i) in clean}))
         missing_by_country = {}
@@ -262,38 +393,54 @@ def main():
         print("缺失省份涉及的国家数: %d" % len(missing_by_country))
         print("缺失明细（前 60 条）：")
         for (c, r, i) in missing[:60]:
-            print("   %s  (SVG 命名后缀 %s 在 maxmind 中无该 ISO region)" % (i, r))
+            print("   %s  (SVG 命名后缀 %s 在缓存/数据源中无该 ISO region)" % (i, r))
         return
 
-    # ---- 在线：ip-api 批量反查，验证 ip-api 返回是否 == 该 id ----
     if not prov:
         print("没有可验证的样本，结束。")
         return
+
+    # ---------- 读取/构建 ip-api 反查缓存 ----------
+    ipcache = load_ipapi_cache(cc_list=cc_list)
+    print("读取 ip-api 反查缓存：%d 条" % len(ipcache))
+
+    # 需要联网反查的 IP：投票模式下用全部候选；单 IP 模式下用代表 IP
     if args.vote >= 2:
-        # 收集每个省份要查询的所有候选 IP
         ip_to_key = {}
         for (c, r, i) in prov:
             for ip in mult[(c, r)]:
-                ip_to_key[ip] = (c, r, i)
+                ip_to_key.setdefault(ip, []).append((c, r, i))
         all_ips = list(ip_to_key)
     else:
         ip_to_key = {}
         for (c, r, i) in prov:
             ip = sample[(c, r)]
-            ip_to_key[ip] = (c, r, i)
+            ip_to_key.setdefault(ip, []).append((c, r, i))
         all_ips = [sample[(c, r)] for (c, r, i) in prov]
-    # 若缺失省份较多，追加使用该国兜底 IP（country_ips）参与反查，扩大覆盖
+
+    # 无省样本国家兜底 IP 也纳入反查
     fallback_ips = []
     fallback_names = {}
-    missing_cc = {c for (c, r, i) in missing}
-    for c in missing_cc:
+    for c in {cc for (cc, r, i) in missing}:
         for ip in country_ips.get(c, [])[:6]:
-            if ip not in ip_to_key:
-                ip_to_key[ip] = None  # None 表示国家级兜底
+            if ip not in ip_to_key and ip not in ipcache:
+                ip_to_key[ip] = None
                 fallback_ips.append(ip)
                 fallback_names[ip] = c
-    all_ips = list(ip_to_key)
-    resmap = ipapi_batch(all_ips, pause=1.5, key=args.key)
+
+    # 只在 --refresh-ipapi 时联网查询；否则完全用缓存
+    resmap = {ip: ipcache.get(ip) for ip in all_ips}
+    if args.refresh_ipapi:
+        need = [ip for ip in all_ips if ip not in ipcache]
+        if need:
+            print("联网反查 %d 个未缓存 IP ..." % len(need))
+            online = ipapi_batch(need, pause=1.5, key=args.key)
+            fresh = dict(ipcache)
+            for ip in need:
+                if online.get(ip):
+                    fresh[ip] = online[ip]
+                    resmap[ip] = online[ip]
+            save_ipapi_cache(fresh, cc_list=cc_list)
 
     hit = miss = 0
     miss_list = []
@@ -301,7 +448,7 @@ def main():
     covered_by_fallback = {}
     for ip in fallback_ips:
         res = resmap.get(ip)
-        if res is None:
+        if res is None or res[0] is None:
             continue
         cc = fallback_names[ip]
         got = res[0] + "-" + res[1]
@@ -317,44 +464,44 @@ def main():
             qfail = 0
             for ip in mult[(c, r)]:
                 res = resmap.get(ip)
-                if res is None:
+                if res is None or res[0] is None:
                     qfail += 1
                     continue
                 got = res[0] + "-" + res[1]
                 votes[got] = votes.get(got, 0) + 1
             if not votes:
                 miss += 1
-                miss_list.append((i, "/".join(mult[(c, r)]), "(全部查询失败)"))
+                miss_list.append((i, "/".join(mult[(c, r)]), "(全部查询失败/未缓存)"))
                 print("   ..  %-20s 查询失败" % (i,))
                 continue
             top = max(votes, key=votes.get)
             win = top == i
-            # 打印投票
             vote_txt = ", ".join("%s(%d)" % (k, v) for k, v in sorted(votes.items(), key=lambda x: -x[1]))
+            src = "缓存" if all(ip in ipcache for ip in mult[(c, r)]) else "混合"
             if win:
                 hit += 1
-                print("   OK  %-20s votes={%s}" % (i, vote_txt))
+                print("   OK  %-20s [%s] votes={%s}" % (i, src, vote_txt))
             else:
                 miss += 1
                 miss_list.append((i, "/".join(mult[(c, r)]), "投票=%s" % vote_txt))
-                print("   !!  %-20s 期望=%s votes={%s} (ip-api竞销票=%s)" % (i, i, vote_txt, top))
+                print("   !!  %-20s 期望=%s [%s] votes={%s}" % (i, i, src, vote_txt))
         else:
             ip = sample[(c, r)]
             res = resmap.get(ip)
-            if res is None:
+            if res is None or res[0] is None:
                 miss += 1
-                miss_list.append((i, ip, "(查询失败)"))
-                print("   %-20s ip=%s -> 查询失败" % (i, ip))
+                miss_list.append((i, ip, "(未缓存/查询失败)"))
+                print("   %-20s ip=%s -> 未缓存/查询失败" % (i, ip))
                 continue
             rcc, rrg, rcity = res
             got = rcc + "-" + rrg
             if got == i:
                 hit += 1
-                print("   OK  %-20s ip=%s city=%s -> ip-api=%s" % (i, ip, rcity, got))
+                print("   OK  %-20s [缓存] ip=%s city=%s -> ip-api=%s" % (i, ip, rcity, got))
             else:
                 miss += 1
                 miss_list.append((i, ip, "%s(≠) ip-api=%s city=%s" % (got, rcc, rcity)))
-                print("   !!  %-20s 期望=%s ip=%s -> ip-api=%s" % (i, i, ip, got))
+                print("   !!  %-20s 期望=%s [缓存] ip=%s -> ip-api=%s" % (i, i, ip, got))
 
     print("\n== ip-api 严格反向校验统计 ==")
     print("命中: %d  未命中: %d  命中率: %.1f%%" % (hit, miss, 100.0 * hit / max(1, hit + miss)))

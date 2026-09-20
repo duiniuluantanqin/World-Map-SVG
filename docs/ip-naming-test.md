@@ -15,7 +15,24 @@
 - `tests/ip_naming_test.py`：主测试脚本。
 - `docs/ip-naming-test.md`：本说明文档。
 
-## 数据源
+## 数据源与本地缓存（按国家分文件缓存）
+
+默认测试**完全离线**，依赖仓库内已固化的本地数据（按国家分文件，随仓库管理）：
+
+```
+tests/data/
+  maxmind_samples/<CC>.csv   # 每国：cc,region,ip,name（采样缓存）
+  ipapi_lookup/<CC>.csv      # 每国：ip,cc,region,city（ip-api 反查缓存）
+```
+
+测试时可按国家过滤，只读写对应该国的缓存文件（例如 `--countries cn` 只取 `CN.csv`）。
+
+| 缓存 | 内容 | 更新方式 |
+| --- | --- | --- |
+| `maxmind_samples/<CC>.csv` | 每国的 (cc, region) → 代表 IP + 名称 | `--refresh-maxmind` 重新采样 |
+| `ipapi_lookup/<CC>.csv` | 每国 IP 的 ip-api 反查结果 | `--refresh-ipapi` 联网刷新 |
+
+原始数据源（仅刷新时需要联网）：
 
 | 数据源 | 用途 | 来源 |
 | --- | --- | --- |
@@ -28,39 +45,43 @@
 ```
 SVG 已命名 id (CC-XX)
    │
-   ├─ 离线：用 maxmind 为该 (cc, region) 找到若干真实代表 IP
-   │         （黄金比例散列遍历 iptoasn 的该国 IP 段 + 缺失省定向补采）
+   ├─ 离线（默认）：读 maxmind_samples/<CC>.csv 为该 (cc, region) 取代表 IP，
+   │                读 ipapi_lookup/<CC>.csv 取该 IP 的反查结果 → 拼接 "CC-REGION"，
+   │                与 SVG 中该 id【精确相等】则命中。全程不联网。
    │
-   └─ 在线：用 ip-api 批量反查这些 IP，取 countryCode+region 拼接为 "CC-REGION"，
-            与 SVG 中该 id【精确相等】则命中
+   └─ 刷新（按需）：--refresh-maxmind 重新采样；--refresh-ipapi 联网补齐缓存。
 ```
 
 ## 用法
 
 ```bash
-# 离线：检查 SVG 干净 id 能否从 maxmind 找到代表 IP（不消耗 ip-api 配额）
-python tests/ip_naming_test.py --offline
-
-# 在线：对指定国家做 ip-api 严格反向校验
+# 默认离线校验（读缓存，秒级，不联网）
 python tests/ip_naming_test.py --countries cn,us,de
 
-# 在线 + 每省多 IP 投票（提升样本可信度，有更高限流承受）
+# 离线覆盖检查：多少漂亮 id 有缓存代表 IP（不联网）
+python tests/ip_naming_test.py --offline
+
+# 每省多 IP 投票（提升可信度）
 python tests/ip_naming_test.py --countries cn --vote 5
 
-# 若你有 ip-api 付费 key，可传入以提升配额
-python tests/ip_naming_test.py --countries cn --key YOUR_KEY
+# 按需重新采样 maxmind（写 tests/data/maxmind_samples.csv）
+python tests/ip_naming_test.py --refresh-maxmind
 
-# 全量（71 国）分批长跑：自动按国家重点 `/ip_naming_test.py`，批次间等待避开限流，
-# 结果写入 tests/results/<CC>.log，已完成国家记入 tests/results/done_ctry.csv（可续跑）。
-python tests/run_all_online.py --vote 2 --inter 40 --outdir tests/results
-python tests/run_all_online.py --countries br,mx --inter 40   # 只跑部分国家
+# 按需联网刷新某国 ip-api 缓存（写 tests/data/ipapi_lookup.csv；免费限流需耐心）
+python tests/ip_naming_test.py --countries cn --refresh-ipapi --vote 2
+
+# 全量分批联网刷新 ip-api 缓存（71 国，批次间等待避开限流，可续跑）
+python tests/run_all_online.py --refresh-ipapi --vote 2 --inter 30 --outdir tests/results
+python tests/run_all_online.py --refresh-ipapi --countries br,mx --inter 30
 ```
 
 `tests/ip_naming_test.py` 参数：
 - `--countries`：逗号分隔的国家码（默认空 = 全部国家）
-- `--offline`：只做离线覆盖检查，不发 ip-api 请求
+- `--offline`：只做离线覆盖检查，不发 ip-api 请求、不联网
 - `--vote N`：每省用 N 个候选 IP 投票，得票最多的作为该省判据（N>=2 启用）
-- `--key`：ip-api 付费 API key（可选）
+- `--refresh-maxmind`：重新用 maxmind 采样并写回 `maxmind_samples.csv`
+- `--refresh-ipapi`：对未缓存的 IP 联网反查并写回 `ipapi_lookup.csv`
+- `--key`：ip-api 付费 API key（可选，提升限流）
 - `--limit`：最多处理 N 条（调试用）
 
 ## 判定口径
@@ -83,15 +104,16 @@ python tests/run_all_online.py --countries br,mx --inter 40   # 只跑部分国�
 > 注：maxmind GeoLite2（2018 版内置）对 202 个国家和地区有省（subdivision）数据；
 > 约 40 个只能定位到国家，其中只有南苏丹（SS）与南极（AQ）同时出现在 SVG 的干净 id 中。
 
-## 在线覆盖策略
+## 在线覆盖策略（刷新缓存时）
 
 - **有省样本的国家**：对 SVG 每个干净 id，用该省 maxmind 代表 IP 反查 ip-api，
-  期望返回的 `countryCode-region` 精确等于该 id（支持多 IP 投票）。
+  期望返回的 `countryCode-region` 精确等于该 id（支持多 IP 投票）。结果落入 `ipapi_lookup.csv`。
 - **无省样本的国家**（如 SS/AQ 或 maxmind 精度不足的 44 国）：脚本会自动追加该国的
   兜底 IP（country_ips）参与 ip-api 反查，统计 ip-api 实际返回的 `CC-REGION` 是否存在于 SVG 命名中，
   从而实现对「所有国家」的覆盖尝试。
+- 刷新后的结果固化为缓存，**此后默认离线复用**，无需重复联网。
 
-实测命中率（在线，配额允许时）：
+实测命中率（在线刷新时测得，已反映在缓存）：
 - CN（投票）：约 84%~89%
 - CN+DE+US（投票）：约 79%
 - 未命中主要来自候选 IP 被 ip-api 定位到相邻/总部省份（移动运营商、数据中心 IP），

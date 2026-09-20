@@ -1,0 +1,68 @@
+cc,region,ip,name
+GT,,181.174.100.154,
+GT,,186.151.114.171,
+GT,,190.143.184.205,
+GT,,190.143.191.69,
+GT,,200.119.147.239,
+GT,,200.119.158.103,
+GT,,200.12.33.86,
+GT,,200.6.247.222,
+GT,AV,190.14.141.225,Departamento de Alta Verapaz
+GT,AV,190.56.114.126,Departamento de Alta Verapaz
+GT,AV,190.56.115.113,Departamento de Alta Verapaz
+GT,BV,190.149.54.85,Departamento de Baja Verapaz
+GT,BV,190.56.144.3,Departamento de Baja Verapaz
+GT,BV,190.56.149.246,Departamento de Baja Verapaz
+GT,BV,190.56.155.16,Departamento de Baja Verapaz
+GT,BV,190.56.155.233,Departamento de Baja Verapaz
+GT,CQ,186.151.208.250,Departamento de Chiquimula
+GT,CQ,186.151.210.7,Departamento de Chiquimula
+GT,CQ,186.151.211.20,Departamento de Chiquimula
+GT,CQ,186.151.212.33,Departamento de Chiquimula
+GT,CQ,186.151.213.46,Departamento de Chiquimula
+GT,ES,190.148.156.34,Departamento de Escuintla
+GT,ES,190.148.157.47,Departamento de Escuintla
+GT,ES,201.131.73.71,Departamento de Escuintla
+GT,ES,201.131.73.84,Departamento de Escuintla
+GT,ES,201.131.73.97,Departamento de Escuintla
+GT,GU,186.151.188.35,Departamento de Guatemala
+GT,GU,190.143.184.205,Departamento de Guatemala
+GT,GU,190.143.191.69,Departamento de Guatemala
+GT,GU,200.12.33.86,Departamento de Guatemala
+GT,GU,200.12.43.206,Departamento de Guatemala
+GT,HU,181.174.100.154,Departamento de Huehuetenango
+GT,HU,181.174.126.18,Departamento de Huehuetenango
+GT,HU,181.189.129.138,Departamento de Huehuetenango
+GT,HU,190.104.114.124,Departamento de Huehuetenango
+GT,HU,190.106.210.228,Departamento de Huehuetenango
+GT,JA,181.209.170.160,Departamento de Jalapa
+GT,JA,181.209.171.199,Departamento de Jalapa
+GT,JU,186.151.114.171,Departamento de Jutiapa
+GT,JU,186.151.118.143,Departamento de Jutiapa
+GT,JU,190.121.193.114,Departamento de Jutiapa
+GT,JU,190.121.206.60,Departamento de Jutiapa
+GT,JU,190.121.206.73,Departamento de Jutiapa
+GT,PE,181.209.138.53,Departamento del Peten
+GT,PE,181.209.193.91,Departamento del Peten
+GT,PR,190.148.164.73,Departamento de El Progreso
+GT,QC,181.209.210.239,Departamento del Quiche
+GT,QC,181.209.224.144,Departamento del Quiche
+GT,QC,181.209.229.90,Departamento del Quiche
+GT,QC,181.209.230.103,Departamento del Quiche
+GT,QC,181.209.231.116,Departamento del Quiche
+GT,QZ,186.151.119.130,Departamento de Quetzaltenango
+GT,QZ,186.151.33.26,Departamento de Quetzaltenango
+GT,QZ,190.148.155.21,Departamento de Quetzaltenango
+GT,QZ,190.56.66.195,Departamento de Quetzaltenango
+GT,QZ,190.56.8.75,Departamento de Quetzaltenango
+GT,RE,190.56.82.73,Departamento de Retalhuleu
+GT,SA,190.143.232.54,Departamento de Sacatepequez
+GT,SM,190.143.230.28,Departamento de San Marcos
+GT,SO,190.143.229.15,Departamento de Solola
+GT,SU,190.149.194.76,Suchitepeque
+GT,TO,181.209.195.236,Departamento de Totonicapan
+GT,ZA,190.148.130.101,Departamento de Zacapa
+GT,ZA,201.216.143.150,Departamento de Zacapa
+GT,ZA,207.248.101.20,Departamento de Zacapa
+GT,ZA,207.248.101.33,Departamento de Zacapa
+GT,ZA,207.248.101.7,Departamento de Zacapa

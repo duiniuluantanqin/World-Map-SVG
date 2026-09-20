@@ -1,0 +1,50 @@
+cc,region,ip,name
+SV,,170.239.239.120,
+SV,,190.150.179.188,
+SV,,190.57.20.103,
+SV,,190.57.21.205,
+SV,,200.73.110.171,
+SV,,216.184.127.154,
+SV,,66.249.198.137,
+SV,,66.249.207.239,
+SV,AH,179.51.6.0,Departamento de Ahuachapan
+SV,CA,190.150.125.70,Departamento de Cabanas
+SV,CU,190.150.90.135,Departamento de Cuscatlan
+SV,CU,190.150.90.88,Departamento de Cuscatlan
+SV,CU,190.150.93.190,Departamento de Cuscatlan
+SV,CU,190.150.93.237,Departamento de Cuscatlan
+SV,CU,190.150.94.28,Departamento de Cuscatlan
+SV,LI,170.239.239.120,Departamento de La Libertad
+SV,LI,190.150.140.240,Departamento de La Libertad
+SV,LI,190.150.61.192,Departamento de La Libertad
+SV,LI,190.150.72.140,Departamento de La Libertad
+SV,LI,66.249.196.35,Departamento de La Libertad
+SV,MO,190.57.103.196,Departamento de Morazan
+SV,MO,190.57.20.103,Departamento de Morazan
+SV,MO,190.57.21.205,Departamento de Morazan
+SV,MO,190.57.5.1,Departamento de Morazan
+SV,MO,190.57.77.94,Departamento de Morazan
+SV,SA,186.32.120.0,Departamento de Santa Ana
+SV,SA,186.32.120.209,Departamento de Santa Ana
+SV,SA,186.32.120.47,Departamento de Santa Ana
+SV,SA,190.57.73.146,Departamento de Santa Ana
+SV,SA,190.57.73.193,Departamento de Santa Ana
+SV,SM,143.0.105.232,Departamento de San Miguel
+SV,SM,167.249.22.180,Departamento de San Miguel
+SV,SM,179.51.16.63,Departamento de San Miguel
+SV,SM,179.51.17.165,Departamento de San Miguel
+SV,SM,190.150.179.188,Departamento de San Miguel
+SV,SO,190.150.78.187,Departamento de Sonsonate
+SV,SO,190.150.79.119,Departamento de Sonsonate
+SV,SO,190.150.79.25,Departamento de Sonsonate
+SV,SO,216.184.102.88,Departamento de Sonsonate
+SV,SO,216.184.103.203,Departamento de Sonsonate
+SV,SS,190.150.163.86,Departamento de San Salvador
+SV,SS,200.73.110.171,Departamento de San Salvador
+SV,SS,216.184.127.154,Departamento de San Salvador
+SV,SS,66.249.198.137,Departamento de San Salvador
+SV,SS,66.249.207.239,Departamento de San Salvador
+SV,SV,190.99.58.186,Departamento de San Vicente
+SV,UN,186.32.254.174,Departamento de La Union
+SV,US,190.99.52.92,Departamento de Usulutan
+SV,US,190.99.55.139,Departamento de Usulutan
