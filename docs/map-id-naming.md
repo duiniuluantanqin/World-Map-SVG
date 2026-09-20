@@ -17,7 +17,8 @@
 | 生成的 id 与已有 id 重名 | `<基础id>-<ISO后缀小写>` | `BG-sofia-23` |
 | 国家轮廓主路径 | `<cc>` 小写 | `us`、`se`、`pl` |
 
-- id 一律 ASCII；变音符号做转写（`EE-põlva` → `EE-polva`、`AL-vlorë` → `AL-vlore`）。
+- id 一律 ASCII；变音符号做转写（`EE-põlva` → `EE-polva`、`AL-vlorë` → `AL-vlore`、`TR-agrı` → `TR-agri`）。
+  注意土耳其无点 i（`ı`，U+0131）不会被 NFKD 分解，需显式转写成 `i`（批次 12 已修 `batchfast.py` 的 `deacc`）。
 - 只修改元素的 `id` 属性，不改几何、结构、顺序。
 
 ## 方法
@@ -46,6 +47,9 @@
 | 9 | RO, VE, MD, IR, DO | 156 个 id：RO 41、VE 24、MD 33、IR 27、DO 31 | VE 13 条三角洲碎块、MD 3 条（含德左）、IR 7 条、DO 3 条 |
 | 10 | IE, TZ, CU, NZ, RS | 99 个 id：IE 20、TZ 24、CU 15、NZ 15、RS 25 | IE 8、TZ 2、CU 8、NZ 7、RS 5（共 30 条追记于跳过表） |
 | 11 | US, RU | 124 个 id：US 43、RU 81 | US 18（重名拆分 8 + 岛屿 10）、RU 5（新地岛、印古什/阿迪格、莫斯科/圣彼得堡已命名） |
+| 12 | TR | 81 个 id：TR 81 | TR `path3456`（东色雷斯聚合单元） |
+
+批次 12 说明：土耳其（TR）为数字码国家（ISO 3166-2:TR 用 TR-01…TR-81），id 全部退化为英文名 kebab-case；因 ip-api `region` 不返回英文名，不做 ip-api 反向校验，以 NE 几何 IoU + 质心落点 + 面积比为准（同批次 8 的数字码国家）。81 条全部命名（IoU 0.57–0.99、面积比 0.80–1.23）。唯一入 flag 的 `path8635`（IoU 0.83、面积比 1.05、质心距 NE 标签 33 km）＝安塔利亚（Antalya）→ `TR-antalya`（质心落点判 False 系沿海多边形质心微落近岸缺口，IoU/面积比足以定案）。`path3456`（23949 km²）＝土耳其欧洲部分（东色雷斯）整体单元，横跨 Edirne/Kırklareli/Tekirdağ/İstanbul 等省（这些省图中已单独绘制并命名），无单一 NE admin-1 对应 → 保持魔数。
 
 批次 11 说明：美国（US）与俄罗斯（RU）字母码；US 里 8 条「重名」是已命名州（如 US-TX/US-MA）的 island/mainland 拆分块，需按拆分规则补后缀（后续单独处理），另有 10 条离岛；RU 的哈巴罗夫斯克/堪察加（IoU 0.86/0.84，质心 d300 因边疆区狭长）已采纳，新地岛（path6451）、印古什/阿迪格（IoU≤0.26）、莫斯科/圣彼得堡（已是规范名）跳过。US/RU 经 ip-api 正向校验命中 120/132（**90.9%**，这两个大国 IP 归属精度高，明显优于小国）。
 
@@ -152,6 +156,7 @@
 | world-states-provinces.svg | `RU` `path6451`（129515 km²） | 新地岛（75.27N/57.56E），NE `RU-X01~` 无对应 | 保持魔数 |
 | world-states-provinces.svg | `RU` `path6633`（印古什）/`path6655`（阿迪格） | 北高加索小共和国，IoU≤0.26 | 保持魔数 |
 | world-states-provinces.svg | `RU` `RU-SPE`/`RU-MOS` | 圣彼得堡、莫斯科，已是规范 id（城市放大），非魔数 | 不动 |
+| world-states-provinces.svg | `TR` `path3456` | 23949 km²，质心 41.31N/27.32E＝土耳其欧洲部分（东色雷斯）整体单元，横跨 Edirne/Kırklareli/Tekirdağ/İstanbul 等省（这些省图中已单独绘制并命名），无单一 NE admin-1 对应 | 保持魔数 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
