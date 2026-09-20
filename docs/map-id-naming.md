@@ -27,7 +27,7 @@
 2. 参考数据：Natural Earth 10m admin-1（公有领域，4596 个单元，100% 带 `iso_3166_2`）。
    位置：`D:\work\other\svg-naming\data\ne_10m_admin_1_states_provinces.geojson`
 3. 匹配顺序：质心经纬度落点（点在面内）→ IoU（≥0.55 且与次优差 ≥0.12）→ 最近邻兜底；三者都不满足则跳过。
-4. 工具：`D:\work\other\svg-naming\tools\`（`svgname.py` 投影/解析/索引，`batch_naming.py` 批量提议/改写/安全门，`apply_batch.py` 第一批脚本，`report_countries.py` 逐国可行性报告）。
+4. 工具：`D:\work\other\svg-naming\tools\`（`svgname.py` 投影/解析/索引，`batch_naming.py`/`batch_naming3.py` 批量提议（后者为质心优先+面积+距离匹配），`apply_batch.py` 第一批脚本，`report_countries.py` 逐国可行性报告）。
    产出物：`D:\work\other\svg-naming\out\`。
 5. 每批校验：`git diff` 逐行比对（除 id 外必须完全一致）、XML 可解析、id 全局唯一、新增 id 全 ASCII。
 
@@ -38,10 +38,20 @@
 | 1 | SE, PL, BG, CM, EE, AL | 98 个 id：SE 19、PL 14、BG 28、CM 10、EE 15、AL 12 | PL `path11041` |
 | 2 | ZW, ZM, TJ, TG, SZ, SS, RW, NA, LS, LR, KM, KG, GY, GQ, GM, GH, GA, CR, CI, CG, CD, CF, TD, SN, TM | 239 个 id：ZW 10、ZM 10、TJ 4、TG 5、SZ 4、SS 10、RW 5、NA 13、LS 10、LR 15、KM 3、KG 7、GY 10、GQ 6、GM 5、GH 9、GA 9、CR 7、CI 19、CG 10、CD 11、CF 16、TD 22、SN 14、TM 5 | 无 |
 | 3 | BN, BZ, DJ, ER, IL, BY, QA, IS, NE, PK, ML, BO, LT, OM, AM, BJ, ET, KP, JO, NL, HT, MZ | 196 个 id：BN 5、BZ 6、DJ 6、ER 6、IL 6、BY 7、QA 7、IS 8、NE 8、PK 7、ML 9、BO 10、LT 10、OM 10、AM 11、BJ 11、ET 11、KP 11、JO 12、NL 11、HT 13、MZ 12 | PK `path10354`、MZ `path3384`；另 `path10369` 命名后回滚 |
+| 4 | JM, MR, PA, SV, SY, TL, UZ, CL, BI, LA, PY | 162 个 id：JM 14、MR 13、PA 12、SV 14、SY 14、TL 14、UZ 14、CL 16、BI 17、LA 17、PY 17 | MR `path3878`、PA `path7512`/`path4792`、UZ `path9423` |
 
 批次 2 说明：TJ/KG/GQ/GM/GH/CG/CF 的本图单元数略少于 NE（如 TJ 4 vs 5），差值是 NE 多出的 X01~ 类单元或独立市（如 TJ-DU 杜尚别），不是年代差异；CD 的 11 个单元与 NE 的 2015 年前省制（Équateur、Bandundu、Orientale、Katanga）一致，与本图年代相符，故沿用。
 
 批次 3 说明：先用质心法出提议，再用「面积比 + 质心距离」二次校验，修正 4 处误判（`IL-TA`→`IL-M`、`IL-TA-1`→`IL-TA`、`ML-koulikoro-1`→`ML-BKO`、`ET-OR-1`→`ET-HA`），并回滚 1 处无法确认的命名（`PK-PB-1`→`path10369`）。本图会把小行政区放大绘制（Harari 2.8 倍、Bamako 10 倍），质心容易被相邻大区吸入，面积+距离双指标更可靠。
+
+批次 4 说明：改用「质心是否落在 NE 面内」优先、再按标签点距离与面积比的匹配（工具 `batch_naming3.py`），本批 40 个需要人工判断的单元里绝大多数为「同区域相邻小单元面积相近」造成的歧义，均按质心落点定案。逐国特殊情况：
+- `SY` `path12136`（2733 km²）＝库奈特拉省（`SY-QU`）。图上是整个库奈特拉省含戈兰高地；NE 的 `SY-QU` 仅 512 km²（叙利亚实际控制部分），故面积比 5.34。按中国口径（戈兰为叙利亚被占领土）沿用图的归属 ✔
+- `CL` 为 2018 年前版本：`path19988`（37417 km²）＝旧比奥比奥 `CL-BI`（非 Ñuble，NE `CL-NB` 未使用）；`path6472`（27844 km²）＝麦哲伦大区的火地岛部分 → `CL-MA-1`
+- `LA`：`path80641`（4095 km²，万象）＝万象直辖市；NE 缺 `LA-VT`，按 ISO 3166-2 补
+- `PY`：图无亚松森单元（NE `PY-ASU` 未使用），首都并入 `PY-central`
+- `UZ`：图无塔什干市单元（NE `UZ-TK` 未使用）；`path9394`＝`UZ-SI`（锡尔河州，面积比 1.00）、`path9396`（41 km² 碎块）＝`UZ-SI-1`；`path9423` 无归属，跳过
+- `TL`：`path27342` 与 `path2788` 几何完全相同（欧库西重复），命名 `TL-OE-1`
+- `PA`：图 14 单元 / NE 12。`path7512`（3130 km²，紧邻巴拿马城）疑为 2014 年新设的 Panamá Oeste（NE 未收录）；`path4792`（68 km²）为奇里基湾科伊瓦岛。两者均保持魔数待确认
 
 ## 批次 1-3 复核修正
 
@@ -68,6 +78,11 @@
 | world-states-provinces.svg | `MZ` `path3384` | 0.04 px² 沿海碎块，与所有 NE 候选 IoU 均为 0 | 保持 `path3384` |
 | world-states-provinces.svg | `OM` `path4786` | 307538 km² ≈ 全国面积，是 `<g id="om">` 内嵌的轮廓副本，非行政单元 | 暂不命名（轮廓类） |
 | world-states-provinces.svg | `IS` `IS-reykjavik` | 1298 km²，实为 NE `IS-1`（Capital，832）+`IS-0`（Reykjavík，504）合并（合计 1336，比 0.97） | 暂用 `IS-reykjavik`；如需按 IS-1 命名请告知 |
+| world-states-provinces.svg | `MR` `path3878` | 264 km²，努瓦克肖特以北沿海（19.75N,16.42W），NE 13 个要素均已占用 | 保持 `path3878`（疑为海岸/岛屿碎块） |
+| world-states-provinces.svg | `PA` `path7512` | 3130 km²，紧邻巴拿马城；疑为 2014 年设立的 Panamá Oeste，NE 未收录 | **待你确认**：建议 `PA-panama-oeste`（或 ISO `PA-10`） |
+| world-states-provinces.svg | `PA` `path4792` | 68 km² 海岛（8.26N,82.41W，奇里基湾科伊瓦岛） | **待你确认**：归入 `PA-chiriqui` 的碎块 `PA-chiriqui-1`，或保持原样 |
+| world-states-provinces.svg | `UZ` `path9423` | 8502 km²（40.93N,62.42E，布哈拉以北），NE 无对应要素，且 14 个要素已全部占用 | 保持 `path9423`（疑为图上多余/重叠多边形） |
+| world-states-provinces.svg | `SY` `SY-QU` | 已命名，含戈兰高地（争议地区） | 按中国口径（戈兰为叙利亚被占领土）沿用图上归属；如需加注请告知 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
