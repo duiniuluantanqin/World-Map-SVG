@@ -65,10 +65,13 @@
 | 27 | KE | 47 个 id：KE 47 县（质心近邻匹配） | 无（47 县全部落定，最大质心距 34.5km） |
 | 28 | PS, MK, MW | 27 个 id：PS 16、MK 8、MW 3（质心近邻匹配） | MG 暂缓（openadmindata 质心缺/错位）；其余见「剩余工作」 |
 | 29 | MG | 22 个 id：MG 22 区（NE name 质心 + 英文名） | MG 用 NE `name` 字段（22 区名），ISOne 只编 6 省故弃 iso |
+| 30 | CY | 6 个 id：CY 6 区（质心近邻，英文名） | 无（Famagusta 跨北部，20.2km 低置信） |
 
 批次 27 说明：肯尼亚（KE）为数字码国家（ISO 3166-2:KE，KE-01…KE-47，47 县）。NE 10m 里 KE 只有 8 个旧省（2010 年宪法改县制之前的建制），与图的 47 县粒度错配，凡NE 多边形几何匹配不可用。本批改用**质心近邻法**（此前仅用于「最近邻兜底」，现升级为主路径）：从 openadmindata 拉 47 县的 `(name_en, lat, lon)`（OCHA COD-AB 源），把每个叶 path 的 Robinson 投影质心换算成经纬度，做「全局贪心最近邻（每县只配一次）」匹配；47 县全部落定、双射成立、最大质心距 34.5 km（Samburu，县面狭长所致），无歧义。数字码 → 英文名 kebab（`KE-mombasa`、`KE-nairobi`、`KE-elgeyo-marakwet`…）。工具 `tools/fetch_admin.py` + `tools/batch_centroid.py`，参考数据 `tools/data/admin1/KE.csv`。此法适用于「NE 粒度与图不匹配」的国家——只要 openadmindata 的某层单元数与图的魔数叶单元数一致即可（见批次 28 的 PS/MK/MW）。
 
 批次 29 说明：马达加斯加（MG）图绘 22 区（faritra），但 ISO 3166-2:MG 只编 6 省、openadmindata 的 22 区质心又缺/错位（如 Haute Matsiatra 为 0,0）。改用 **NE 10m 的 `name` 字段**（22 区名，NE 的 `iso_3166_2` 是 6 省旧码、`name_en` 半对半错，均不可用）+ NE label point（lat/lon）作质心，`tools/extract_ne.py MG --name name --no-iso`，质心近邻命名 → 22 区英文名 kebab（`MG-analamanga`、`MG-atsimo-andrefana`、`MG-amoroni-mania`…），最大质心距 35.5km。
+
+批次 30 说明：塞浦路斯（CY）为数字码国家，6 区划（Nicosia/Limassol/Larnaca/Famagusta/Paphos/Kyrenia），openadmindata 顶层 `district(6)` 与图 6 叶单元一致，质心近邻一次性落定（`CY-nicosia` 等英文名）。Famagusta 因含北塞浦路斯、图上拆分导致质心距 20.2km，按双射采纳、低置信保留（中国口径下北路属塞）。
 
 批次 28 说明：PS（巴勒斯坦 16 省，**字母码** `PS-JEN`/`PS-GZA`/`PS-BTH`…，注意 openadmindata 给的是 OCHA COD 数字码 `PS-101`…需手工换成 ISO 字母码）、MK（北马其顿 8 统计区，无 ISO 码 → 英文名 `MK-eastern`…）、MW（马拉维 3 区，无 ISO 码 → `MW-northern/central/southern`）。三者仍用质心近邻（`fetch_admin.py --level governorate/region/region`），共 27 个 id。PS 的 Bethlehem（68.9km）、Jericho（58.9km）为本图把微型省放大/位移所致，按双射推定为正确、低置信保留。MG（马达加斯加 22 区）openadmindata 质心缺/错位（如 Haute Matsiatra 为 0,0），暂缓。
 
