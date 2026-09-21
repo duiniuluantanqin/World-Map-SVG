@@ -61,6 +61,7 @@
 | 23 | KH, GR, CZ, BS | 59 个 id：KH 18、GR 13、CZ 12、BS 16 | BS `path6094`/`path6096`（大岛跨多区）；AZ/SI/LK 整国跳过（NE 粒度错配） |
 | 24 | VU, GW, MA, BW | 49 个 id：VU 14、GW 14、MA 12、BW 9 | BF/GN 整国跳过（NE 粒度错配） |
 | 25 | FJ, AD | 16 个 id：FJ 8、AD 8 | MK/CV/NP/LV/BT/AQ 整国跳过（NE 粒度错配/无行政区） |
+| 26 | ST | 2 个 id：ST 2（São Tomé/Príncipe） | KW 整国跳过（图上仅 ~2px，6 省无法可靠区分） |
 
 批次 15 说明：印度尼西亚（ID）为字母码国家（ISO 3166-2:ID，ID-AC…ID-PB），群岛型、每省拆成多块，本图共 194 个叶单元。命名以「质心落点」点入面为主（叶 path 质心落到 NE 33 省面内），同省多岛按面积降序加数字后缀（如 `ID-MA`（马鲁古）32 块 → `ID-MA`…`ID-MA-31`；`ID-KR`（廖内群岛）的块因省组 id 已占用 → `ID-KR-1`…）。本批共 186 个 id（184 魔数 + 原命名垃圾 `Indonesiaisland1/2` → `ID-KR-14`/`ID-KR-15`）。特殊处理：`path7376`（76447 km²，2.86N/116.23E）＝北加里曼丹省（North Kalimantan），2012 年才从东加里曼丹分出，NE 10m（2012 前版）无 `ID-KU`，按现行 ISO 3166-2 补 `ID-KU`；`path26703` 与 `path7172` 几何完全相同（NTT 重复绘制），同组命名 `ID-NT-1`/`ID-NT-2`；8 条离岸小岛（四王群岛 Raja Ampat、Bomberai/Cenderawasih 沿岸、Banggai 群岛、马哈坎三角洲、Gorong 群岛）NE 省面未覆盖，按地理归属手工补 `ID-PB`/`ID-ST`/`ID-KI`/`ID-MA`。本图另有 22 个 `gNNNN` 容器组（province 分组壳）沿用既往批次约定**仅重命名叶元素、不重命名容器组**，保持魔数（全文件此类容器组共 50 个，TH/NZ 等已处理批次同样保留）。
 
@@ -227,3 +228,25 @@
    - `GE` 6 条嵌套多边形、`AF` 的 NE 重码要素同属此类。
 8. **校验工具注意**：`%TEMP%\batchfast.py` 的 IoU 按 bbox **交集**统计，套嵌时虚高（会把 45 万 km² 的块判成 1 万 km² 州的 0.7 IoU）。
    后续批量一律用 `%TEMP%\ious.py`（并集范围 + PIL 逻辑运算，等价真值）复核，再用 `%TEMP%\vb2.py` 做「除 id 外字节全同」校验。
+
+## 剩余工作与数据缺口（批次 26 之后）
+
+批次 26 起，工具链已收编入仓库 [`tools/`](../tools/README.md)，不再依赖 `%TEMP%` / `D:\work\other`，
+可复现地对任意国家 propose/apply/verify，并逐批留痕（`tools/batches/*.csv`）。**但 NE 10m admin-1
+能自动解决的国家已基本耗尽**，`src/world-states-provinces.svg` 剩余约 459 条魔数 id 大部分是「数据缺口」而非「待跑」：
+
+1. **已记录的跳过项**（本页「跳过/待确认」表）：约 150+ 条（NG 24、VE 13、IE 8、IR 7、GE 6、NZ 7、ID 3、TH 8、VN 9、US 9、RU 3、RS 5、MD 3、DO 3、SA 4、TN 3、TZ 2 等），已定案、无需再处理（除非单独授权）。
+2. **NE 粒度错配的整国**：NE 10m admin-1 是「省/州」级，而图在这些国家画成了「县/市镇」级（更细）或更粗，几何匹配不可靠——
+   - 更细（图比 NE 细）：`KE`(47 县)、`AZ`(78 rayon)、`SI`(192 občina)、`MK`(84 市镇)、`CV`(22 市镇)、`LK`(25 县)、`BF`/`GN`/`LV`/`NP`/`BT` 等，
+     需引入 GADM / geoBoundaries / OCHA COD 等更细数据源；
+   - 更粗/无 ISO 码：`MG`(22 区，ISO 3166-2:MG 只编 6 省)、`PS`(图 16 省 vs NE 2)、`MW`(图 3 大区 vs NE 28 县)、`FK`/`FO`/`NC`/`CK`/`VI`/`VG`/`PR` 等无行政区的属地/群岛；
+   - 图尺度太小无法区分：`KW`(6 省仅 ~2px)。
+3. **`src/world-states.svg`**：同一投影（viewBox 0 0 1000 507.209，py 投影常量通用）但为独立/较粗的图，约 2050 条魔数 id
+   （CA 285、US 150、RU 179、ID 168、CL 155、GL 146、NO 94、PH 57、BR 39、JP 37、GR 36、PG 33……），整文件尚未处理，
+   是本任务剩余量最大的部分；可用同一工具链继续（需单独对每个国家核对 NE 粒度）。
+4. **隐藏组 `_x2D_*`**（`-so`/`-sos`/`-ts`/`-xc`/`-xn`/`-cy`/`-abc`，`display="none"`，32 条）为非渲染的隐藏分组，暂不改。
+
+> 跳过项与逐国粒度分析可用 `python tools/enumerate.py` / `python tools/analyze.py` 复现。
+
+校验侧同步新增 ip2location 数据源（替代 ip-api，支持数字 region 码如 `VN-54`），见
+[`docs/ip2location-test.md`](ip2location-test.md) 与 `tests/ip2loc_naming_test.py`。
