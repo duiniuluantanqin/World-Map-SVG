@@ -68,6 +68,7 @@
 | 30 | CY | 6 个 id：CY 6 区（质心近邻，英文名） | 无（Famagusta 跨北部，20.2km 低置信） |
 | 31 | BF | 13 个 id：BF 13 大区（geoBoundaries ADM1 质心） | 无（13 区全部落定，最大质心距 11.5km） |
 | 32 | GN | 8 个 id：GN 8 区（geoBoundaries 质心 + ISO 字母码） | 离岸小岛 path5380（近几内亚比绍边界，歧义） |
+| 33 | NP | 5 个 id：NP 5 发展区（W→E 手工归并） | 用已废止的 2015 年前 5 发展区（英文名） |
 
 批次 27 说明：肯尼亚（KE）为数字码国家（ISO 3166-2:KE，KE-01…KE-47，47 县）。NE 10m 里 KE 只有 8 个旧省（2010 年宪法改县制之前的建制），与图的 47 县粒度错配，凡NE 多边形几何匹配不可用。本批改用**质心近邻法**（此前仅用于「最近邻兜底」，现升级为主路径）：从 openadmindata 拉 47 县的 `(name_en, lat, lon)`（OCHA COD-AB 源），把每个叶 path 的 Robinson 投影质心换算成经纬度，做「全局贪心最近邻（每县只配一次）」匹配；47 县全部落定、双射成立、最大质心距 34.5 km（Samburu，县面狭长所致），无歧义。数字码 → 英文名 kebab（`KE-mombasa`、`KE-nairobi`、`KE-elgeyo-marakwet`…）。工具 `tools/fetch_admin.py` + `tools/batch_centroid.py`，参考数据 `tools/data/admin1/KE.csv`。此法适用于「NE 粒度与图不匹配」的国家——只要 openadmindata 的某层单元数与图的魔数叶单元数一致即可（见批次 28 的 PS/MK/MW）。
 
@@ -78,6 +79,8 @@
 批次 31 说明：布基纳法索（BF）图绘 13 大区（région），但 NE 10m 给的是 45 省（admin-2）、openadmindata 顶层错标成 17 省名。引入 **geoBoundaries ADM1**（13 大区，CC BY 4.0，经 GitHub LFS 媒体源 `media.githubusercontent.com` 拉取，见 `tools/fetch_geoboundaries.py`），对每区外环算面积加权质心 → 质心近邻命名 13 区英文/法文名 kebab（`BF-centre`、`BF-hauts-bassins`、`BF-boucle-du-mouhoun`…），最大质心距 11.5km。**geoBoundaries 是「图比 NE 粗/细」国家更可靠的数据源**（ADM1/ADM2 可选对齐图的尺度）。
 
 批次 32 说明：几内亚（GN）图绘 8 区（7 行政区 + Conakry 直辖市，ISO 字母码 `GN-B/C/D/F/K/L/M/N`）+ 1 条离岸小岛。geoBoundaries ADM1 给 8 区名但无 ISO 码，故先质心近邻定名、再按 ISO 3166-2:GN 手工换字母码（`GN-B` Boké、`GN-C` Conakry…）；离岸小岛 `path5380`（10.9N/15.0W，近几内亚比绍，属 îles de Tristão 一带）歧义，保持魔数。
+
+批次 33 说明：尼泊尔（NP）图绘 5 条 W→E 横带，是按 2015 年被 7 省取代的旧「5 发展区」绘制（现行 ISO 3166-2:NP 只有 7 省，无发展区码）。按质心经度自西向东手工归并：`NP-far-western`(80.97°E)、`NP-mid-western`(82.11°)、`NP-western`(83.74°)、`NP-central`(85.39°)、`NP-eastern`(87.12°)，5 条全部落定、经度单调无歧义。
 
 批次 28 说明：PS（巴勒斯坦 16 省，**字母码** `PS-JEN`/`PS-GZA`/`PS-BTH`…，注意 openadmindata 给的是 OCHA COD 数字码 `PS-101`…需手工换成 ISO 字母码）、MK（北马其顿 8 统计区，无 ISO 码 → 英文名 `MK-eastern`…）、MW（马拉维 3 区，无 ISO 码 → `MW-northern/central/southern`）。三者仍用质心近邻（`fetch_admin.py --level governorate/region/region`），共 27 个 id。PS 的 Bethlehem（68.9km）、Jericho（58.9km）为本图把微型省放大/位移所致，按双射推定为正确、低置信保留。MG（马达加斯加 22 区）openadmindata 质心缺/错位（如 Haute Matsiatra 为 0,0），暂缓。
 
