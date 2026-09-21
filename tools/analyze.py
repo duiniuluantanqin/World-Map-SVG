@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """分析每个剩余组：SVG 魔数叶单元数 vs NE admin-1 要素数，辅助判断可自动命名性。"""
+import argparse
 import json
 import re
 import os
@@ -23,8 +24,12 @@ def tag(e):
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--file", default=SRC, help="目标 SVG（默认 provinces）")
+    args = ap.parse_args()
+    SRC_ = os.path.abspath(args.file)
     ne = NEIndex(NE_PATH)
-    root = ET.parse(SRC).getroot()
+    root = ET.parse(SRC_).getroot()
     # 分组：国家组 -> [叶子魔数 id]
     leaf = leaf_regions(root)
     # 建立 叶id -> 父国家组

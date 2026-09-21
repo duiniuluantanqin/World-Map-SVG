@@ -241,9 +241,12 @@
      需引入 GADM / geoBoundaries / OCHA COD 等更细数据源；
    - 更粗/无 ISO 码：`MG`(22 区，ISO 3166-2:MG 只编 6 省)、`PS`(图 16 省 vs NE 2)、`MW`(图 3 大区 vs NE 28 县)、`FK`/`FO`/`NC`/`CK`/`VI`/`VG`/`PR` 等无行政区的属地/群岛；
    - 图尺度太小无法区分：`KW`(6 省仅 ~2px)。
-3. **`src/world-states.svg`**：同一投影（viewBox 0 0 1000 507.209，py 投影常量通用）但为独立/较粗的图，约 2050 条魔数 id
-   （CA 285、US 150、RU 179、ID 168、CL 155、GL 146、NO 94、PH 57、BR 39、JP 37、GR 36、PG 33……），整文件尚未处理，
-   是本任务剩余量最大的部分；可用同一工具链继续（需单独对每个国家核对 NE 粒度）。
+3. **`src/world-states.svg`（已确认无需省份命名，暂缓）**：同一投影（viewBox 0 0 1000 507.209，py 投影常量通用），
+   但它其实是 README 里说的「small map / 仅国家、无省份」版本——约 2050 条 `pathNNNN` 全是**各国几何碎片**
+   （本土 `stroke-width=0.5` + 岛屿/湖区缝隙 `0.2`；如 US=2 主体+148 碎屑、CA=1+284、RU=3+177），
+   全文件**没有** `US-TX`/`CA-ON` 这类省 id（曾误判的 239 个 `CC-XX` 实为 `CC-label` 国家文字标签）。
+   因此无法套用 ISO 3166-2 省份规则；若要做，是「把每国主体路径归一为 `cc` 小写 + 碎片 → `cc-N`」的国家级归一
+   （机械、可自动），而非省份命名。**经确认暂不处理**。
 4. **隐藏组 `_x2D_*`**（`-so`/`-sos`/`-ts`/`-xc`/`-xn`/`-cy`/`-abc`，`display="none"`，32 条）为非渲染的隐藏分组，暂不改。
 
 > 跳过项与逐国粒度分析可用 `python tools/enumerate.py` / `python tools/analyze.py` 复现。
