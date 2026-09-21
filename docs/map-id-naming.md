@@ -63,8 +63,11 @@
 | 25 | FJ, AD | 16 个 id：FJ 8、AD 8 | MK/CV/NP/LV/BT/AQ 整国跳过（NE 粒度错配/无行政区） |
 | 26 | ST | 2 个 id：ST 2（São Tomé/Príncipe） | KW 整国跳过（图上仅 ~2px，6 省无法可靠区分） |
 | 27 | KE | 47 个 id：KE 47 县（质心近邻匹配） | 无（47 县全部落定，最大质心距 34.5km） |
+| 28 | PS, MK, MW | 27 个 id：PS 16、MK 8、MW 3（质心近邻匹配） | MG 暂缓（openadmindata 质心缺/错位）；其余见「剩余工作」 |
 
-批次 27 说明：肯尼亚（KE）为数字码国家（ISO 3166-2:KE，KE-01…KE-47，47 县）。NE 10m 里 KE 只有 8 个旧省（2010 年宪法改县制之前的建制），与图的 47 县粒度错配，凡NE 多边形几何匹配不可用。本批改用**质心近邻法**（此前仅用于「最近邻兜底」，现升级为主路径）：从 openadmindata 拉 47 县的 `(name_en, lat, lon)`（OCHA COD-AB 源），把每个叶 path 的 Robinson 投影质心换算成经纬度，做「全局贪心最近邻（每县只配一次）」匹配；47 县全部落定、双射成立、最大质心距 34.5 km（Samburu，县面狭长所致），无歧义。数字码 → 英文名 kebab（`KE-mombasa`、`KE-nairobi`、`KE-elgeyo-marakwet`…）。工具 `tools/fetch_admin.py` + `tools/batch_centroid.py`，参考数据 `tools/data/admin1/KE.csv`。此法同样适用于 AZ/SI/MK/CV/LK 等「图比 NE 细」的剩余国家。
+批次 27 说明：肯尼亚（KE）为数字码国家（ISO 3166-2:KE，KE-01…KE-47，47 县）。NE 10m 里 KE 只有 8 个旧省（2010 年宪法改县制之前的建制），与图的 47 县粒度错配，凡NE 多边形几何匹配不可用。本批改用**质心近邻法**（此前仅用于「最近邻兜底」，现升级为主路径）：从 openadmindata 拉 47 县的 `(name_en, lat, lon)`（OCHA COD-AB 源），把每个叶 path 的 Robinson 投影质心换算成经纬度，做「全局贪心最近邻（每县只配一次）」匹配；47 县全部落定、双射成立、最大质心距 34.5 km（Samburu，县面狭长所致），无歧义。数字码 → 英文名 kebab（`KE-mombasa`、`KE-nairobi`、`KE-elgeyo-marakwet`…）。工具 `tools/fetch_admin.py` + `tools/batch_centroid.py`，参考数据 `tools/data/admin1/KE.csv`。此法适用于「NE 粒度与图不匹配」的国家——只要 openadmindata 的某层单元数与图的魔数叶单元数一致即可（见批次 28 的 PS/MK/MW）。
+
+批次 28 说明：PS（巴勒斯坦 16 省，**字母码** `PS-JEN`/`PS-GZA`/`PS-BTH`…，注意 openadmindata 给的是 OCHA COD 数字码 `PS-101`…需手工换成 ISO 字母码）、MK（北马其顿 8 统计区，无 ISO 码 → 英文名 `MK-eastern`…）、MW（马拉维 3 区，无 ISO 码 → `MW-northern/central/southern`）。三者仍用质心近邻（`fetch_admin.py --level governorate/region/region`），共 27 个 id。PS 的 Bethlehem（68.9km）、Jericho（58.9km）为本图把微型省放大/位移所致，按双射推定为正确、低置信保留。MG（马达加斯加 22 区）openadmindata 质心缺/错位（如 Haute Matsiatra 为 0,0），暂缓。
 
 批次 15 说明：印度尼西亚（ID）为字母码国家（ISO 3166-2:ID，ID-AC…ID-PB），群岛型、每省拆成多块，本图共 194 个叶单元。命名以「质心落点」点入面为主（叶 path 质心落到 NE 33 省面内），同省多岛按面积降序加数字后缀（如 `ID-MA`（马鲁古）32 块 → `ID-MA`…`ID-MA-31`；`ID-KR`（廖内群岛）的块因省组 id 已占用 → `ID-KR-1`…）。本批共 186 个 id（184 魔数 + 原命名垃圾 `Indonesiaisland1/2` → `ID-KR-14`/`ID-KR-15`）。特殊处理：`path7376`（76447 km²，2.86N/116.23E）＝北加里曼丹省（North Kalimantan），2012 年才从东加里曼丹分出，NE 10m（2012 前版）无 `ID-KU`，按现行 ISO 3166-2 补 `ID-KU`；`path26703` 与 `path7172` 几何完全相同（NTT 重复绘制），同组命名 `ID-NT-1`/`ID-NT-2`；8 条离岸小岛（四王群岛 Raja Ampat、Bomberai/Cenderawasih 沿岸、Banggai 群岛、马哈坎三角洲、Gorong 群岛）NE 省面未覆盖，按地理归属手工补 `ID-PB`/`ID-ST`/`ID-KI`/`ID-MA`。本图另有 22 个 `gNNNN` 容器组（province 分组壳）沿用既往批次约定**仅重命名叶元素、不重命名容器组**，保持魔数（全文件此类容器组共 50 个，TH/NZ 等已处理批次同样保留）。
 
