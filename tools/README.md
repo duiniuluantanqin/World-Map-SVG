@@ -13,9 +13,12 @@
 | `svgname.py` | 核心库：SVG path 解析、叶区域提取、Robinson 投影互转、Natural Earth admin-1 索引、id 生成（ASCII 转写 / kebab / 字母后缀大写·数字后缀英文名） |
 | `enumerate.py` | 枚举剩余魔数 id，按父国家组分组统计 |
 | `analyze.py` | 对比每个剩余组「SVG 魔数叶单元数 vs NE admin-1 要素数」，辅助判断是否可自动命名 |
-| `batch.py` | 自动 propose（质心落点 → 并集 bbox IoU → 最近邻兜底）+ apply + verify + 可选 git 提交 |
+| `batch.py` | 自动 propose（质心落点 → 并集 bbox IoU → 最近邻兜底）+ apply + verify + 可选 git 提交（依赖 NE 多边形） |
+| `fetch_admin.py` | 从 openadmindata.org 拉取某国行政区**质心+英文名+ISO 码** → `data/admin1/<CC>.csv`（无 NE 多边形可用时） |
+| `batch_centroid.py` | 用 `data/admin1/<CC>.csv` 的质心做**最近邻命名**（数字码国家 → 英文名）+ apply + verify + 可选 git 提交 |
 | `apply.py` | 应用一份人工确认的 `old_id,new_id` 映射表（含校验 + 可选提交） |
 | `batches/` | 每批的定案映射 CSV（可复现、留痕） |
+| `data/admin1/` | 逐国行政区质心参考数据（小体积，随仓库管理；见下方「数据源」） |
 
 ## 依赖
 
@@ -26,8 +29,12 @@
   可用环境变量 `NE_PATH` 覆盖。
 
   > 该数据源是「省/州」级别 admin-1；对把 SVG 画成「县/市镇」级的国家（如 KE 47 县、AZ 78 rayon、
-  > SI 192 občina），NE 粒度比图更细或更粗，几何匹配会失败——这类国家需要更细的数据源（GADM /
-  > geoBoundaries / OCHA COD）才能可靠命名，见 `docs/map-id-naming.md`。
+  > SI 192 občina），NE 粒度比图更细或更粗，几何匹配会失败——这类国家用下面的**质心数据**兜底命名。
+
+- 质心参考数据 `data/admin1/<CC>.csv`（`iso,name_en,lat,lon`，小体积、随仓库管理）
+  来源 [openadmindata.org](https://openadmindata.org)（OCHA COD-AB + geoBoundaries，CC BY-IGO）、
+  由 `fetch_admin.py` 生成；`batch_centroid.py` 用「投影质心 → 经纬度 → 最近邻(每单元配一次)」匹配命名。
+  对「NE 粒度错配」的国家（图是县/市镇级），这一质心法比 NE 多边形更贴合图的尺度。
 
 ## 用法
 
@@ -49,6 +56,11 @@ python tools/batch.py ST --apply --commit "batch 26: ST"
 
 # 6) 人工定案映射表（跨核对/修正后逐条应用）
 python tools/apply.py tools/batches/batch26.csv --commit "batch 26: ST KW"
+
+# 7) 粒度错配国（NE 多边形对不上图的尺度）改用"质心近邻"命名：
+python tools/fetch_admin.py KE            # 拉取肯尼亚 47 县质心 -> data/admin1/KE.csv
+python tools/batch_centroid.py KE          # 试算最近邻匹配
+python tools/batch_centroid.py KE --apply --commit "batch 27: KE"
 ```
 
 ## 命名规则（详见 `docs/map-id-naming.md`）

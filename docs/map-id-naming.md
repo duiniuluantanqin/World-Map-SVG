@@ -62,6 +62,9 @@
 | 24 | VU, GW, MA, BW | 49 个 id：VU 14、GW 14、MA 12、BW 9 | BF/GN 整国跳过（NE 粒度错配） |
 | 25 | FJ, AD | 16 个 id：FJ 8、AD 8 | MK/CV/NP/LV/BT/AQ 整国跳过（NE 粒度错配/无行政区） |
 | 26 | ST | 2 个 id：ST 2（São Tomé/Príncipe） | KW 整国跳过（图上仅 ~2px，6 省无法可靠区分） |
+| 27 | KE | 47 个 id：KE 47 县（质心近邻匹配） | 无（47 县全部落定，最大质心距 34.5km） |
+
+批次 27 说明：肯尼亚（KE）为数字码国家（ISO 3166-2:KE，KE-01…KE-47，47 县）。NE 10m 里 KE 只有 8 个旧省（2010 年宪法改县制之前的建制），与图的 47 县粒度错配，凡NE 多边形几何匹配不可用。本批改用**质心近邻法**（此前仅用于「最近邻兜底」，现升级为主路径）：从 openadmindata 拉 47 县的 `(name_en, lat, lon)`（OCHA COD-AB 源），把每个叶 path 的 Robinson 投影质心换算成经纬度，做「全局贪心最近邻（每县只配一次）」匹配；47 县全部落定、双射成立、最大质心距 34.5 km（Samburu，县面狭长所致），无歧义。数字码 → 英文名 kebab（`KE-mombasa`、`KE-nairobi`、`KE-elgeyo-marakwet`…）。工具 `tools/fetch_admin.py` + `tools/batch_centroid.py`，参考数据 `tools/data/admin1/KE.csv`。此法同样适用于 AZ/SI/MK/CV/LK 等「图比 NE 细」的剩余国家。
 
 批次 15 说明：印度尼西亚（ID）为字母码国家（ISO 3166-2:ID，ID-AC…ID-PB），群岛型、每省拆成多块，本图共 194 个叶单元。命名以「质心落点」点入面为主（叶 path 质心落到 NE 33 省面内），同省多岛按面积降序加数字后缀（如 `ID-MA`（马鲁古）32 块 → `ID-MA`…`ID-MA-31`；`ID-KR`（廖内群岛）的块因省组 id 已占用 → `ID-KR-1`…）。本批共 186 个 id（184 魔数 + 原命名垃圾 `Indonesiaisland1/2` → `ID-KR-14`/`ID-KR-15`）。特殊处理：`path7376`（76447 km²，2.86N/116.23E）＝北加里曼丹省（North Kalimantan），2012 年才从东加里曼丹分出，NE 10m（2012 前版）无 `ID-KU`，按现行 ISO 3166-2 补 `ID-KU`；`path26703` 与 `path7172` 几何完全相同（NTT 重复绘制），同组命名 `ID-NT-1`/`ID-NT-2`；8 条离岸小岛（四王群岛 Raja Ampat、Bomberai/Cenderawasih 沿岸、Banggai 群岛、马哈坎三角洲、Gorong 群岛）NE 省面未覆盖，按地理归属手工补 `ID-PB`/`ID-ST`/`ID-KI`/`ID-MA`。本图另有 22 个 `gNNNN` 容器组（province 分组壳）沿用既往批次约定**仅重命名叶元素、不重命名容器组**，保持魔数（全文件此类容器组共 50 个，TH/NZ 等已处理批次同样保留）。
 
@@ -237,8 +240,8 @@
 
 1. **已记录的跳过项**（本页「跳过/待确认」表）：约 150+ 条（NG 24、VE 13、IE 8、IR 7、GE 6、NZ 7、ID 3、TH 8、VN 9、US 9、RU 3、RS 5、MD 3、DO 3、SA 4、TN 3、TZ 2 等），已定案、无需再处理（除非单独授权）。
 2. **NE 粒度错配的整国**：NE 10m admin-1 是「省/州」级，而图在这些国家画成了「县/市镇」级（更细）或更粗，几何匹配不可靠——
-   - 更细（图比 NE 细）：`KE`(47 县)、`AZ`(78 rayon)、`SI`(192 občina)、`MK`(84 市镇)、`CV`(22 市镇)、`LK`(25 县)、`BF`/`GN`/`LV`/`NP`/`BT` 等，
-     需引入 GADM / geoBoundaries / OCHA COD 等更细数据源；
+   - 更细（图比 NE 细）：`KE`(47 县，**批次 27 已用质心近邻法命名**)、`AZ`(78 rayon)、`SI`(192 občina)、`MK`(84 市镇)、`CV`(22 市镇)、`LK`(25 县)、`BF`/`GN`/`LV`/`NP`/`BT` 等；
+     这类国家改用 **openadmindata 质心近邻**（`tools/fetch_admin.py` + `tools/batch_centroid.py`）命名，见批次 27；
    - 更粗/无 ISO 码：`MG`(22 区，ISO 3166-2:MG 只编 6 省)、`PS`(图 16 省 vs NE 2)、`MW`(图 3 大区 vs NE 28 县)、`FK`/`FO`/`NC`/`CK`/`VI`/`VG`/`PR` 等无行政区的属地/群岛；
    - 图尺度太小无法区分：`KW`(6 省仅 ~2px)。
 3. **`src/world-states.svg`（已确认无需省份命名，暂缓）**：同一投影（viewBox 0 0 1000 507.209，py 投影常量通用），
