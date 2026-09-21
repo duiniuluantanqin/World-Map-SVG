@@ -89,12 +89,12 @@ def main():
     header = rd[0]
     rows = rd[1:] if header and header[0] in ("iso", "name_en", "name") else rd
     for r in rows:
-        if not r or not r[0].strip():
+        if not r or not any(x.strip() for x in r):
             continue
-        if len(r) >= 4 and r[1].strip() != "" and r[2].strip() != "":
+        # 支持 iso 空（用英文名）或有 iso 两种
+        if len(r) >= 4 and r[1].strip() and r[2].strip():
             units.append((r[0].strip(), r[1].strip(), float(r[2]), float(r[3])))
-        elif len(r) >= 3:
-            # 无 iso 列：name_en,lat,lon
+        elif len(r) >= 3 and r[0].strip() and r[1].strip():
             units.append((cc + "-", r[0].strip(), float(r[1]), float(r[2])))
 
     root = ET.parse(SRC).getroot()

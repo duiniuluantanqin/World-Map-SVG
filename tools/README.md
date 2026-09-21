@@ -15,6 +15,7 @@
 | `analyze.py` | 对比每个剩余组「SVG 魔数叶单元数 vs NE admin-1 要素数」，辅助判断是否可自动命名 |
 | `batch.py` | 自动 propose（质心落点 → 并集 bbox IoU → 最近邻兜底）+ apply + verify + 可选 git 提交（依赖 NE 多边形） |
 | `fetch_admin.py` | 从 openadmindata.org 拉取某国行政区**质心+英文名+ISO 码** → `data/admin1/<CC>.csv`（无 NE 多边形可用时） |
+| `extract_ne.py` | 从 NE 10m 拉某国 label point（质心）+名称 → `data/admin1/<CC>.csv`（openadmindata 质心缺/错位时，如 MG） |
 | `batch_centroid.py` | 用 `data/admin1/<CC>.csv` 的质心做**最近邻命名**（数字码国家 → 英文名）+ apply + verify + 可选 git 提交 |
 | `apply.py` | 应用一份人工确认的 `old_id,new_id` 映射表（含校验 + 可选提交） |
 | `batches/` | 每批的定案映射 CSV（可复现、留痕） |
