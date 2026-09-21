@@ -50,6 +50,9 @@
 | 12 | TR | 81 个 id：TR 81 | TR `path3456`（东色雷斯聚合单元） |
 | 13 | TH | 75 个 id：TH 75 | TH 8 条离岛碎块（苏梅/帕岸/象岛/达鲁岛等） |
 | 14 | VN | 64 个 id：VN 64 | VN 9 条离岛/三角洲碎块；NE 3 处地名误写改用正确英文名 |
+| 15 | ID | 186 个 id：ID 186 | ID `path26597`（Papua+WestPapua 冗余聚合轮廓）、`path7234`（近 Atauro 歧义岛） |
+
+批次 15 说明：印度尼西亚（ID）为字母码国家（ISO 3166-2:ID，ID-AC…ID-PB），群岛型、每省拆成多块，本图共 194 个叶单元。命名以「质心落点」点入面为主（叶 path 质心落到 NE 33 省面内），同省多岛按面积降序加数字后缀（如 `ID-MA`（马鲁古）32 块 → `ID-MA`…`ID-MA-31`；`ID-KR`（廖内群岛）的块因省组 id 已占用 → `ID-KR-1`…）。本批共 186 个 id（184 魔数 + 原命名垃圾 `Indonesiaisland1/2` → `ID-KR-14`/`ID-KR-15`）。特殊处理：`path7376`（76447 km²，2.86N/116.23E）＝北加里曼丹省（North Kalimantan），2012 年才从东加里曼丹分出，NE 10m（2012 前版）无 `ID-KU`，按现行 ISO 3166-2 补 `ID-KU`；`path26703` 与 `path7172` 几何完全相同（NTT 重复绘制），同组命名 `ID-NT-1`/`ID-NT-2`；8 条离岸小岛（四王群岛 Raja Ampat、Bomberai/Cenderawasih 沿岸、Banggai 群岛、马哈坎三角洲、Gorong 群岛）NE 省面未覆盖，按地理归属手工补 `ID-PB`/`ID-ST`/`ID-KI`/`ID-MA`。本图另有 22 个 `gNNNN` 容器组（province 分组壳）沿用既往批次约定**仅重命名叶元素、不重命名容器组**，保持魔数（全文件此类容器组共 50 个，TH/NZ 等已处理批次同样保留）。
 
 批次 14 说明：越南（VN）为混合码国家——58 省用数字码（VN-01…VN-73）→ 英文名 kebab-case，5 直辖市用字母码（VN-HN 河内、VN-SG 胡志明市、VN-HP 海防、VN-DN 岘港、VN-CT 芹苴）→ 直接用 ISO 码。64 条命名（58 自动 + 6 复核采纳）。三处 NE 数据错误修正：NE 把「Đồng Nai / Bắc Kạn / Hưng Yên」的名称误写成地区名「Đông Nam Bộ / Northeast Vietnam / Red River Delta」，其 ISO 码 VN-39/VN-53/VN-66 是对的，导致 base_id 生成了错误的英文名，已在校验前改为 `VN-dong-nai`/`VN-bac-kan`/`VN-hung-yen`。直辖市的图单元被缩小绘制（河内 x0.24、胡志明市 x0.03），且河内、胡志明市各被拆成两块（城市核心 + 外围，河内西部疑为 2008 年并入的 Hà Tây、胡志明市北部疑为 Củ Chi/Hóc Môn），按拆分规则命名 `VN-HN`/`VN-HN-1`、`VN-SG`/`VN-SG-1`。Sóc Trăng 与 Bạc Liêu 在图上合并为单一单元（`path82479`，5939 km²），按主体命名 `VN-soc-trang`（同批次 5 FI 合并处理）。
 
@@ -165,6 +168,8 @@
 | world-states-provinces.svg | `TR` `path3456` | 23949 km²，质心 41.31N/27.32E＝土耳其欧洲部分（东色雷斯）整体单元，横跨 Edirne/Kırklareli/Tekirdağ/İstanbul 等省（这些省图中已单独绘制并命名），无单一 NE admin-1 对应 | 保持魔数 |
 | world-states-provinces.svg | `TH` 8 条：`path68124`（213 km²，12.08N/102.34E，象岛）、`path68118`（176，6.63N/99.66E，达鲁岛）、`path68120`（175，9.52N/100.00E，苏梅岛）、`path68126`（126，11.69N/102.59E，象岛）、`path68116`（117，7.57N/99.07E）、`path68122`（88，9.76N/100.02E，帕岸岛）、`path68114`（78，8.05N/98.59E）、`path72590`（49，7.14N/99.65E） | 泰国离岛/近岸碎块（苏梅、帕岸、象岛、达鲁岛等），与 NE admin-1 无对应（NE 泰国无离岛单元），归属省为 Trat/Surat Thani/Satun/Krabi/Trang 等 | 保持魔数 |
 | world-states-provinces.svg | `VN` 9 条：`path81220`（690 km²，10.29N/103.99E，富国岛）、`path5498`（281，21.19N/107.46E）、`path5496`（178，20.81N/107.01E）、`path5500`（112，20.98N/107.50E）、`path5494`（56，20.91N/106.81E）、`path5502`（47，21.41N/107.92E），及 `path3476`（272，10.55N/106.80E）、`path3474`（185，9.65N/106.17E）、`path3480`（58，12.62N/109.38E） | 富国岛（属 Kiên Giang）、下龙湾/海防离岛（属 Quảng Ninh/Hải Phòng）、湄公河口碎块、芽庄城市块。前 6 条为离岛；`path3474` 被 propose 误配 Bạc Liêu（d74km），`path3480` 被误配 Khánh Hòa（实为芽庄城址）均已回退 | 保持魔数 |
+| world-states-provinces.svg | `ID` `path26597` | 398812 km²，bbox 横跨 Papua+WestPapua 两省（对 `ID-PA` IoU 0.87、对 `ID-PB` IoU 0.84），是两省合并的冗余聚合轮廓；其下 `ID-PA`（`path19049`，305864 km²）与 `ID-PB`（`path7063`，92340 km²）已独立绘制并命名 | 保持魔数 |
+| world-states-provinces.svg | `ID` `path7234` | 233 km²（-8.20N/125.60E），近 Atauro/Alor（东帝汶与 NTT 交界），NE 无对应、NTT/Maluku 归属歧义 | 保持魔数 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
