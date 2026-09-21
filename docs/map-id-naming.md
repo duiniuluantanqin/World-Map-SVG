@@ -67,6 +67,7 @@
 | 29 | MG | 22 个 id：MG 22 区（NE name 质心 + 英文名） | MG 用 NE `name` 字段（22 区名），ISOne 只编 6 省故弃 iso |
 | 30 | CY | 6 个 id：CY 6 区（质心近邻，英文名） | 无（Famagusta 跨北部，20.2km 低置信） |
 | 31 | BF | 13 个 id：BF 13 大区（geoBoundaries ADM1 质心） | 无（13 区全部落定，最大质心距 11.5km） |
+| 32 | GN | 8 个 id：GN 8 区（geoBoundaries 质心 + ISO 字母码） | 离岸小岛 path5380（近几内亚比绍边界，歧义） |
 
 批次 27 说明：肯尼亚（KE）为数字码国家（ISO 3166-2:KE，KE-01…KE-47，47 县）。NE 10m 里 KE 只有 8 个旧省（2010 年宪法改县制之前的建制），与图的 47 县粒度错配，凡NE 多边形几何匹配不可用。本批改用**质心近邻法**（此前仅用于「最近邻兜底」，现升级为主路径）：从 openadmindata 拉 47 县的 `(name_en, lat, lon)`（OCHA COD-AB 源），把每个叶 path 的 Robinson 投影质心换算成经纬度，做「全局贪心最近邻（每县只配一次）」匹配；47 县全部落定、双射成立、最大质心距 34.5 km（Samburu，县面狭长所致），无歧义。数字码 → 英文名 kebab（`KE-mombasa`、`KE-nairobi`、`KE-elgeyo-marakwet`…）。工具 `tools/fetch_admin.py` + `tools/batch_centroid.py`，参考数据 `tools/data/admin1/KE.csv`。此法适用于「NE 粒度与图不匹配」的国家——只要 openadmindata 的某层单元数与图的魔数叶单元数一致即可（见批次 28 的 PS/MK/MW）。
 
@@ -75,6 +76,8 @@
 批次 30 说明：塞浦路斯（CY）为数字码国家，6 区划（Nicosia/Limassol/Larnaca/Famagusta/Paphos/Kyrenia），openadmindata 顶层 `district(6)` 与图 6 叶单元一致，质心近邻一次性落定（`CY-nicosia` 等英文名）。Famagusta 因含北塞浦路斯、图上拆分导致质心距 20.2km，按双射采纳、低置信保留（中国口径下北路属塞）。
 
 批次 31 说明：布基纳法索（BF）图绘 13 大区（région），但 NE 10m 给的是 45 省（admin-2）、openadmindata 顶层错标成 17 省名。引入 **geoBoundaries ADM1**（13 大区，CC BY 4.0，经 GitHub LFS 媒体源 `media.githubusercontent.com` 拉取，见 `tools/fetch_geoboundaries.py`），对每区外环算面积加权质心 → 质心近邻命名 13 区英文/法文名 kebab（`BF-centre`、`BF-hauts-bassins`、`BF-boucle-du-mouhoun`…），最大质心距 11.5km。**geoBoundaries 是「图比 NE 粗/细」国家更可靠的数据源**（ADM1/ADM2 可选对齐图的尺度）。
+
+批次 32 说明：几内亚（GN）图绘 8 区（7 行政区 + Conakry 直辖市，ISO 字母码 `GN-B/C/D/F/K/L/M/N`）+ 1 条离岸小岛。geoBoundaries ADM1 给 8 区名但无 ISO 码，故先质心近邻定名、再按 ISO 3166-2:GN 手工换字母码（`GN-B` Boké、`GN-C` Conakry…）；离岸小岛 `path5380`（10.9N/15.0W，近几内亚比绍，属 îles de Tristão 一带）歧义，保持魔数。
 
 批次 28 说明：PS（巴勒斯坦 16 省，**字母码** `PS-JEN`/`PS-GZA`/`PS-BTH`…，注意 openadmindata 给的是 OCHA COD 数字码 `PS-101`…需手工换成 ISO 字母码）、MK（北马其顿 8 统计区，无 ISO 码 → 英文名 `MK-eastern`…）、MW（马拉维 3 区，无 ISO 码 → `MW-northern/central/southern`）。三者仍用质心近邻（`fetch_admin.py --level governorate/region/region`），共 27 个 id。PS 的 Bethlehem（68.9km）、Jericho（58.9km）为本图把微型省放大/位移所致，按双射推定为正确、低置信保留。MG（马达加斯加 22 区）openadmindata 质心缺/错位（如 Haute Matsiatra 为 0,0），暂缓。
 
@@ -251,11 +254,8 @@
 能自动解决的国家已基本耗尽**，`src/world-states-provinces.svg` 剩余约 459 条魔数 id 大部分是「数据缺口」而非「待跑」：
 
 1. **已记录的跳过项**（本页「跳过/待确认」表）：约 150+ 条（NG 24、VE 13、IE 8、IR 7、GE 6、NZ 7、ID 3、TH 8、VN 9、US 9、RU 3、RS 5、MD 3、DO 3、SA 4、TN 3、TZ 2 等），已定案、无需再处理（除非单独授权）。
-2. **NE 粒度错配的整国**：NE 10m admin-1 是「省/州」级，而图在这些国家画成了「县/市镇」级（更细）或更粗，几何匹配不可靠——
-   - 更细（图比 NE 细）：`KE`(47 县，**批次 27 已用质心近邻法命名**)、`AZ`(78 rayon)、`SI`(192 občina)、`MK`(84 市镇)、`CV`(22 市镇)、`LK`(25 县)、`BF`/`GN`/`LV`/`NP`/`BT` 等；
-     这类国家改用 **openadmindata 质心近邻**（`tools/fetch_admin.py` + `tools/batch_centroid.py`）命名，见批次 27；
-   - 更粗/无 ISO 码：`MG`(22 区，ISO 3166-2:MG 只编 6 省)、`PS`(图 16 省 vs NE 2)、`MW`(图 3 大区 vs NE 28 县)、`FK`/`FO`/`NC`/`CK`/`VI`/`VG`/`PR` 等无行政区的属地/群岛；
-   - 图尺度太小无法区分：`KW`(6 省仅 ~2px)。
+2. **图与 NE/geoBoundaries 粒度或几何不匹配的整国**（本批已用 `openadmindata`/`geoBoundaries` 质心近邻解决部分：KE/MG/PS/MK/MW/BF/GN/CY；剩余这些**无法可靠命名**）：
+   - 剩余的可命名障碍：`LK`(11：9 省 + 2 离岛，但 SVG 省几何与 geoBoundaries 多边形**错位**，质心/点入面都失败)、`SI`(9：NUTS 统计区，无行政数据源)、`NP`(5：2015 年前的 5 发展区，现行数据是 7 省)、`BT`(4：旧 4 区，现行 20 宗)、`AZ`(12：经济区，无数据)、`CV`(8：岛，现行 22 市镇)、`LV`(5：规划区，无数据)、`BA`(17：州/实体≠NE 数据)。这些要么是**已废止的历史/统计分组**，要么是**SVG 几何与真实边界错位**，靠几何数据源无法自动命名，需手工逐条归并（高错误风险）。
 3. **`src/world-states.svg`（已确认无需省份命名，暂缓）**：同一投影（viewBox 0 0 1000 507.209，py 投影常量通用），
    但它其实是 README 里说的「small map / 仅国家、无省份」版本——约 2050 条 `pathNNNN` 全是**各国几何碎片**
    （本土 `stroke-width=0.5` + 岛屿/湖区缝隙 `0.2`；如 US=2 主体+148 碎屑、CA=1+284、RU=3+177），
