@@ -81,7 +81,8 @@ python tests/ip2loc_naming_test.py --countries VN   # 运行测试验证
 | 情况 | 规则 | 例子 |
 | --- | --- | --- |
 | ISO 3166-2 后缀是字母 | `<CC>-<后缀>` | `US-WA`、`ST-S` |
-| ISO 3166-2 后缀是数字 / 无 ISO 码 | `<CC>-<英文名 kebab-case>` | `VN-bac-giang`、`AT-carinthia` |
+| ISO 3166-2 后缀是数字 | `<CC>-<数字>` | `VN-54`、`KR-11` |
+| 无 ISO 码 | `<CC>-<英文名 kebab-case>` | `AT-carinthia` |
 | 同一行政区分多块 | `<基础id>-<序号>` | `ID-MA-1` |
 | 与已有 id 重名 | `<基础id>-<后缀>` | `BG-sofia-23` |
 

@@ -97,10 +97,17 @@ def save_cache(cache, cc_list):
 
 
 def candidate_ips(cc_list):
-    """从仓库内已有 IP 池采集候选 IP：maxmind_samples + ipapi_lookup。返回 {cc: [ip,...]}。"""
+    """从仓库内已有 IP 池采集候选 IP：ip2loc_lookup + maxmind_samples + ipapi_lookup。返回 {cc: [ip,...]}。"""
     pool = {}
     for cc in cc_list:
         ips = set()
+        # ip2loc_lookup/<CC>.csv（优先）
+        p = os.path.join(HERE, "data", "ip2loc_lookup", cc + ".csv")
+        if os.path.exists(p):
+            with open(p, newline="", encoding="utf-8") as f:
+                for r in list(csv.reader(f))[1:]:
+                    if r and r[0]:
+                        ips.add(r[0])
         # ipapi_lookup/<CC>.csv
         p = os.path.join(HERE, "data", "ipapi_lookup", cc + ".csv")
         if os.path.exists(p):
@@ -137,6 +144,7 @@ def main():
     if args.countries:
         cc_list = sorted(set(c.upper().strip() for c in args.countries.split(",") if c.strip()))
     else:
+        # 匹配所有 CC-XXX 格式的 id（包括数字码如 VN-54）
         cc_list = sorted({m.group(1) for i in named for m in [re.fullmatch(r"([A-Z]{2})-[A-Za-z0-9-]+", i)] if m})
 
     pool = candidate_ips(cc_list)
@@ -170,8 +178,10 @@ def main():
                 continue
             cand = []
             if region_code and region_code not in ("-", ""):
+                # 直接使用 region_code（支持数字码如 VN-54）
                 cand.append(region_code)
-            if region_name:
+            # 只有当没有 region_code 时才使用 kebab(region_name)
+            if not region_code and region_name:
                 cand.append(got_cc + "-" + kebab(region_name))
             for cid in cand:
                 if cid in named:
@@ -182,14 +192,14 @@ def main():
     if args.refresh:
         save_cache(cache, cc_list)
 
-    # 干净字母 id 统计
+    # 干净 id 统计（包括字母码和数字码）
     clean = [(m.group(1), m.group(2), i) for i in named
-             for m in [re.fullmatch(r"([A-Z]{2})-([A-Z]{1,3})", i)] if m]
+             for m in [re.fullmatch(r"([A-Z]{2})-([A-Z0-9]{1,3})", i)] if m]
     if args.countries:
         clean = [(c, r, i) for (c, r, i) in clean if c in cc_list]
     hit_clean = [i for (c, r, i) in clean if i in hit_by_id]
     print("\n== ip2location 正向校验 ==")
-    print("干净字母 id 命中: %d / %d (%.1f%%)" % (
+    print("规范 id 命中（字母码+数字码）: %d / %d (%.1f%%)" % (
         len(hit_clean), len(clean), 100.0 * len(hit_clean) / max(1, len(clean))))
     print("命中明细（非字母码/英文名 id）：")
     for cid, ips in sorted(hit_by_id.items()):

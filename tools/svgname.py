@@ -346,10 +346,14 @@ def kebab(s):
 def base_id(cc, iso, name_en):
     """按命名规范生成基础 id：
     - ISO 后缀是字母 → `CC-SUFFIX`（大写）
-    - ISO 后缀是数字 → `CC-英文名 kebab-case`
+    - ISO 后缀是数字 → `CC-数字`（直接使用数字码，如 VN-54）
+    - 无 ISO 码 → `CC-英文名 kebab-case`
     """
     suf = iso.split('-', 1)[1] if '-' in iso else ''
-    if suf and suf.isalpha():
-        return iso.upper()
+    if suf:
+        # 字母码或数字码都直接使用
+        if suf.isalpha() or suf.isdigit():
+            return iso.upper()
+    # 无 ISO 码或异常情况，使用英文名
     nm = kebab(name_en)
     return "%s-%s" % (cc, nm) if nm else None

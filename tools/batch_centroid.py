@@ -61,9 +61,15 @@ def gcd(a, b):
 
 
 def base_id(cc, iso, name_en):
+    """按命名规范生成基础 id（同 svgname.base_id）：
+    - ISO 后缀是字母 → `CC-SUFFIX`（大写）
+    - ISO 后缀是数字 → `CC-数字`（直接使用数字码）
+    - 无 ISO 码 → `CC-英文名 kebab-case`
+    """
     suf = iso.split('-', 1)[1] if '-' in iso else ''
-    if suf and suf.isalpha() and len(suf) <= 3:
-        return iso.upper()
+    if suf:
+        if suf.isalpha() or suf.isdigit():
+            return iso.upper()
     nm = sn.kebab(name_en)
     return "%s-%s" % (cc, nm) if nm else None
 
