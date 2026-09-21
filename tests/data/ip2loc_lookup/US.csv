@@ -1,0 +1,221 @@
+ip,cc,region_code,region_name,city
+104.233.55.241,US,US-MD,Maryland,Kensington
+104.238.236.53,US,US-MA,Massachusetts,Burlington
+104.251.124.119,US,US-WY,Wyoming,Cheyenne
+104.36.218.171,US,US-IL,Illinois,Chicago
+12.168.217.187,US,US-IL,Illinois,Naperville
+12.191.29.253,US,US-TX,Texas,Dallas
+129.101.217.174,US,US-ID,Idaho,Moscow
+129.9.244.143,US,US-MI,Michigan,Auburn Hills
+131.239.36.192,US,US-MI,Michigan,Birmingham
+131.60.146.217,US,US-AL,Alabama,Montgomery
+131.91.247.93,US,US-FL,Florida,Boca Raton
+132.100.158.2,US,US-AZ,Arizona,Fort Huachuca
+132.13.77.225,US,US-AL,Alabama,Montgomery
+132.188.73.35,US,US-CA,California,San Rafael
+136.184.227.74,US,US-NH,New Hampshire,Portsmouth
+137.160.235.239,US,US-WA,Washington,Seattle
+140.233.28.30,US,US-VT,Vermont,Middlebury
+143.147.77.238,US,US-AL,Alabama,Montgomery
+146.132.179.56,US,US-AR,Arkansas,Bentonville
+146.16.130.246,US,US-AZ,Arizona,Fort Huachuca
+146.242.57.89,US,US-NY,New York,New York City
+147.160.219.188,US,US-TX,Texas,Leonard
+147.75.191.122,US,US-CA,California,San Mateo
+150.137.3.101,US,US-AZ,Arizona,Fort Huachuca
+155.103.78.3,US,US-IL,Illinois,McHenry
+155.117.242.36,US,US-ME,Maine,Eastport
+155.19.105.160,US,US-AZ,Arizona,Fort Huachuca
+156.55.177.168,US,US-FL,Florida,Jacksonville
+156.70.140.166,US,US-TX,Texas,Midlothian
+158.221.115.52,US,US-WA,Washington,Seattle
+158.68.214.242,US,US-CO,Colorado,Denver
+158.9.54.176,US,US-AZ,Arizona,Fort Huachuca
+159.221.254.106,US,US-RI,Rhode Island,Johnston
+160.3.146.248,US,US-TX,Texas,Odessa
+161.129.29.157,US,US-ME,Maine,Dover-Foxcroft
+161.165.209.190,US,US-AR,Arkansas,Bentonville
+162.211.63.229,US,US-AK,Alaska,Anchorage
+163.123.183.49,US,US-TX,Texas,League City
+165.1.6.214,US,US-NY,New York,New York City
+165.166.150.57,US,US-SC,South Carolina,Columbia
+165.224.136.90,US,US-DC,District of Columbia,Washington
+165.248.68.88,US,US-HI,Hawaii,Honolulu
+166.1.81.156,US,US-UT,Utah,Orem
+167.142.101.197,US,US-IA,Iowa,Des Moines
+167.148.204.230,US,US-TX,Texas,Rainbow
+167.18.23.98,US,US-MO,Missouri,Saint Louis
+167.206.190.40,US,US-CT,Connecticut,New Canaan
+167.246.5.73,US,US-MI,Michigan,Troy
+167.8.5.65,US,US-VA,Virginia,Tysons Corner
+168.103.4.137,US,US-MT,Montana,Billings
+168.184.97.205,US,US-FL,Florida,Orlando
+168.75.130.106,US,US-IA,Iowa,Des Moines
+168.99.148.139,US,US-WA,Washington,Everett
+169.224.132.79,US,US-CA,California,Santa Clara
+170.130.34.21,US,US-NV,Nevada,Las Vegas
+173.241.147.78,US,US-UT,Utah,Salt Lake City
+174.126.59.210,US,US-ND,North Dakota,Fargo
+174.47.169.177,US,US-UT,Utah,Salt Lake City
+181.214.167.249,US,US-GA,Georgia,Atlanta
+184.13.63.61,US,US-WV,West Virginia,Clarksburg
+184.153.25.160,US,US-NY,New York,New York City
+184.171.131.193,US,US-NC,North Carolina,Franklin
+184.189.97.224,US,US-AZ,Arizona,Phoenix
+191.101.45.174,US,US-TX,Texas,Victoria
+192.158.234.231,US,US-OR,Oregon,Bend
+192.170.171.6,US,US-HI,Hawaii,Honolulu
+192.207.214.204,US,US-MS,Mississippi,Jackson
+192.234.91.49,US,US-IA,Iowa,Iowa City
+192.255.151.148,US,US-NY,New York,Buffalo
+192.48.176.182,US,US-CA,California,Los Angeles
+192.55.254.215,US,US-OR,Oregon,Roseburg
+192.80.27.91,US,US-UT,Utah,Orem
+198.140.152.13,US,US-LA,Louisiana,Port Allen
+198.174.108.112,US,US-MN,Minnesota,Bloomington
+198.180.188.143,US,US-SD,South Dakota,Pierre
+198.183.164.178,US,US-TN,Tennessee,La Vergne
+198.204.152.21,US,US-DC,District of Columbia,Washington
+198.207.157.19,US,US-NH,New Hampshire,Manchester
+198.97.53.170,US,US-MO,Missouri,Kansas City
+199.120.116.169,US,US-IA,Iowa,Walnut
+199.15.151.252,US,US-TN,Tennessee,Nashville
+199.180.220.12,US,US-NY,New York,New York City
+199.20.77.29,US,US-NJ,New Jersey,Trenton
+199.204.140.144,US,US-TX,Texas,Dallas
+199.224.4.177,US,US-WA,Washington,Redmond
+199.244.48.243,US,US-NY,New York,New York City
+199.255.11.53,US,US-NC,North Carolina,Raleigh
+199.48.18.161,US,US-TN,Tennessee,Nashville
+199.87.230.37,US,US-OR,Oregon,Portland
+199.89.177.35,US,US-NH,New Hampshire,Greenfield
+199.96.47.70,US,US-MD,Maryland,Hunt Valley
+200.58.53.86,US,US-FL,Florida,Miami
+204.134.85.232,US,US-NM,New Mexico,Albuquerque
+204.144.74.9,US,US-TN,Tennessee,Smyrna
+204.228.198.174,US,US-IA,Iowa,Cedar Rapids
+204.238.193.207,US,US-NY,New York,New York City
+205.185.4.91,US,US-IN,Indiana,Lafayette
+205.237.154.221,US,US-KS,Kansas,Caldwell
+205.251.103.0,US,US-TX,Texas,Dallas
+206.123.218.229,US,US-NM,New Mexico,Farmington
+206.146.160.41,US,US-IL,Illinois,Chicago
+206.159.228.74,US,US-VA,Virginia,Arlington
+206.168.193.107,US,US-KS,Kansas,Cheney
+206.180.156.140,US,US-GA,Georgia,Statesboro
+206.194.58.173,US,US-NV,Nevada,Las Vegas
+206.206.24.204,US,US-DE,Delaware,Wilmington
+206.208.39.239,US,US-CA,California,Palo Alto
+206.53.101.99,US,US-WA,Washington,Seattle
+206.74.225.165,US,US-SC,South Carolina,Walterboro
+206.80.97.163,US,US-IA,Iowa,Cedar Rapids
+207.126.189.88,US,US-MN,Minnesota,Minneapolis
+208.117.196.87,US,US-AL,Alabama,Mobile
+208.126.160.120,US,US-IA,Iowa,Carroll
+208.66.72.170,US,US-CA,California,El Segundo
+208.72.16.236,US,US-MS,Mississippi,West Point
+209.104.141.37,US,US-MI,Michigan,Southfield
+209.12.130.29,US,US-UT,Utah,Salt Lake City
+209.191.59.41,US,US-NJ,New Jersey,Eatontown
+209.222.135.175,US,US-VA,Virginia,Tysons Corner
+209.62.225.159,US,US-SD,South Dakota,Sioux Falls
+209.66.124.194,US,US-MD,Maryland,Frederick
+209.94.104.4,US,US-NY,New York,Binghamton
+216.105.223.9,US,US-WI,Wisconsin,Stevens Point
+216.113.172.42,US,US-CA,California,San Jose
+216.129.227.106,US,US-MT,Montana,Havre
+216.147.177.207,US,US-ND,North Dakota,Fargo
+216.16.69.191,US,US-SD,South Dakota,Sioux Falls
+216.175.40.83,US,US-MO,Missouri,Kansas City
+216.185.2.114,US,US-VA,Virginia,Arlington
+216.189.35.149,US,US-CA,California,Clovis
+216.198.108.182,US,US-MS,Mississippi,Laurel
+216.222.214.248,US,US-MA,Massachusetts,Andover
+216.228.173.25,US,US-OR,Oregon,Bend
+216.235.89.58,US,US-NY,New York,New York City
+216.240.196.91,US,US-VA,Virginia,Ashburn
+216.246.96.124,US,US-IL,Illinois,Chicago
+216.252.23.157,US,US-AZ,Arizona,Phoenix
+216.67.118.133,US,US-AK,Alaska,Anchorage
+216.7.153.158,US,US-NY,New York,New York City
+216.83.73.199,US,US-ID,Idaho,Twin Falls
+23.19.221.236,US,US-TX,Texas,Dallas
+24.124.63.200,US,US-SD,South Dakota,Sioux Falls
+24.224.32.43,US,US-LA,Louisiana,Monroe
+24.51.43.101,US,US-CO,Colorado,Greenwood Village
+38.111.200.9,US,US-CA,California,Santa Clara
+38.124.43.75,US,US-CO,Colorado,Nucla
+38.86.112.191,US,US-CO,Colorado,Denver
+38.92.64.222,US,US-CA,California,Los Angeles
+50.188.133.179,US,US-IL,Illinois,Northlake
+50.253.78.253,US,US-GA,Georgia,Atlanta
+52.128.127.96,US,US-OK,Oklahoma,Tulsa
+55.188.105.5,US,US-AZ,Arizona,Fort Huachuca
+55.22.83.162,US,US-AZ,Arizona,Fort Huachuca
+55.71.145.228,US,US-AZ,Arizona,Fort Huachuca
+63.246.254.19,US,US-TN,Tennessee,Morristown
+64.179.132.233,US,US-CO,Colorado,Denver
+64.19.97.118,US,US-OK,Oklahoma,Oklahoma City
+64.190.197.43,US,US-NY,New York,New York City
+64.25.221.151,US,US-VT,Vermont,Colchester
+64.29.2.149,US,US-OK,Oklahoma,Tulsa
+64.92.65.225,US,US-NY,New York,New York City
+65.101.172.183,US,US-IA,Iowa,Des Moines
+65.185.21.92,US,US-OH,Ohio,Newark
+65.213.127.158,US,US-NY,New York,Williamsville
+65.246.28.189,US,US-NY,New York,New York City
+65.254.255.224,US,US-VA,Virginia,Ashburn
+65.37.249.51,US,US-UT,Utah,Salt Lake City
+65.53.118.117,US,US-WA,Washington,Redmond
+66.193.156.13,US,US-HI,Hawaii,Honolulu
+66.195.130.48,US,US-CA,California,Los Angeles
+66.205.162.81,US,US-IN,Indiana,Notre Dame
+66.63.113.96,US,US-ME,Maine,Portland
+67.133.99.254,US,US-WY,Wyoming,Burlington
+67.20.137.56,US,US-IL,Illinois,Johnston City
+67.201.98.97,US,US-KY,Kentucky,Fort Mitchell
+67.213.42.163,US,US-NC,North Carolina,Winston-Salem
+67.218.4.196,US,US-IL,Illinois,Chicago
+67.220.50.194,US,US-AR,Arkansas,Little Rock
+67.61.82.120,US,US-ND,North Dakota,Fargo
+68.168.208.14,US,US-NJ,New Jersey,Secaucus
+68.233.32.80,US,US-PA,Pennsylvania,Philadelphia
+68.68.161.105,US,US-CA,California,El Segundo
+69.1.162.113,US,US-LA,Louisiana,Lafayette
+69.161.2.94,US,US-AK,Alaska,Anchorage
+69.25.174.212,US,US-CA,California,Torrance
+69.30.134.245,US,US-AR,Arkansas,Little Rock
+69.34.105.22,US,US-AR,Arkansas,Little Rock
+69.42.166.55,US,US-NY,New York,Brooklyn
+69.49.148.88,US,US-ME,Maine,Brunswick
+69.57.87.121,US,US-ND,North Dakota,Ray
+69.61.248.154,US,US-OH,Ohio,Cincinnati
+69.8.120.146,US,US-IL,Illinois,Oak Brook
+70.33.17.3,US,US-MT,Montana,Augusta
+70.60.87.69,US,US-WI,Wisconsin,Appleton
+71.168.87.75,US,US-VT,Vermont,Burlington
+71.49.216.44,US,US-AR,Arkansas,Little Rock
+72.133.245.118,US,US-OH,Ohio,Ironton
+72.171.195.149,US,US-WY,Wyoming,Cheyenne
+72.24.178.242,US,US-NE,Nebraska,Norfolk
+72.249.197.250,US,US-MA,Massachusetts,Cambridge
+72.4.22.143,US,US-TN,Tennessee,Jackson
+74.115.172.239,US,US-FL,Florida,Tampa
+74.118.212.35,US,US-CA,California,Sunnyvale
+74.204.133.165,US,US-KS,Kansas,Manhattan
+74.50.244.93,US,US-AR,Arkansas,Diamond City
+74.85.248.159,US,US-WA,Washington,Vancouver
+75.109.252.74,US,US-WV,West Virginia,Beckley
+75.127.80.109,US,US-CO,Colorado,Boulder
+75.171.106.175,US,US-MO,Missouri,Kansas City
+75.76.45.43,US,US-OH,Ohio,Berea
+76.11.144.241,US,US-IL,Illinois,Westville
+76.2.180.208,US,US-MO,Missouri,Kansas City
+76.73.155.18,US,US-GA,Georgia,West Point
+76.75.59.16,US,US-MT,Montana,Great Falls
+8.46.40.80,US,US-DC,District of Columbia,Washington
+96.19.72.81,US,US-ID,Idaho,Twin Falls
+97.65.184.120,US,US-CA,California,Los Angeles
+98.100.102.219,US,US-NY,New York,New York City
+98.173.252.64,US,US-OK,Oklahoma,Oklahoma City
+99.77.129.97,US,US-VA,Virginia,Ashburn
