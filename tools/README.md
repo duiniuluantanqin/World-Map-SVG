@@ -19,6 +19,8 @@
 | `fetch_geoboundaries.py` | 从 geoBoundaries（GitHub LFS 媒体源）拉某国 admin 边界多边形算质心 → `data/admin1/<CC>.csv`（「图比 NE 粗/细」的层级错配时） |
 | `batch_centroid.py` | 用 `data/admin1/<CC>.csv` 的质心做**最近邻命名**（数字码国家 → 英文名）+ apply + verify + 可选 git 提交 |
 | `apply.py` | 应用一份人工确认的 `old_id,new_id` 映射表（含校验 + 可选提交） |
+| `auto_batch.py` | **自动化批量处理**：整合 NE 匹配 + 质心近邻 + 测试验证 + IP 数据更新 |
+| `fetch_test_ips.py` | 从 ip2location API 获取 IP 测试数据，保存到 `tests/data/ip2loc_lookup/<CC>.csv` |
 | `batches/` | 每批的定案映射 CSV（可复现、留痕） |
 | `data/admin1/` | 逐国行政区质心参考数据（小体积，随仓库管理；见下方「数据源」） |
 
@@ -63,6 +65,15 @@ python tools/apply.py tools/batches/batch26.csv --commit "batch 26: ST KW"
 python tools/fetch_admin.py KE            # 拉取肯尼亚 47 县质心 -> data/admin1/KE.csv
 python tools/batch_centroid.py KE          # 试算最近邻匹配
 python tools/batch_centroid.py KE --apply --commit "batch 27: KE"
+
+# 8) 自动化批量处理（推荐）：
+python tools/auto_batch.py --dry-run       # 预览所有待处理国家
+python tools/auto_batch.py --countries KW,KI  # 处理指定国家（试算）
+python tools/auto_batch.py --all --apply   # 处理所有可自动处理的国家
+
+# 9) 补充 IP 测试数据：
+python tools/fetch_test_ips.py --missing --limit 5  # 为缺失的国家补充 IP 数据
+python tests/ip2loc_naming_test.py --countries VN   # 运行测试验证
 ```
 
 ## 命名规则（详见 `docs/map-id-naming.md`）

@@ -271,3 +271,19 @@
 
 校验侧同步新增 ip2location 数据源（替代 ip-api，支持数字 region 码如 `VN-54`），见
 [`docs/ip2location-test.md`](ip2location-test.md) 与 `tests/ip2loc_naming_test.py`。
+
+## 批次 34
+
+| 批次 | 范围 | 结果 | 跳过 |
+| --- | --- | --- | --- |
+| 34 | KW, KI | 6 个 id：KW 5、KI 1 | KW `path12682`、KI `path35688` |
+
+**批次 34 说明**：
+- KW（科威特）字母码国家，NE 有 6 省数据，本图绘 6 条魔数叶单元。质心落点命名 5 省（`KW-AH`/`KW-FA`/`KW-JA` 等），`path12682`（离岛/碎块）跳过。
+- KI（基里巴斯）群岛国，NE 只有 2 个 feature（Gilbert/Lines），与图的 2 条魔数单元匹配。`path4790` 命名 `KI-kiribati`，`path35688` 跳过。
+
+**剩余工作总结**（批次 34 后）：
+- `src/world-states-provinces.svg` 剩余约 **315 条魔数 id**，分布在 **76 个组**。
+- 其中 **绝大多数为跳过项**：离岛/碎块/争议地区（如 NG 24 条异常多边形、VE 13 条三角洲碎块、TH 8 条离岛等），已在「跳过/待确认」表记录。
+- **粒度不匹配国家**（NE 要素数 ≠ SVG 魔数数）：如 LK(11)、SI(9)、AZ(12)、BA(17) 等，NE 数据是县/市镇级，而图绘的是省级，无法自动命名。
+- **自动化工具已完备**：`tools/auto_batch.py` 整合 NE 匹配 + 质心近邻 + 测试验证；`tools/fetch_test_ips.py` 补充 IP 测试数据；后续新增数据源可扩展处理更多国家。
