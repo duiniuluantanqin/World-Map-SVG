@@ -48,6 +48,9 @@
 | 10 | IE, TZ, CU, NZ, RS | 99 个 id：IE 20、TZ 24、CU 15、NZ 15、RS 25 | IE 8、TZ 2、CU 8、NZ 7、RS 5（共 30 条追记于跳过表） |
 | 11 | US, RU | 124 个 id：US 43、RU 81 | US 18（重名拆分 8 + 岛屿 10）、RU 5（新地岛、印古什/阿迪格、莫斯科/圣彼得堡已命名） |
 | 12 | TR | 81 个 id：TR 81 | TR `path3456`（东色雷斯聚合单元） |
+| 13 | TH | 75 个 id：TH 75 | TH 8 条离岛碎块（苏梅/帕岸/象岛/达鲁岛等） |
+
+批次 13 说明：泰国（TH）为数字码国家（ISO 3166-2:TH 用 TH-10…TH-96），id 全部退化为英文名 kebab-case，不做 ip-api 反向校验（同批次 12）。75 条命名（72 自动 + 3 复核采纳）。修正 `deacc` 后本批无非 ASCII id。3 条 flag 复核：`path73039`（IoU 0.67、面积比 1.02）＝夜丰颂 Mae Hong Son → `TH-mae-hong-son`；`path75660`（面积比 1.11、质心距 NE 标签 11 km）＝沙没巴干 Samut Prakan → `TH-samut-prakan`；`path74354`（面积比 0.87、质心距 12 km）＝信武里 Sing Buri → `TH-sing-buri`。三者质心落点判 False 均系微省尺度下 Robinson 投影 ±10 km 边界误差，以 IoU/质心距离/面积比一致定案。`TH-bangkok`（曼谷）已是规范 id，未动。8 条离岛（苏梅、帕岸、象岛、达鲁岛等，49–213 km²）无 NE admin-1 对应，保持魔数。
 
 批次 12 说明：土耳其（TR）为数字码国家（ISO 3166-2:TR 用 TR-01…TR-81），id 全部退化为英文名 kebab-case；因 ip-api `region` 不返回英文名，不做 ip-api 反向校验，以 NE 几何 IoU + 质心落点 + 面积比为准（同批次 8 的数字码国家）。81 条全部命名（IoU 0.57–0.99、面积比 0.80–1.23）。唯一入 flag 的 `path8635`（IoU 0.83、面积比 1.05、质心距 NE 标签 33 km）＝安塔利亚（Antalya）→ `TR-antalya`（质心落点判 False 系沿海多边形质心微落近岸缺口，IoU/面积比足以定案）。`path3456`（23949 km²）＝土耳其欧洲部分（东色雷斯）整体单元，横跨 Edirne/Kırklareli/Tekirdağ/İstanbul 等省（这些省图中已单独绘制并命名），无单一 NE admin-1 对应 → 保持魔数。
 
@@ -157,6 +160,7 @@
 | world-states-provinces.svg | `RU` `path6633`（印古什）/`path6655`（阿迪格） | 北高加索小共和国，IoU≤0.26 | 保持魔数 |
 | world-states-provinces.svg | `RU` `RU-SPE`/`RU-MOS` | 圣彼得堡、莫斯科，已是规范 id（城市放大），非魔数 | 不动 |
 | world-states-provinces.svg | `TR` `path3456` | 23949 km²，质心 41.31N/27.32E＝土耳其欧洲部分（东色雷斯）整体单元，横跨 Edirne/Kırklareli/Tekirdağ/İstanbul 等省（这些省图中已单独绘制并命名），无单一 NE admin-1 对应 | 保持魔数 |
+| world-states-provinces.svg | `TH` 8 条：`path68124`（213 km²，12.08N/102.34E，象岛）、`path68118`（176，6.63N/99.66E，达鲁岛）、`path68120`（175，9.52N/100.00E，苏梅岛）、`path68126`（126，11.69N/102.59E，象岛）、`path68116`（117，7.57N/99.07E）、`path68122`（88，9.76N/100.02E，帕岸岛）、`path68114`（78，8.05N/98.59E）、`path72590`（49，7.14N/99.65E） | 泰国离岛/近岸碎块（苏梅、帕岸、象岛、达鲁岛等），与 NE admin-1 无对应（NE 泰国无离岛单元），归属省为 Trat/Surat Thani/Satun/Krabi/Trang 等 | 保持魔数 |
 
 ## 已知问题（本次任务之外，待决定是否修）
 
