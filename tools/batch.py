@@ -179,6 +179,7 @@ def main():
     ap.add_argument("--apply", action="store_true", help="写回 SVG（默认仅试算）")
     ap.add_argument("--commit", default=None, help="apply 后执行 git commit（不 push）")
     ap.add_argument("--out-csv", default=None, help="额外写出提议 CSV")
+    ap.add_argument("--return-named", action="store_true", help="返回命名的 id 列表（供自动化调用）")
     args = ap.parse_args()
 
     ne = sn.NEIndex(NE_PATH)
@@ -187,6 +188,7 @@ def main():
 
     all_rows = []
     all_skip = []
+    all_named_ids = []  # 新增：收集所有命名的 id
     for cc in args.countries:
         cc = cc.upper()
         p = propose(cc, ne, root)
@@ -214,6 +216,7 @@ def main():
                     new = "%s-%d" % (base, j)
                 taken.add(new)
                 rows.append((cc, k, base, new, d["note"], round(d["iou"], 3), d["lat"], d["lon"]))
+                all_named_ids.append(new)  # 收集命名的 id
         # 跳过
         skips = []
         for k, d in res.items():
@@ -236,6 +239,7 @@ def main():
             w.writerow(["cc", "old_id", "base", "new_id", "note", "iou", "lat", "lon"])
             w.writerows(all_rows)
 
+    success = False
     if args.apply:
         if all_rows:
             ok = apply_and_verify(all_rows)
@@ -243,15 +247,23 @@ def main():
                 ids = [e.get("id") for e in ET.parse(SRC).getroot().iter() if e.get("id")]
                 print("\n应用 %d 个 id；全局 id 唯一性 %s (共 %d)" % (
                     len(all_rows), "OK" if len(ids) == len(set(ids)) else "FAIL", len(ids)))
+                success = True
             else:
                 print("校验未通过，未写回。")
         else:
             print("无可应用的提议。")
+    else:
+        success = True  # 试算模式总是成功
 
     if args.apply and args.commit and all_rows:
         subprocess.run(["git", "add", SRC], check=True)
         subprocess.run(["git", "commit", "-m", args.commit], check=True)
         print("已提交: %s" % args.commit)
+
+    # 返回结果供自动化调用
+    if args.return_named:
+        return success, all_named_ids
+    return success
 
 
 def apply_and_verify(rows):
