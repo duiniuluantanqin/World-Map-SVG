@@ -54,6 +54,7 @@
 | 16 | GL | 139 个 id：GL 139 | 无（全部命名；峡湾碎块按最近质心近似归属） |
 | 17 | MX, AR, KR | 89 个 id：MX 46、AR 23、KR 20 | 无（离岛/市域放大碎块已按主体采纳） |
 | 18 | MM, ME, HU, HR | 89 个 id：MM 33、ME 20、HU 19、HR 17 | 无 |
+| 19 | BD, SL, KZ | 46 个 id：BD 17、SL 15、KZ 14 | BA 整国跳过（NE 波黑数据错乱，见下） |
 
 批次 15 说明：印度尼西亚（ID）为字母码国家（ISO 3166-2:ID，ID-AC…ID-PB），群岛型、每省拆成多块，本图共 194 个叶单元。命名以「质心落点」点入面为主（叶 path 质心落到 NE 33 省面内），同省多岛按面积降序加数字后缀（如 `ID-MA`（马鲁古）32 块 → `ID-MA`…`ID-MA-31`；`ID-KR`（廖内群岛）的块因省组 id 已占用 → `ID-KR-1`…）。本批共 186 个 id（184 魔数 + 原命名垃圾 `Indonesiaisland1/2` → `ID-KR-14`/`ID-KR-15`）。特殊处理：`path7376`（76447 km²，2.86N/116.23E）＝北加里曼丹省（North Kalimantan），2012 年才从东加里曼丹分出，NE 10m（2012 前版）无 `ID-KU`，按现行 ISO 3166-2 补 `ID-KU`；`path26703` 与 `path7172` 几何完全相同（NTT 重复绘制），同组命名 `ID-NT-1`/`ID-NT-2`；8 条离岸小岛（四王群岛 Raja Ampat、Bomberai/Cenderawasih 沿岸、Banggai 群岛、马哈坎三角洲、Gorong 群岛）NE 省面未覆盖，按地理归属手工补 `ID-PB`/`ID-ST`/`ID-KI`/`ID-MA`。本图另有 22 个 `gNNNN` 容器组（province 分组壳）沿用既往批次约定**仅重命名叶元素、不重命名容器组**，保持魔数（全文件此类容器组共 50 个，TH/NZ 等已处理批次同样保留）。
 
@@ -62,6 +63,8 @@
 批次 17 说明：墨西哥（MX）、阿根廷（AR）字母码、韩国（KR）数字码→英文名。三国本土省基本 1 省 1 单元，仅沿海州裂成离岛。本批起在「质心落点」后追加 **IoU 修正**：当落点省的 IoU <0.35 而另一省 IoU ≥0.5 时改判（修正「大省在图上整体平移、质心落到邻省」的系统性误配），典型 `path12331`（153537 km²）＝萨尔塔 Salta，图上平移使其质心落进胡胡伊 Jujuy，IoU 修正后正确归 `AR-A`。三国特殊处理：`path7822`（105 km²，尤卡坦北岸 20.94N/90.39W）按 `MX-YUC` 采纳；韩国三个广域市被放大绘制、质心落到邻道，手工改判 `path36326`→`KR-11`（首尔，747 km²，原误配京畿道）、`path36347`→`KR-30`（大田，703 km²，原误配忠清北道）、`path36233`→`KR-31`（蔚山，1228 km²，原误配庆尚北道）；仁川 `KR-28`、世宗 `KR-50`、布宜诺斯艾利斯市 `AR-C`、米西奥内斯 `AR-N` 本图未单独绘制（并入相邻道/省），不处理。
 
 批次 18 说明：缅甸（MM）、黑山（ME）、克罗地亚（HR）数字码→英文名，匈牙利（HU）字母码。本批修复一个**关键工具缺陷**：`batchfast.py` 的 `Country.iou` 沿用「两 bbox 交集范围统计」，当小区域（如市）bbox 被大区域（州/市辖区）完整套住时会虚高到 ~1.0（同批次 7 已识别的 IoU 缺陷），导致 HU 的「县级市」被误配给同名字的「州」——已改用 `ious.py` 的**并集 bbox IoU**（`iou_fast`）重算，城市/州同名（Békéscsaba/Békés、Pécs/Baranya、Székesfehérvár/Fejér、Debrecen/Hajdú-Bihar）4 处自动改正。HR 有 5 条原有 id 用克罗地亚文（`HR-istarska`、`HR-dubrovacko-neretvanska`、`HR-primorsko-goranska`、`HR-splitsko-dalmatinska`、`HR-zagreb`），与本批按 NE 英文名生成的 id（如 `HR-lika-senj`）口径不一致；按「数字码国家→英文名」的文档规则，本批新增 id 用英文名，原有克文 id 不动（记入已知问题 #2 同类）。`HR-zagreb`（原有）与萨格勒布州 `HR-zagreb-1` 并存属同名不同级行政区。
+
+批次 19 说明：孟加拉（BD）7 专区（BD-A…BD-G），巴里萨尔/吉大港等沿海专区含多条岛屿/三角洲碎块按面积加后缀；塞拉利昂（SL）4 省；哈萨克斯坦（KZ）14 州。`path8752`（234824 km²，44.96N/78.08E）＝阿拉木图州（Almaty Region），NE 10m 只收录阿拉木图市 `KZ-ALA` 而缺阿拉木图州，按现行 ISO 3166-2 补 `KZ-ALM`。**波斯尼亚（BA）整国跳过**：NE 10m 的 BA 数据名称与编码错乱——`BA-BIH` 名称误为「Bosnian Podrinje Canton」、`BA-SRP` 误为「Posavina Canton」，`BA-X01~…X07~` 是波黑塞族共和国旧 7 区（Doboj/Banja Luka/Bijeljina/Vlasenica/Sarajevo-Romanija/Foča/Trebinje），与本图 17 单元（应含联邦 10 州 + 塞族共和国 + 布尔奇科特区）无法可靠对应，需参照真实 ISO 3166-2:BA 手工重建后再命名，故保持魔数。
 
 批次 14 说明：越南（VN）为混合码国家——58 省用数字码（VN-01…VN-73）→ 英文名 kebab-case，5 直辖市用字母码（VN-HN 河内、VN-SG 胡志明市、VN-HP 海防、VN-DN 岘港、VN-CT 芹苴）→ 直接用 ISO 码。64 条命名（58 自动 + 6 复核采纳）。三处 NE 数据错误修正：NE 把「Đồng Nai / Bắc Kạn / Hưng Yên」的名称误写成地区名「Đông Nam Bộ / Northeast Vietnam / Red River Delta」，其 ISO 码 VN-39/VN-53/VN-66 是对的，导致 base_id 生成了错误的英文名，已在校验前改为 `VN-dong-nai`/`VN-bac-kan`/`VN-hung-yen`。直辖市的图单元被缩小绘制（河内 x0.24、胡志明市 x0.03），且河内、胡志明市各被拆成两块（城市核心 + 外围，河内西部疑为 2008 年并入的 Hà Tây、胡志明市北部疑为 Củ Chi/Hóc Môn），按拆分规则命名 `VN-HN`/`VN-HN-1`、`VN-SG`/`VN-SG-1`。Sóc Trăng 与 Bạc Liêu 在图上合并为单一单元（`path82479`，5939 km²），按主体命名 `VN-soc-trang`（同批次 5 FI 合并处理）。
 
