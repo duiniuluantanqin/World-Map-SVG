@@ -1,0 +1,47 @@
+{
+  "KR": {
+    "Gyeonggi-do": "41"
+  },
+  "CZ": {
+    "Jihocesky kraj": "31",
+    "Praha, Hlavni mesto": "10",
+    "Moravskoslezsky kraj": "80"
+  },
+  "PL": {
+    "Zachodniopomorskie": "32",
+    "Dolnoslaskie": "02",
+    "Mazowieckie": "14",
+    "Wielkopolskie": "30",
+    "Slaskie": "24"
+  },
+  "UG": {
+    "Kampala": "102",
+    "Kabale": "404",
+    "Ibanda": "417"
+  },
+  "GT": {
+    "Guatemala": "01",
+    "Huehuetenango": "13"
+  },
+  "ML": {
+    "Koulikoro": "2",
+    "Bamako": "BKO"
+  },
+  "MR": {
+    "Nouakchott Ouest": "13"
+  },
+  "MY": {
+    "Wilayah Persekutuan Kuala Lumpur": "14",
+    "Perak": "08",
+    "Selangor": "10",
+    "Johor": "01"
+  },
+  "PA": {
+    "Panama": "8",
+    "Chiriqui": "4"
+  },
+  "VN": {
+    "Bac Giang": "54",
+    "Quang Nam": "27"
+  }
+}

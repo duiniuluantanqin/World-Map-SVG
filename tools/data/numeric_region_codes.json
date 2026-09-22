@@ -25,13 +25,18 @@
     "KR-ulsan": "KR-31",
     "KR-sejong": "KR-50",
     "KR-gyeonggi": "KR-41",
+    "KR-gyeonggi-1": "KR-41-1",
     "KR-gangwon": "KR-42",
     "KR-north-chungcheong": "KR-43",
+    "KR-north-chungcheong-1": "KR-43-1",
     "KR-south-chungcheong": "KR-44",
     "KR-north-jeolla": "KR-45",
     "KR-south-jeolla": "KR-46",
     "KR-north-gyeongsang": "KR-47",
     "KR-south-gyeongsang": "KR-48",
+    "KR-south-gyeongsang-1": "KR-48-1",
+    "KR-south-gyeongsang-2": "KR-48-2",
+    "KR-south-gyeongsang-3": "KR-48-3",
     "KR-jeju": "KR-49"
   },
   "ML": {

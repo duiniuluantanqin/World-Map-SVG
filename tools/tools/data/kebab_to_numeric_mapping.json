@@ -1,0 +1,60 @@
+{
+  "CZ": {
+    "jihocesky-kraj": "31",
+    "praha-hlavni-mesto": "10",
+    "moravskoslezsky-kraj": "80",
+    "pardubicky-kraj": "53"
+  },
+  "GB": {
+    "uusimaa": "18"
+  },
+  "GT": {
+    "guatemala": "01",
+    "huehuetenango": "13",
+    "retalhuleu": "11",
+    "solola": "07",
+    "escuintla": "05",
+    "jutiapa": "22"
+  },
+  "KR": {
+    "gyeonggi-do": "41"
+  },
+  "ML": {
+    "koulikoro": "2"
+  },
+  "MR": {
+    "nouakchott-ouest": "13"
+  },
+  "MY": {
+    "wilayah-persekutuan-kuala-lumpur": "14",
+    "perak": "08",
+    "selangor": "10",
+    "johor": "01"
+  },
+  "PA": {
+    "panama": "8",
+    "chiriqui": "4",
+    "colon": "3",
+    "bocas-del-toro": "1"
+  },
+  "PL": {
+    "zachodniopomorskie": "32",
+    "dolnoslaskie": "02",
+    "mazowieckie": "14",
+    "wielkopolskie": "30",
+    "slaskie": "24",
+    "opolskie": "16",
+    "pomorskie": "22",
+    "malopolskie": "12",
+    "warminsko-mazurskie": "28"
+  },
+  "UG": {
+    "kampala": "102",
+    "kabale": "404",
+    "ibanda": "417"
+  },
+  "VN": {
+    "bac-giang": "54",
+    "quang-nam": "27"
+  }
+}
