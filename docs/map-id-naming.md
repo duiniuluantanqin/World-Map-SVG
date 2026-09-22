@@ -11,11 +11,13 @@
 
 | 情况 | 规则 | 例子 |
 | --- | --- | --- |
-| ISO 3166-2 后缀是字母 | `<CC>-<后缀>` | `US-WA`、`PL-PK`、`SE-AB`、`ID-BA`、`CM-LT` |
-| ISO 3166-2 后缀是数字 | `<CC>-<英文名 kebab-case>` | `AT-carinthia`、`BG-lovech`、`AL-tirana`、`EE-tartu` |
+| ISO 3166-2 后缀是字母 | `<CC>-<后缀>` | `US-WA`、`SE-AB`、`ID-BA`、`CM-LT` |
+| ISO 3166-2 后缀是数字 | `<CC>-<数字>` （2026-09修订） | `KR-11`、`CZ-10`、`PL-14`、`UG-102` |
 | 同一行政区在本图被拆成多块 | `<基础id>-<序号>`，必要时语义后缀 | `ID-BA-mainland`、`AT-vorarlberg-0` |
 | 生成的 id 与已有 id 重名 | `<基础id>-<ISO后缀小写>` | `BG-sofia-23` |
 | 国家轮廓主路径 | `<cc>` 小写 | `us`、`se`、`pl` |
+
+**2026-09 规范修订**：ISO 3166-2 数字后缀原用英文名 kebab-case（如 `KR-seoul`），现改为直接使用数字码（如 `KR-11`），以与 IP2Location 等数据源保持一致。此前批次已命名的数字码国家已批量转换（见批次 35）。
 
 - id 一律 ASCII；变音符号做转写（`EE-põlva` → `EE-polva`、`AL-vlorë` → `AL-vlore`、`TR-agrı` → `TR-agri`）。
   注意土耳其无点 i（`ı`，U+0131）不会被 NFKD 分解，需显式转写成 `i`（批次 12 已修 `batchfast.py` 的 `deacc`）。
@@ -287,3 +289,31 @@
 - 其中 **绝大多数为跳过项**：离岛/碎块/争议地区（如 NG 24 条异常多边形、VE 13 条三角洲碎块、TH 8 条离岛等），已在「跳过/待确认」表记录。
 - **粒度不匹配国家**（NE 要素数 ≠ SVG 魔数数）：如 LK(11)、SI(9)、AZ(12)、BA(17) 等，NE 数据是县/市镇级，而图绘的是省级，无法自动命名。
 - **自动化工具已完备**：`tools/auto_batch.py` 整合 NE 匹配 + 质心近邻 + 测试验证；`tools/fetch_test_ips.py` 补充 IP 测试数据；后续新增数据源可扩展处理更多国家。
+
+
+## 批次 35
+
+| 批次 | 范围 | 结果 | 跳过 |
+| --- | --- | --- | --- |
+| 35 | KR, CZ, PL, UG, GT, ML, MR, MY, PA | 62 个 id：KR 15、CZ 14、PL 16、UG 4、GT 22、ML 6、MR 12、MY 1、PA 4 | 无 |
+
+**批次 35 说明**：本批为**规范变更**——ISO 3166-2 数字后缀原用英文名 kebab-case（如 `KR-seoul`），现改为直接使用数字码（如 `KR-11`），以与 IP2Location API 返回的 region_code 保持一致。此前批次（17/23/14/7/4/8/18等）已命名的数字码国家批量转换：
+
+- **KR**（韩国）：17 个英文名 → 数字码（`KR-seoul` → `KR-11`、`KR-busan` → `KR-26`、`KR-gyeonggi` → `KR-41` 等），另有 4 条拆分块（`KR-gyeonggi-1` 等）保持后缀。
+- **CZ**（捷克）：14 个字母码 → 数字码（`CZ-A` → `CZ-10`、`CZ-B` → `CZ-31`、`CZ-MO` → `CZ-80` 等）。
+- **PL**（波兰）：16 个字母码 → 数字码（`PL-DS` → `PL-02`、`PL-MZ` → `PL-14`、`PL-WP` → `PL-30` 等）。
+- **UG**（乌干达）：4 个单字母码 → 三位数字码（`UG-C` → `UG-102`、`UG-E` → `UG-103` 等）。
+- **GT**（危地马拉）：22 个两字母码 → 两位数字码（`GT-GU` → `GT-01`、`GT-HU` → `GT-13` 等）。
+- **ML**（马里）：6 个英文名 → 数字码（`ML-kayes` → `ML-1`、`ML-koulikoro` → `ML-2` 等），`ML-bamako` 保持字母码 `ML-BKO`。
+- **MR**（毛里塔尼亚）：12 个英文名 → 数字码（`MR-trarza` → `MR-06`、`MR-assaba` → `MR-03` 等）。
+- **MY**（马来西亚）：1 个英文名 → 数字码（`MY-putrajaya` → `MY-16`）。
+- **PA**（巴拿马）：4 个英文名 → 数字码（`PA-herrera` → `PA-6`、`PA-veraguas` → `PA-9` 等）。
+
+转换工具：`tools/convert_to_numeric_codes.py`，映射表：`tools/data/numeric_region_codes.json`。IP2Location API 查询脚本：`tools/fetch_numeric_codes.py`。测试脚本 `tests/ip2loc_naming_test.py` 已支持数字码验证。
+
+**变更原因**：
+1. IP2Location API 返回的 `region.code` 使用数字码（如 `VN-54`、`KR-41`），与英文名不匹配。
+2. 数字码更稳定，不受翻译/转写影响。
+3. 便于与 IP 地理定位数据对接。
+
+此前已命名的数字码国家（VN 等）已在批次 34 完成转换。本批扩展到所有 IP2Location 返回数字码的国家。
